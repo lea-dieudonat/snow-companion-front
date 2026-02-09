@@ -15,8 +15,8 @@ export const useSessions = () => {
   };
 
   const getAllSessions = async (): Promise<Session[]> => {
-    const response = await $fetch<{ sessions: Session[] }>(`${apiBase}/sessions`);
-    return response.sessions;
+    const response = await $fetch<Session[]>(`${apiBase}/sessions`);
+    return response || [];
   };
 
   return {

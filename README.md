@@ -1,75 +1,52 @@
-# Nuxt Minimal Starter
+# 🏔️ Snow Companion - Frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Interface utilisateur pour Snow Companion, plateforme de tracking et planification pour riders.
 
-## Setup
+## 🚀 Stack
 
-Make sure to install dependencies:
+- **Nuxt 3** - Framework Vue.js
+- **TypeScript** - Typage statique
+- **Vue 3** - Framework UI
+- **Vite** - Build tool
+
+## 📦 Installation
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+## ⚙️ Configuration
 
-Start the development server on `http://localhost:3000`:
+Crée un fichier `.env` à la racine :
+
+```env
+API_BASE_URL=http://localhost:3001/api
+```
+
+## 🏃 Lancer le projet
 
 ```bash
-# npm
+# Mode développement
 npm run dev
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
+# Build production
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 📁 Structure
+
+```
+components/
+├── sessions/       # Composants liés aux sessions
+composables/        # Composables réutilisables (API calls)
+pages/              # Pages (routing automatique)
+types/              # Types TypeScript
+```
+
+## 🎨 Features
+
+- ✅ Création de sessions de ride
+- 🚧 Liste des sessions (à venir)
+- 🚧 Statistiques et progression (à venir)
+- 🚧 Recherche de stations (à venir)

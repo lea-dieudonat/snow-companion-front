@@ -71,6 +71,10 @@ import type { CreateSessionInput } from '../../types/session.types';
 import { useSessions } from '../../composables/useSessions';
 import { ref } from 'vue';
 
+const emit = defineEmits<{
+  sessionCreated: []
+}>();
+
 const { createSession } = useSessions();
 
 const formData = ref<CreateSessionInput>({
@@ -93,6 +97,8 @@ const handleSubmit = async () => {
     loading.value = true;
     error.value = '';
     success.value = false;
+
+    emit('sessionCreated');
 
     // Parse les tricks
     const tricks = tricksInput.value

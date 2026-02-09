@@ -1,7 +1,17 @@
+<script setup lang="ts">
+  const sessionListRef = ref();
+
+  // Callback pour rafraîchir la liste des sessions après création
+  const handleSessionCreated = () => {
+    sessionListRef.value?.fetchSessions();
+  };
+</script>
+
 <template>
   <div class="container">
     <h1>🏔️ Snow Companion</h1>
-    <SessionsSessionForm />
+    <SessionsSessionForm @sessionCreated="handleSessionCreated" />
+    <SessionsSessionList ref="sessionListRef" />
   </div>
 </template>
 
