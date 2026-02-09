@@ -80,7 +80,7 @@ const formData = ref<CreateSessionInput>({
   tricks: [],
   notes: '',
   photos: [],
-  userId: '1', // TODO: remplacer par vrai user une fois l'auth en place
+  userId: 'cmlew0i3z000014oao6mkmk7m', // TODO: remplacer par vrai user une fois l'auth en place
 });
 
 const tricksInput = ref('');
@@ -116,7 +116,7 @@ const handleSubmit = async () => {
       tricks: [],
       notes: '',
       photos: [],
-      userId: '1',
+      userId: 'cmlew0i3z000014oao6mkmk7m',
     };
     tricksInput.value = '';
 
