@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit" class="bg-snow-50 rounded-lg shadow-card p-6 space-y-6">
-    <h2 class="text-2xl font-bold text-mountain-900 mb-6">
+    <h2 v-if="!isEditing" class="text-2xl font-bold text-mountain-900 mb-6">
       ➕ New Session
     </h2>
     
@@ -31,10 +31,36 @@
       />
     </div>
     
+    <!-- Conditions -->
+    <div>
+      <label class="block text-sm font-medium text-mountain-800 mb-2">
+        Conditions
+      </label>
+      <input
+        v-model="formData.conditions"
+        type="text"
+        placeholder="Ex: Neige fraîche"
+        class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all"
+      />
+    </div>
+    
+    <!-- Tricks -->
+    <div>
+      <label class="block text-sm font-medium text-mountain-800 mb-2">
+        Tricks réussis
+      </label>
+      <input
+        v-model="tricksInput"
+        type="text"
+        placeholder="Sépare par des virgules"
+        class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all"
+      />
+    </div>
+    
     <!-- Rating -->
     <div>
       <label class="block text-sm font-medium text-mountain-800 mb-2">
-        Rating (1-5)
+        Rating ⭐ (1-5)
       </label>
       <input
         v-model.number="formData.rating"
@@ -46,7 +72,7 @@
       />
     </div>
     
-    <!-- Comments -->
+    <!-- Notes -->
     <div>
       <label class="block text-sm font-medium text-mountain-800 mb-2">
         Notes
@@ -62,25 +88,43 @@
     <!-- Actions -->
     <div class="flex gap-3 pt-4">
       <button
-        type="submit"
-        class="w-full px-6 py-3 bg-ice-500 hover:bg-ice-600 text-snow-50 rounded-lg transition-colors duration-200 font-medium shadow-lg"
+        v-if="isEditing"
+        type="button"
+        @click="$emit('cancel')"
+        class="flex-1 px-6 py-3 bg-mountain-700 hover:bg-mountain-800 text-snow-50 rounded-lg transition-colors duration-200 font-medium"
       >
-        Create Session
+        Cancel
+      </button>
+      <button
+        type="submit"
+        :class="isEditing ? 'flex-1' : 'w-full'"
+        class="px-6 py-3 bg-ice-500 hover:bg-ice-600 text-snow-50 rounded-lg transition-colors duration-200 font-medium shadow-lg"
+      >
+        {{ isEditing ? 'Update Session' : 'Create Session' }}
       </button>
     </div>
   </form>
 </template>
 
 <script setup lang="ts">
-import type { CreateSessionInput } from '../../types/session.types';
+import type { CreateSessionInput, Session } from '../../types/session.types';
 import { useSessions } from '../../composables/useSessions';
-import { ref } from 'vue';
+import { ref, computed, watch } from 'vue';
+
+const props = defineProps<{
+  session?: Session | null;
+  isEditing?: boolean;
+}>();
 
 const emit = defineEmits<{
-  sessionCreated: []
+  sessionCreated: [];
+  submit: [session: Session];
+  cancel: [];
 }>();
 
 const { createSession } = useSessions();
+
+const isEditing = computed(() => props.isEditing && props.session);
 
 const formData = ref<CreateSessionInput>({
   date: new Date().toISOString().split('T')[0] as string,
@@ -98,13 +142,29 @@ const loading = ref(false);
 const error = ref('');
 const success = ref(false);
 
+// Watch for session changes when editing
+watch(() => props.session, (newSession) => {
+  if (newSession && props.isEditing) {
+    const dateStr = new Date(newSession.date).toISOString().split('T')[0] || '';
+    formData.value = {
+      date: dateStr,
+      station: newSession.station,
+      conditions: newSession.conditions || '',
+      tricks: [],
+      notes: newSession.notes || '',
+      photos: [],
+      rating: newSession.rating,
+      userId: newSession.userId,
+    };
+    tricksInput.value = newSession.tricks?.join(', ') || '';
+  }
+}, { immediate: true });
+
 const handleSubmit = async () => {
   try {
     loading.value = true;
     error.value = '';
     success.value = false;
-
-    emit('sessionCreated');
 
     // Parse les tricks
     const tricks = tricksInput.value
@@ -112,26 +172,42 @@ const handleSubmit = async () => {
       .map((t: string) => t.trim())
       .filter((t: string) => t.length > 0);
 
-    await createSession({
-      ...formData.value,
-      tricks,
-      date: new Date(formData.value.date).toISOString(),
-    });
+    if (isEditing.value && props.session) {
+      // Mode édition
+      const updatedSession: Session = {
+        ...props.session,
+        station: formData.value.station,
+        date: new Date(formData.value.date),
+        conditions: formData.value.conditions || null,
+        tricks,
+        rating: formData.value.rating,
+        notes: formData.value.notes || null,
+      };
+      emit('submit', updatedSession);
+    } else {
+      // Mode création
+      await createSession({
+        ...formData.value,
+        tricks,
+        date: new Date(formData.value.date).toISOString(),
+      });
 
-    success.value = true;
-    
-    // Reset le form
-    formData.value = {
-      date: new Date().toISOString().split('T')[0] as string,
-      station: '',
-      conditions: '',
-      tricks: [],
-      notes: '',
-      photos: [],
-      rating: undefined,
-      userId: 'cmlew0i3z000014oao6mkmk7m',
-    };
-    tricksInput.value = '';
+      success.value = true;
+      emit('sessionCreated');
+      
+      // Reset le form
+      formData.value = {
+        date: new Date().toISOString().split('T')[0] as string,
+        station: '',
+        conditions: '',
+        tricks: [],
+        notes: '',
+        photos: [],
+        rating: undefined,
+        userId: 'cmlew0i3z000014oao6mkmk7m',
+      };
+      tricksInput.value = '';
+    }
 
   } catch (e: any) {
     error.value = e.message || 'Une erreur est survenue';

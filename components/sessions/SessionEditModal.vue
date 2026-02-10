@@ -25,7 +25,7 @@
       
       <!-- Content -->
       <div class="p-6">
-        <SessionForm
+        <SessionsSessionForm
           :session="session"
           :is-editing="true"
           @submit="handleSubmit"
