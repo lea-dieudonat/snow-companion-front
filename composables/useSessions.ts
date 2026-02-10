@@ -19,8 +19,24 @@ export const useSessions = () => {
     return response || [];
   };
 
+  const updateSession = async (id: string, data: Partial<CreateSessionInput>): Promise<Session> => {
+    const response = await $fetch<{ session: Session }>(`${apiBase}/sessions/${id}`, {
+      method: 'PUT',
+      body: data,
+    });
+    return response.session;
+  };
+
+  const deleteSession = async (id: string): Promise<void> => {
+    await $fetch(`${apiBase}/sessions/${id}`, {
+      method: 'DELETE',
+    });
+  };
+
   return {
     createSession,
     getAllSessions,
+    updateSession,
+    deleteSession,
   };
 };

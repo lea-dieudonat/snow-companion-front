@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Session } from '../../types/session.types';
 
-const { getAllSessions } = useSessions();
+const { getAllSessions, deleteSession } = useSessions();
 
 const sessions = ref<Session[]>([]);
 const loading = ref(true);
@@ -28,6 +28,33 @@ const formatDate = (date: Date) => {
   });
 };
 
+const handleDelete = async (sessionId: string) => {
+  if (!confirm('Êtes-vous sûr de vouloir supprimer cette session ?')) {
+    return;
+  }
+  try {
+    await deleteSession(sessionId);
+    await fetchSessions();
+  } catch (e: any) {
+    error.value = e.message || 'Erreur lors de la suppression de la session';
+  }
+};
+
+const editingSession = ref<Session | null>(null);
+
+const handleEdit = (session: Session) => {
+  editingSession.value = session;
+};
+
+const handleCancelEdit = () => {
+  editingSession.value = null;
+};
+
+const handleUpdateSuccess = async () => {
+  editingSession.value = null;
+  await fetchSessions();
+};
+
 // Charge les sessions au montage du composant
 onMounted(() => {
   fetchSessions();
@@ -40,6 +67,14 @@ defineExpose({ fetchSessions });
 <template>
   <div class="session-list">
     <h2>📖 Mes Sessions</h2>
+
+    <!-- Modal d'édition -->
+    <SessionsSessionEditModal
+      v-if="editingSession"
+      :session="editingSession"
+      @close="handleCancelEdit"
+      @updated="handleUpdateSuccess"
+    />
 
     <div v-if="loading" class="loading">
       Chargement des sessions...
@@ -85,6 +120,15 @@ defineExpose({ fetchSessions });
 
         <div v-if="session.notes" class="session-notes">
           💭 {{ session.notes }}
+        </div>
+
+        <div class="session-actions">
+          <button class="btn-edit" @click="handleEdit(session)">
+            ✏️ Modifier
+          </button>
+          <button class="btn-delete" @click="handleDelete(session.id)">
+            🗑️ Supprimer
+          </button>
         </div>
       </div>
     </div>
@@ -200,5 +244,43 @@ h2 {
   border-top: 1px solid #f0f0f0;
   color: #666;
   font-style: italic;
+}
+
+.session-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.btn-edit,
+.btn-delete {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-edit {
+  background: #4CAF50;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #45a049;
+}
+
+.btn-delete {
+  background: #f44336;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #da190b;
 }
 </style>
