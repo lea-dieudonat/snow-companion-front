@@ -1,69 +1,74 @@
 <template>
-  <div class="session-form">
-    <h2>🏂 Nouvelle Session</h2>
+  <form @submit.prevent="handleSubmit" class="bg-snow-50 rounded-lg shadow-card p-6 space-y-6">
+    <h2 class="text-2xl font-bold text-mountain-900 mb-6">
+      ➕ New Session
+    </h2>
     
-    <form @submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="date">Date *</label>
-        <input
-          id="date"
-          v-model="formData.date"
-          type="date"
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="station">Station *</label>
-        <input
-          id="station"
-          v-model="formData.station"
-          type="text"
-          placeholder="Ex: Chamonix"
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="conditions">Conditions</label>
-        <input
-          id="conditions"
-          v-model="formData.conditions"
-          type="text"
-          placeholder="Ex: Powder day!"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="tricks">Tricks réussis</label>
-        <input
-          id="tricks"
-          v-model="tricksInput"
-          type="text"
-          placeholder="Sépare par des virgules: 360, Backflip"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="notes">Notes</label>
-        <textarea
-          id="notes"
-          v-model="formData.notes"
-          placeholder="Ton meilleur souvenir de la journée..."
-          rows="4"
-        />
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" :disabled="loading">
-          {{ loading ? 'Enregistrement...' : 'Enregistrer la session' }}
-        </button>
-      </div>
-
-      <div v-if="error" class="error">{{ error }}</div>
-      <div v-if="success" class="success">Session créée avec succès ! 🎉</div>
-    </form>
-  </div>
+    <!-- Station -->
+    <div>
+      <label class="block text-sm font-medium text-mountain-800 mb-2">
+        Station *
+      </label>
+      <input
+        v-model="formData.station"
+        type="text"
+        required
+        placeholder="Ex: Les 3 Vallées"
+        class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all"
+      />
+    </div>
+    
+    <!-- Date -->
+    <div>
+      <label class="block text-sm font-medium text-mountain-800 mb-2">
+        Date *
+      </label>
+      <input
+        v-model="formData.date"
+        type="date"
+        required
+        class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all"
+      />
+    </div>
+    
+    <!-- Rating -->
+    <div>
+      <label class="block text-sm font-medium text-mountain-800 mb-2">
+        Rating (1-5)
+      </label>
+      <input
+        v-model.number="formData.rating"
+        type="number"
+        min="1"
+        max="5"
+        placeholder="3"
+        class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all"
+      />
+    </div>
+    
+    <!-- Comments -->
+    <div>
+      <label class="block text-sm font-medium text-mountain-800 mb-2">
+        Notes
+      </label>
+      <textarea
+        v-model="formData.notes"
+        rows="4"
+        placeholder="How was the snow? Any new tricks?"
+        class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all resize-none"
+      ></textarea>
+    </div>
+    
+    <!-- Actions -->
+    <div class="flex gap-3 pt-4">
+      <button
+        type="submit"
+        class="w-full px-6 py-3 bg-ice-500 hover:bg-ice-600 text-snow-50 rounded-lg transition-colors duration-200 font-medium shadow-lg"
+      >
+        Create Session
+      </button>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -84,6 +89,7 @@ const formData = ref<CreateSessionInput>({
   tricks: [],
   notes: '',
   photos: [],
+  rating: undefined,
   userId: 'cmlew0i3z000014oao6mkmk7m', // TODO: remplacer par vrai user une fois l'auth en place
 });
 
@@ -122,6 +128,7 @@ const handleSubmit = async () => {
       tricks: [],
       notes: '',
       photos: [],
+      rating: undefined,
       userId: 'cmlew0i3z000014oao6mkmk7m',
     };
     tricksInput.value = '';
@@ -133,85 +140,3 @@ const handleSubmit = async () => {
   }
 };
 </script>
-
-<style scoped>
-.session-form {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-h2 {
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #555;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-input:focus, textarea:focus {
-  outline: none;
-  border-color: #4CAF50;
-}
-
-.form-actions {
-  margin-top: 2rem;
-}
-
-button {
-  width: 100%;
-  padding: 1rem;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-button:hover:not(:disabled) {
-  background: #45a049;
-}
-
-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.error {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #ffebee;
-  color: #c62828;
-  border-radius: 4px;
-}
-
-.success {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #e8f5e9;
-  color: #2e7d32;
-  border-radius: 4px;
-}
-</style>

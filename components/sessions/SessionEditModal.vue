@@ -1,260 +1,90 @@
-<script setup lang="ts">
-import type { Session } from '~/types/session.types';
-
-const props = defineProps<{
-  session: Session;
-}>();
-
-const emit = defineEmits<{
-  close: [];
-  updated: [];
-}>();
-
-const { updateSession } = useSessions();
-
-const formData = ref({
-  date: new Date(props.session.date).toISOString().split('T')[0],
-  station: props.session.station,
-  conditions: props.session.conditions || '',
-  tricks: props.session.tricks || [],
-  notes: props.session.notes || '',
-});
-
-const tricksInput = ref(props.session.tricks?.join(', ') || '');
-const loading = ref(false);
-const error = ref('');
-
-const handleSubmit = async () => {
-  try {
-    loading.value = true;
-    error.value = '';
-
-    const tricks = tricksInput.value
-      .split(',')
-      .map((t: string) => t.trim())
-      .filter((t: string) => t.length > 0);
-
-    await updateSession(props.session.id, {
-      ...formData.value,
-      tricks,
-      date: new Date(formData.value.date || '').toISOString(),
-      userId: props.session.userId,
-    });
-
-    emit('updated');
-  } catch (e: any) {
-    error.value = e.message || 'Erreur lors de la modification';
-  } finally {
-    loading.value = false;
-  }
-};
-</script>
-
 <template>
-  <div class="modal-overlay" @click="emit('close')">
-    <div class="modal-content" @click.stop>
-      <div class="modal-header">
-        <h2>✏️ Modifier la session</h2>
-        <button class="close-btn" @click="emit('close')">✕</button>
+  <!-- Overlay (fond sombre) -->
+  <div 
+    v-if="isOpen"
+    @click="handleBackdropClick"
+    class="fixed inset-0 bg-mountain-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
+  >
+    <!-- Modal -->
+    <div 
+      @click.stop
+      class="bg-snow-50 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-slideUp"
+    >
+      <!-- Header -->
+      <div class="sticky top-0 bg-gradient-to-r from-ice-600 to-ice-500 px-6 py-4 flex justify-between items-center rounded-t-xl">
+        <h2 class="text-2xl font-bold text-snow-50">✏️ Edit Session</h2>
+        <button
+          @click="$emit('close')"
+          class="text-snow-50 hover:text-snow-200 transition-colors p-2 hover:bg-ice-700/30 rounded-lg"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
-
-      <form @submit.prevent="handleSubmit">
-        <div class="form-group">
-          <label for="edit-date">Date *</label>
-          <input
-            id="edit-date"
-            v-model="formData.date"
-            type="date"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="edit-station">Station *</label>
-          <input
-            id="edit-station"
-            v-model="formData.station"
-            type="text"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="edit-conditions">Conditions</label>
-          <input
-            id="edit-conditions"
-            v-model="formData.conditions"
-            type="text"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="edit-tricks">Tricks réussis</label>
-          <input
-            id="edit-tricks"
-            v-model="tricksInput"
-            type="text"
-            placeholder="Sépare par des virgules"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="edit-notes">Notes</label>
-          <textarea
-            id="edit-notes"
-            v-model="formData.notes"
-            rows="4"
-          />
-        </div>
-
-        <div v-if="error" class="error">{{ error }}</div>
-
-        <div class="modal-actions">
-          <button type="button" class="btn-cancel" @click="emit('close')">
-            Annuler
-          </button>
-          <button type="submit" class="btn-save" :disabled="loading">
-            {{ loading ? 'Enregistrement...' : 'Enregistrer' }}
-          </button>
-        </div>
-      </form>
+      
+      <!-- Content -->
+      <div class="p-6">
+        <SessionForm
+          :session="session"
+          :is-editing="true"
+          @submit="handleSubmit"
+          @cancel="$emit('close')"
+        />
+      </div>
     </div>
   </div>
 </template>
 
+<script setup lang="ts">
+import type { Session } from '~/types/session.types'
+
+defineProps<{
+  isOpen: boolean
+  session: Session | null
+}>()
+
+const emit = defineEmits<{
+  close: []
+  submit: [session: Session]
+}>()
+
+const handleBackdropClick = () => {
+  emit('close')
+}
+
+const handleSubmit = (session: Session) => {
+  emit('submit', session)
+}
+</script>
+
 <style scoped>
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 1rem;
+/* Animations personnalisées */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.modal-content {
-  background: white;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid #eee;
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
 }
 
-.modal-header h2 {
-  margin: 0;
-  color: #333;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #999;
-  padding: 0;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s;
-}
-
-.close-btn:hover {
-  background: #f0f0f0;
-  color: #333;
-}
-
-form {
-  padding: 1.5rem;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #555;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-input:focus, textarea:focus {
-  outline: none;
-  border-color: #4CAF50;
-}
-
-.error {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background: #ffebee;
-  color: #c62828;
-  border-radius: 4px;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.btn-cancel,
-.btn-save {
-  flex: 1;
-  padding: 1rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-cancel {
-  background: #e0e0e0;
-  color: #333;
-}
-
-.btn-cancel:hover {
-  background: #d0d0d0;
-}
-
-.btn-save {
-  background: #4CAF50;
-  color: white;
-}
-
-.btn-save:hover:not(:disabled) {
-  background: #45a049;
-}
-
-.btn-save:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
 }
 </style>

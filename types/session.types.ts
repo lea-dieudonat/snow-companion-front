@@ -6,6 +6,7 @@ export interface Session {
     tricks: string[];
     notes: string | null;
     photos: string[];
+    rating?: number;
     userId: string;
     createdAt: Date;
     updatedAt: Date;
@@ -18,5 +19,6 @@ export interface CreateSessionInput {
     tricks?: string[];
     notes?: string;
     photos?: string[];
+    rating?: number;
     userId: string;
 }
