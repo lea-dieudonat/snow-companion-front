@@ -36,23 +36,26 @@
       <label class="block text-sm font-medium text-mountain-800 mb-2">
         Conditions
       </label>
-      <input
+      <select
         v-model="formData.conditions"
-        type="text"
-        placeholder="Ex: Neige fraîche"
         class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all"
-      />
+      >
+        <option value="">-- Select conditions --</option>
+        <option v-for="option in CONDITION_OPTIONS" :key="option.value" :value="option.value">
+          {{ option.label }}
+        </option>
+      </select>
     </div>
     
     <!-- Tricks -->
     <div>
       <label class="block text-sm font-medium text-mountain-800 mb-2">
-        Tricks réussis
+        Tricks
       </label>
       <input
         v-model="tricksInput"
         type="text"
-        placeholder="Sépare par des virgules"
+        placeholder="Comma-separated (e.g. Ollie, 180, Grab)"
         class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all"
       />
     </div>
@@ -107,9 +110,8 @@
 </template>
 
 <script setup lang="ts">
-import type { CreateSessionInput, Session } from '../../types/session.types';
-import { useSessions } from '../../composables/useSessions';
-import { ref, computed, watch } from 'vue';
+import type { CreateSessionInput, Session } from '~/types/session.types';
+import { CONDITION_OPTIONS } from '~/constants/conditions';
 
 const props = defineProps<{
   session?: Session | null;

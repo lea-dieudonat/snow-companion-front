@@ -14,11 +14,29 @@
         <span class="text-lg font-semibold text-mountain-800">{{ session.rating }}/5</span>
       </div>
       
+      <!-- Conditions -->
+      <div v-if="session.conditions" class="mb-4">
+        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-ice-100 text-ice-700">
+          {{ formatCondition(session.conditions) }}
+        </span>
+      </div>
+
+      <!-- Tricks -->
+      <div v-if="session.tricks?.length" class="flex flex-wrap gap-2 mb-4">
+        <span
+          v-for="trick in session.tricks"
+          :key="trick"
+          class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-powder-100 text-powder-700"
+        >
+          {{ trick }}
+        </span>
+      </div>
+
       <!-- Commentaires -->
       <p v-if="session.notes" class="text-mountain-700 mb-4 leading-relaxed">
         {{ session.notes }}
       </p>
-      
+
       <!-- Actions -->
       <div class="flex gap-3 pt-4 border-t border-snow-300">
         <button
@@ -40,6 +58,7 @@
 
 <script setup lang="ts">
 import type { Session } from '~/types/session.types'
+import { CONDITIONS } from '~/constants/conditions'
 
 defineProps<{
   session: Session
@@ -56,5 +75,10 @@ const formatDate = (date: Date | string) => {
     month: 'long',
     year: 'numeric'
   })
+}
+
+const formatCondition = (key: string) => {
+  const condition = CONDITIONS[key as keyof typeof CONDITIONS]
+  return condition ? `${condition.emoji} ${condition.label}` : key
 }
 </script>

@@ -18,6 +18,7 @@ export default {
           300: '#e2e8f0',
         },
         ice: {
+          100: '#e0f2fe',
           400: '#38bdf8',
           500: '#0ea5e9',
           600: '#0284c7',
@@ -30,9 +31,11 @@ export default {
         },
         powder: {
           // Pour les accents (poudreuse/coucher de soleil)
+          100: '#fee2e2',
           300: '#fca5a5',
           400: '#f87171',
           500: '#ef4444',
+          700: '#b91c1c',
         }
       },
       fontFamily: {
