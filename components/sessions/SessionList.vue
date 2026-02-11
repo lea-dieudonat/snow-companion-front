@@ -1,28 +1,17 @@
 <script setup lang="ts">
-import type { Session } from '../../types/session.types';
+import type { Session } from '~/types/session.types';
 
 const { getAllSessions, updateSession, deleteSession } = useSessions();
 
-const sessions = ref<Session[]>([]);
-const loading = ref(true);
-const error = ref('');
+const { data: sessions, refresh: fetchSessions } = await useAsyncData(
+  'sessions',
+  () => getAllSessions(),
+  { default: () => [] as Session[] }
+);
 const isEditModalOpen = ref(false)
 const isDeleteModalOpen = ref(false)
 const selectedSession = ref<Session | null>(null)
 const sessionToDelete = ref<string | null>(null)
-
-const fetchSessions = async () => {
-  try {
-    loading.value = true;
-    error.value = '';
-    const result = await getAllSessions();
-    sessions.value = result || [];
-  } catch (e: any) {
-    error.value = e.message || 'Erreur lors du chargement des sessions';
-  } finally {
-    loading.value = false;
-  }
-};
 
 // Edit
 const handleEdit = (session: Session) => {
@@ -35,16 +24,16 @@ const closeEditModal = () => {
   selectedSession.value = null;
 };
 
-const handleUpdate = async (updatedSession: Session) => {
+const handleUpdate = async ({ id, date, station, conditions, tricks, notes, rating, userId }: Session) => {
   try {
-    await updateSession(updatedSession.id, {
-      date: new Date(updatedSession.date).toISOString(),
-      station: updatedSession.station,
-      conditions: updatedSession.conditions || undefined,
-      tricks: updatedSession.tricks,
-      notes: updatedSession.notes || undefined,
-      rating: updatedSession.rating,
-      userId: updatedSession.userId,
+    await updateSession(id, {
+      date: new Date(date).toISOString(),
+      station,
+      conditions: conditions || undefined,
+      tricks,
+      notes: notes || undefined,
+      rating,
+      userId,
     });
     await fetchSessions();
     closeEditModal();
@@ -76,36 +65,17 @@ const confirmDelete = async () => {
   }
 };
 
-/*
-TODO
-const handleCancelEdit = () => {
-  selectedSession.value = null;
-};
-
-const handleUpdateSuccess = async () => {
-  selectedSession.value = null;
-  await fetchSessions();
-};
-*/
-
-// Charge les sessions au montage du composant
-onMounted(() => {
-  fetchSessions();
-});
-
-// Expose la méthode pour recharger depuis le parent
-defineExpose({ fetchSessions });
 </script>
 
 <template>
   <div>
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-2xl font-bold text-mountain-900">
-        Your Sessions ({{ sessions.length }})
+        Your Sessions ({{ sessions?.length ?? 0 }})
       </h2>
     </div>
     
-    <div v-if="sessions.length === 0" class="text-center py-16">
+    <div v-if="!sessions?.length" class="text-center py-16">
       <p class="text-mountain-600 text-lg mb-4">No sessions yet! 🏂</p>
       <p class="text-mountain-500">Create your first session to start tracking your rides.</p>
     </div>

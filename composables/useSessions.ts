@@ -1,6 +1,4 @@
 import type { Session, CreateSessionInput } from '../types/session.types';
-import { $fetch } from 'ofetch';
-import { useRuntimeConfig } from 'nuxt/app';
 
 export const useSessions = () => {
   const config = useRuntimeConfig();

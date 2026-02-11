@@ -186,11 +186,27 @@ const handleSubmit = async () => {
       emit('submit', updatedSession);
     } else {
       // Mode création
-      await createSession({
-        ...formData.value,
-        tricks,
+      const sessionData: CreateSessionInput = {
         date: new Date(formData.value.date).toISOString(),
-      });
+        station: formData.value.station,
+        userId: formData.value.userId,
+      };
+      
+      // Add optional fields only if they have values
+      if (formData.value.conditions) {
+        sessionData.conditions = formData.value.conditions;
+      }
+      if (tricks.length > 0) {
+        sessionData.tricks = tricks;
+      }
+      if (formData.value.notes) {
+        sessionData.notes = formData.value.notes;
+      }
+      if (formData.value.rating) {
+        sessionData.rating = formData.value.rating;
+      }
+      
+      await createSession(sessionData);
 
       success.value = true;
       emit('sessionCreated');
