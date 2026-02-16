@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  /* Snow colors */
+  --color-snow-50: #ffffff;
+  --color-snow-100: #f8fafc;
+  --color-snow-200: #f1f5f9;
+  --color-snow-300: #e2e8f0;
+
+  /* Ice colors */
+  --color-ice-50: #f0f9fe;
+  --color-ice-100: #e0f2fe;
+  --color-ice-200: #bae6fd;
+  --color-ice-300: #7dd3fc;
+  --color-ice-400: #38bdf8;
+  --color-ice-500: #0ea5e9;
+  --color-ice-600: #0284c7;
+  --color-ice-700: #0369a1;
+  --color-ice-800: #075985;
+  --color-ice-900: #0c3d66;
+
+  /* Mountain colors */
+  --color-mountain-700: #334155;
+  --color-mountain-800: #1e293b;
+  --color-mountain-900: #0f172a;
+
+  /* Powder colors */
+  --color-powder-100: #fee2e2;
+  --color-powder-300: #fca5a5;
+  --color-powder-400: #f87171;
+  --color-powder-500: #ef4444;
+  --color-powder-600: #dc2626;
+  --color-powder-700: #b91c1c;
+
+  /* Font family */
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* Box shadows */
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}

@@ -13,5 +13,6 @@ export default defineNuxtConfig({
       apiBase: process.env.API_BASE || 'http://localhost:3001/api'
     }
   },
-  modules: ['@nuxtjs/tailwindcss'],
+  css: ['~/assets/css/main.css'],
+  modules: ['@nuxt/ui'],
 })

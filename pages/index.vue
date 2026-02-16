@@ -21,6 +21,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
+@reference "~/assets/css/main.css";
 .redirect-page {
   @apply flex items-center justify-center min-h-[50vh];
 }

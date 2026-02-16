@@ -24,6 +24,7 @@ const handleSessionCreated = () => {
 </template>
 
 <style scoped>
+@reference "~/assets/css/main.css";
 .add-session-page {
   @apply p-4 md:p-8 max-w-2xl mx-auto;
 }

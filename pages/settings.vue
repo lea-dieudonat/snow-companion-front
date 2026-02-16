@@ -17,6 +17,7 @@ definePageMeta({
 </template>
 
 <style scoped>
+@reference "~/assets/css/main.css";
 .settings-page {
   @apply p-4 max-w-4xl mx-auto;
 }

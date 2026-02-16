@@ -56,6 +56,7 @@ const handleLogout = () => {
 </script>
 
 <style scoped>
+@reference "~/assets/css/main.css";
 /* Overlay */
 .menu-overlay {
   @apply fixed inset-0 bg-mountain-900/50 z-[200];

@@ -217,6 +217,7 @@ const handleCompareStation = (station: Station) => {
 </template>
 
 <style scoped>
+@reference "~/assets/css/main.css";
 .trips-page {
   @apply p-4 md:p-8;
 }

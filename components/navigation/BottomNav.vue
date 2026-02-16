@@ -18,6 +18,7 @@
 </template>
 
 <style scoped>
+@reference "~/assets/css/main.css";
 .bottom-nav {
   @apply fixed bottom-0 left-0 right-0 z-[100] flex justify-around items-center bg-snow-50 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] py-3 border-t border-snow-200;
 }

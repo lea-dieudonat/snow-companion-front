@@ -142,6 +142,7 @@ const toggleLevel = (level: string) => {
 </template>
 
 <style scoped>
+@reference "~/assets/css/main.css";
 /* Custom range slider styling */
 input[type="range"]::-webkit-slider-thumb {
   @apply appearance-none w-4 h-4 bg-ice-500 rounded-full cursor-pointer hover:bg-ice-600 transition-colors;

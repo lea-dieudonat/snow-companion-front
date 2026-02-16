@@ -32,6 +32,7 @@ const toggleMenu = () => {
 </script>
 
 <style scoped>
+@reference "~/assets/css/main.css";
 .app-layout {
   @apply flex flex-col min-h-screen bg-gradient-to-br from-ice-400 via-ice-500 to-ice-600;
 }

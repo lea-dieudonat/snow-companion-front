@@ -17,12 +17,15 @@ const handleSessionCreated = () => {
       <h2>📊 Mes Sessions</h2>
       <p class="page-subtitle">Historique de tes rides</p>
     </div>
-    
+    <UButton icon="i-lucide-mountain" color="primary">
+      Test Nuxt UI
+    </UButton>
     <SessionsSessionList ref="sessionListRef" />
   </div>
 </template>
 
 <style scoped>
+@reference "~/assets/css/main.css";
 .tracking-page {
   @apply p-4 md:p-8 max-w-7xl mx-auto;
 }
