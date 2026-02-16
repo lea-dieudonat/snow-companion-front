@@ -1,87 +1,120 @@
 <script setup lang="ts">
-import stationsData from '@/data/stations.json';
 import type { Station, StationFilters } from '@/types/station.types';
 
 definePageMeta({
   layout: 'default'
 });
 
-const mapStation = (station: any): Station => ({
-  id: station.id,
-  name: station.name,
-  region: station.region,
-  altitudeMin: station.altitude_min,
-  altitudeMax: station.altitude_max,
-  latitude: station.latitude,
-  longitude: station.longitude,
-  numSlopes: station.num_slopes,
-  numLifts: station.num_lifts,
-  kmSlopes: station.km_slopes,
-  slopesDetail: station.slopes_detail,
-  snowCannons: station.snow_cannons,
-  skiArea: station.ski_area,
-  level: station.level,
-  passes: station.passes,
-  avgAccommodationPrice: station.avg_accommodation_price,
-  website: station.website,
-  description: station.description,
-  access: station.access,
-  season: station.season,
-  services: station.services,
-  activities: station.activities,
-  createdAt: station.createdAt ?? '',
-  updatedAt: station.updatedAt ?? '',
-  trips: station.trips ?? [],
-});
+const { getAllStations, getNearbyStations } = useStations();
 
+// États
+const stations = ref<Station[]>([]);
+const filteredStations = ref<Station[]>([]);
+const selectedStation = ref<Station | null>(null);
+const compareStations = ref<Station[]>([]);
+const loading = ref(true);
+const error = ref('');
+
+// Localisation user (à implémenter plus tard)
+const userLocation = ref<{ latitude: number; longitude: number } | null>(null);
+
+// Fonction utilitaire pour extraire le prix adulte du forfait journée
 const getDailyPassPrice = (passes: Record<string, unknown>) => {
   const fullDay = passes?.full_day as { adult?: number } | undefined;
   return fullDay?.adult ?? null;
 };
 
-// Données mockées pour l'instant
-const stations = ref<Station[]>(stationsData.map(mapStation));
-const filteredStations = ref<Station[]>(stationsData.map(mapStation));
-const selectedStation = ref<Station | null>(null);
-const compareStations = ref<Station[]>([]);
+// Charger les stations au montage
+onMounted(async () => {
+  await loadStations();
+});
 
-const handleSearch = (query: string, filters: StationFilters) => {
-  let results = [...stations.value];
-
-  // Filtre par nom/région
-  if (query) {
-    const searchLower = query.toLowerCase();
-    results = results.filter(s => 
-      s.name.toLowerCase().includes(searchLower) ||
-      s.region.toLowerCase().includes(searchLower) ||
-      s.skiArea.toLowerCase().includes(searchLower)
-    );
+// Charger toutes les stations depuis l'API
+const loadStations = async () => {
+  try {
+    loading.value = true;
+    error.value = '';
+    
+    // Si on a la localisation user, utiliser getNearbyStations
+    if (userLocation.value) {
+      const stationsWithDistance = await getNearbyStations(
+        userLocation.value.latitude,
+        userLocation.value.longitude,
+        500 // Distance max 500km
+      );
+      stations.value = stationsWithDistance;
+      filteredStations.value = stationsWithDistance;
+    } else {
+      // Sinon, récupérer toutes les stations
+      const allStations = await getAllStations();
+      stations.value = allStations;
+      filteredStations.value = allStations;
+    }
+  } catch (e: any) {
+    error.value = e.message || 'Erreur lors du chargement des stations';
+    console.error('Error loading stations:', e);
+  } finally {
+    loading.value = false;
   }
+};
 
-  // Filtre par prix forfait
-  results = results.filter(s => {
-    const passPrice = getDailyPassPrice(s.passes);
-    return typeof passPrice === 'number' && passPrice <= filters.maxLiftPassPrice;
-  });
+// Recherche et filtrage
+const handleSearch = async (query: string, filters: StationFilters) => {
+  try {
+    loading.value = true;
+    error.value = '';
 
-  // Filtre par prix hébergement
-  results = results.filter(s => s.avgAccommodationPrice <= filters.maxLodgingPrice);
+    // Construire les filtres pour l'API
+    const apiFilters: any = {};
 
-  // Filtre par niveau
-  if (filters.levels.length > 0) {
-    results = results.filter(s => 
-      filters.levels.some((level: string) => s.level.includes(level))
-    );
+    if (query) {
+      apiFilters.search = query;
+    }
+
+    if (filters.maxLodgingPrice) {
+      apiFilters.maxPrice = filters.maxLodgingPrice;
+    }
+
+    // Récupérer les stations filtrées depuis l'API
+    let results = await getAllStations(apiFilters);
+
+    // Filtres côté client (pour ceux non gérés par l'API)
+    
+    // Filtre par prix forfait
+    if (filters.maxLiftPassPrice) {
+      results = results.filter(s => {
+        const passPrice = getDailyPassPrice(s.passes);
+        return typeof passPrice === 'number' && passPrice <= filters.maxLiftPassPrice;
+      });
+    }
+
+    // Filtre par niveau
+    if (filters.levels.length > 0) {
+      results = results.filter(s => 
+        filters.levels.some((level: string) => s.level.includes(level))
+      );
+    }
+
+    // Filtre par distance (si localisation dispo)
+    if (userLocation.value && filters.maxDistance) {
+      results = results.filter((s: any) => {
+        return !s.distance || s.distance <= filters.maxDistance;
+      });
+    }
+
+    filteredStations.value = results;
+  } catch (e: any) {
+    error.value = e.message || 'Erreur lors de la recherche';
+    console.error('Error searching stations:', e);
+  } finally {
+    loading.value = false;
   }
-
-  // TODO: Filtrer par distance (besoin de la géolocalisation)
-
-  filteredStations.value = results;
 };
 
 const handleSelectStation = (station: Station) => {
   selectedStation.value = station;
   // TODO: Ouvrir une modal avec plus de détails
+  console.log('Selected station:', station);
 };
 
 const handleCompareStation = (station: Station) => {
@@ -101,6 +134,13 @@ const handleCompareStation = (station: Station) => {
     <div class="page-header">
       <h2>🗺️ Planning Trips</h2>
       <p class="page-subtitle">Trouve ta prochaine destination !</p>
+    </div>
+
+    <!-- Message d'erreur -->
+    <div v-if="error" class="error-banner">
+      <span>❌</span>
+      <p>{{ error }}</p>
+      <button @click="loadStations" class="retry-btn">Réessayer</button>
     </div>
     
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -141,27 +181,36 @@ const handleCompareStation = (station: Station) => {
 
       <!-- Résultats -->
       <div class="lg:col-span-2">
-        <div class="mb-4 flex justify-between items-center">
-          <h3 class="text-xl font-bold text-snow-50">
-            {{ filteredStations.length }} station{{ filteredStations.length > 1 ? 's' : '' }} trouvée{{ filteredStations.length > 1 ? 's' : '' }}
-          </h3>
+        <!-- Loading -->
+        <div v-if="loading" class="text-center py-12">
+          <div class="spinner mx-auto mb-4"></div>
+          <p class="text-snow-100 text-lg">Chargement des stations...</p>
         </div>
 
-        <div v-if="filteredStations.length === 0" class="text-center py-12">
-          <div class="text-6xl mb-4">🤷</div>
-          <p class="text-snow-100 text-lg">Aucune station ne correspond à tes critères</p>
-          <p class="text-snow-200 text-sm mt-2">Essaie d'ajuster les filtres !</p>
-        </div>
+        <!-- Résultats -->
+        <template v-else>
+          <div class="mb-4 flex justify-between items-center">
+            <h3 class="text-xl font-bold text-snow-50">
+              {{ filteredStations.length }} station{{ filteredStations.length > 1 ? 's' : '' }} trouvée{{ filteredStations.length > 1 ? 's' : '' }}
+            </h3>
+          </div>
 
-        <div v-else class="grid grid-cols-1 gap-4">
-          <TripsStationCard
-            v-for="station in filteredStations"
-            :key="station.id"
-            :station="station"
-            @select="handleSelectStation"
-            @compare="handleCompareStation"
-          />
-        </div>
+          <div v-if="filteredStations.length === 0" class="text-center py-12">
+            <div class="text-6xl mb-4">🤷</div>
+            <p class="text-snow-100 text-lg">Aucune station ne correspond à tes critères</p>
+            <p class="text-snow-200 text-sm mt-2">Essaie d'ajuster les filtres !</p>
+          </div>
+
+          <div v-else class="grid grid-cols-1 gap-4">
+            <TripsStationCard
+              v-for="station in filteredStations"
+              :key="station.id"
+              :station="station"
+              @select="handleSelectStation"
+              @compare="handleCompareStation"
+            />
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -182,5 +231,25 @@ const handleCompareStation = (station: Station) => {
 
 .page-subtitle {
   @apply text-snow-100 text-base m-0;
+}
+
+.error-banner {
+  @apply flex items-center justify-between gap-4 bg-powder-100 border border-powder-300 text-powder-700 px-6 py-4 rounded-xl mb-6 max-w-7xl mx-auto;
+}
+
+.error-banner span {
+  @apply text-2xl;
+}
+
+.error-banner p {
+  @apply flex-1 m-0 font-medium;
+}
+
+.retry-btn {
+  @apply px-4 py-2 bg-powder-500 text-snow-50 rounded-lg font-medium hover:bg-powder-600 transition-colors;
+}
+
+.spinner {
+  @apply w-12 h-12 border-4 border-snow-100/30 border-t-snow-50 rounded-full animate-spin;
 }
 </style>
