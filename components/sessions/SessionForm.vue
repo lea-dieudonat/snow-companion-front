@@ -25,7 +25,7 @@
       <!-- Conditions + Rating on same row -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <UFormField label="Conditions">
-          <USelect v-model="formData.conditions" :options="CONDITION_OPTIONS"
+          <USelect v-model="formData.conditions" :items="CONDITION_OPTIONS"
             placeholder="-- Conditions --" size="lg" class="w-full" />
         </UFormField>
 
@@ -53,7 +53,7 @@
           @click="$emit('cancel')">
           Annuler
         </UButton>
-        <UButton type="submit" color="primary" size="lg" :block="!isEditing" :loading="loading" icon="i-lucide-save">
+        <UButton type="submit" color="primary" size="lg" :block="!isEditing" :loading="loading" icon="i-lucide-save" class="whitespace-nowrap">
           {{ isEditing ? 'Mettre à jour' : 'Créer la session' }}
         </UButton>
       </div>
