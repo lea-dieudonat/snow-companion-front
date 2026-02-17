@@ -4,11 +4,11 @@
       <template #header>
         <div class="flex items-center gap-3">
           <UIcon name="i-lucide-alert-triangle" class="text-4xl text-error-500" />
-          <h2 class="text-xl font-bold text-mountain-900">Confirmer la suppression</h2>
+          <h2 class="text-xl font-bold text-mountain-900 dark:text-snow-50">Confirmer la suppression</h2>
         </div>
       </template>
 
-      <p class="text-mountain-700">
+      <p class="text-mountain-700 dark:text-mountain-300">
         Es-tu sûr(e) de vouloir supprimer cette session ? Cette action est irréversible.
       </p>
 

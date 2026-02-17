@@ -1,6 +1,6 @@
 <template>
-  <form class="bg-snow-50 rounded-lg shadow-card p-6" @submit.prevent="handleSubmit">
-    <h2 v-if="!isEditing" class="text-2xl font-bold text-mountain-900 mb-6 flex items-center gap-2">
+  <form class="bg-snow-50 dark:bg-mountain-800 rounded-lg shadow-card p-6" @submit.prevent="handleSubmit">
+    <h2 v-if="!isEditing" class="text-2xl font-bold text-mountain-900 dark:text-snow-50 mb-6 flex items-center gap-2">
       <UIcon name="i-lucide-plus-circle" />
       New Session
     </h2>
@@ -10,43 +10,45 @@
     <UAlert v-if="success" color="success" variant="soft" icon="i-lucide-check-circle"
       title="Session créée avec succès !" class="mb-6" />
 
-    <div class="space-y-6">
+    <div class="space-y-5">
       <!-- Station -->
-      <UFormGroup label="Station" required>
+      <UFormField label="Station" required>
         <UInput v-model="formData.station" icon="i-lucide-mountain" placeholder="Ex: Les 3 Vallées" size="lg"
-          required />
-      </UFormGroup>
+          class="w-full" required />
+      </UFormField>
 
       <!-- Date -->
-      <UFormGroup label="Date" required>
-        <UInput v-model="formData.date" type="date" icon="i-lucide-calendar" size="lg" required />
-      </UFormGroup>
+      <UFormField label="Date" required>
+        <UInput v-model="formData.date" type="date" icon="i-lucide-calendar" size="lg" class="w-full" required />
+      </UFormField>
 
-      <!-- Conditions -->
-      <UFormGroup label="Conditions">
-        <USelect v-model="formData.conditions" :options="CONDITION_OPTIONS"
-          placeholder="-- Sélectionne les conditions --" size="lg" />
-      </UFormGroup>
+      <!-- Conditions + Rating on same row -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <UFormField label="Conditions">
+          <USelect v-model="formData.conditions" :options="CONDITION_OPTIONS"
+            placeholder="-- Conditions --" size="lg" class="w-full" />
+        </UFormField>
+
+        <UFormField label="Note (1-5)">
+          <UInput v-model.number="formData.rating" type="number" min="1" max="5" icon="i-lucide-star" placeholder="3"
+            size="lg" class="w-full" />
+        </UFormField>
+      </div>
 
       <!-- Tricks -->
-      <UFormGroup label="Tricks" hint="Sépare les tricks par des virgules">
-        <UInput v-model="tricksInput" icon="i-lucide-sparkles" placeholder="Ex: Ollie, 180, Grab" size="lg" />
-      </UFormGroup>
-
-      <!-- Rating -->
-      <UFormGroup label="Note (1-5)">
-        <UInput v-model.number="formData.rating" type="number" min="1" max="5" icon="i-lucide-star" placeholder="3"
-          size="lg" />
-      </UFormGroup>
+      <UFormField label="Tricks" hint="Sépare les tricks par des virgules">
+        <UInput v-model="tricksInput" icon="i-lucide-sparkles" placeholder="Ex: Ollie, 180, Grab" size="lg"
+          class="w-full" />
+      </UFormField>
 
       <!-- Notes -->
-      <UFormGroup label="Notes">
-        <UTextarea v-model="formData.notes" :rows="4" placeholder="Comment était la neige ? Des nouveaux tricks ?"
-          size="lg" />
-      </UFormGroup>
+      <UFormField label="Notes">
+        <UTextarea v-model="formData.notes" :rows="3" placeholder="Comment était la neige ? Des nouveaux tricks ?"
+          size="lg" class="w-full" />
+      </UFormField>
 
       <!-- Actions -->
-      <div class="flex gap-3 pt-4">
+      <div class="flex gap-3 pt-2">
         <UButton v-if="isEditing" type="button" color="neutral" variant="outline" size="lg" block
           @click="$emit('cancel')">
           Annuler

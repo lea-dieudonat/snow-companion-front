@@ -3,7 +3,7 @@
     <UCard>
       <template #header>
         <div class="flex justify-between items-center">
-          <h2 class="text-2xl font-bold text-mountain-900 flex items-center gap-2">
+          <h2 class="text-2xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2">
             <UIcon name="i-lucide-pencil" />
             Modifier la session
           </h2>

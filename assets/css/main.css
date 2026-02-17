@@ -2,50 +2,63 @@
 @import "@nuxt/ui";
 
 @theme {
-  /* Snow colors */
-  --color-snow-50: #F5F3F2;
-  --color-snow-100: #EBE8E6;
-  --color-snow-200: #E0DCDA;
-  --color-snow-300: #D4CCC9;
+  /* Snow colors (light background) */
+  --color-snow-50: #FFFFFF;
+  --color-snow-100: #FAFAFA;
+  --color-snow-200: #F5F5F5;
+  --color-snow-300: #E5E5E5;
 
-  /* Ice colors (primary) */
-  --color-ice-50: #EFF5F9;
-  --color-ice-100: #DDEAF3;
-  --color-ice-200: #B8D2E4;
-  --color-ice-300: #8FB5CF;
-  --color-ice-400: #618AAD;
-  --color-ice-500: #4A7599;
-  --color-ice-600: #357089;
-  --color-ice-700: #1C6180;
-  --color-ice-800: #154D66;
-  --color-ice-900: #0E3A4D;
-  --color-ice-950: #072A3A;
+  /* Ice colors (Glacier / Alpine - primary) */
+  --color-ice-50: #F2F8FD;
+  --color-ice-100: #E6F1FB;
+  --color-ice-200: #CDE3F7;
+  --color-ice-300: #A9CDF0;
+  --color-ice-400: #6FAEE6;
+  --color-ice-500: #1F6FEB;
+  --color-ice-600: #195FCC;
+  --color-ice-700: #144DA6;
+  --color-ice-800: #0F3B80;
+  --color-ice-900: #0B1F33;
+  --color-ice-950: #060F1A;
 
-  /* Mountain colors (neutral) */
-  --color-mountain-50: #E8EEF2;
-  --color-mountain-100: #D1DEE5;
-  --color-mountain-200: #A3BDC9;
-  --color-mountain-300: #759CAE;
-  --color-mountain-400: #4A7B92;
-  --color-mountain-500: #2D5B72;
-  --color-mountain-600: #1A475C;
-  --color-mountain-700: #0A3347;
-  --color-mountain-800: #052536;
-  --color-mountain-900: #001721;
-  --color-mountain-950: #000E15;
+  /* Forest colors (Sapin Alpin - secondary) */
+  --color-forest-50: #EAF4F0;
+  --color-forest-100: #D6E9E1;
+  --color-forest-200: #AED3C3;
+  --color-forest-300: #7FBDA2;
+  --color-forest-400: #4F9F7B;
+  --color-forest-500: #1E4D3A;
+  --color-forest-600: #183F2F;
+  --color-forest-700: #123524;
+  --color-forest-800: #0D2419;
+  --color-forest-900: #08160F;
+  --color-forest-950: #040B07;
 
-  /* Powder colors (error/accent) */
-  --color-powder-50: #FAF5E8;
-  --color-powder-100: #F5EDD4;
-  --color-powder-200: #E8D48A;
-  --color-powder-300: #D4B44E;
-  --color-powder-400: #B8962F;
-  --color-powder-500: #947826;
-  --color-powder-600: #7A6320;
-  --color-powder-700: #5F4D18;
-  --color-powder-800: #453812;
-  --color-powder-900: #2E250C;
-  --color-powder-950: #1A1507;
+  /* Mountain colors (Pierre Granit - neutral) */
+  --color-mountain-50: #F9FAFB;
+  --color-mountain-100: #F3F4F6;
+  --color-mountain-200: #E5E7EB;
+  --color-mountain-300: #D1D5DB;
+  --color-mountain-400: #9CA3AF;
+  --color-mountain-500: #6B7280;
+  --color-mountain-600: #4B5563;
+  --color-mountain-700: #374151;
+  --color-mountain-800: #1F2937;
+  --color-mountain-900: #111827;
+  --color-mountain-950: #030712;
+
+  /* Powder colors (Soleil d'Hiver - accent) */
+  --color-powder-50: #FFFBEB;
+  --color-powder-100: #FEF3C7;
+  --color-powder-200: #FDE68A;
+  --color-powder-300: #FCD34D;
+  --color-powder-400: #FBBF24;
+  --color-powder-500: #F59E0B;
+  --color-powder-600: #D97706;
+  --color-powder-700: #B45309;
+  --color-powder-800: #92400E;
+  --color-powder-900: #78350F;
+  --color-powder-950: #451A03;
 
 
   /* Font family */

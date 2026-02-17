@@ -57,11 +57,11 @@ const formatDailyPassPrice = (passes: Record<string, unknown>) => {
     <template #header>
       <div class="flex justify-between items-start">
         <div class="flex-1">
-          <h3 class="text-xl font-bold text-mountain-900 flex items-center gap-2">
+          <h3 class="text-xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2">
             <UIcon name="i-lucide-mountain-snow" />
             {{ station.name }}
           </h3>
-          <p class="text-sm text-mountain-600 flex items-center gap-1 mt-1">
+          <p class="text-sm text-mountain-600 dark:text-mountain-300 flex items-center gap-1 mt-1">
             <UIcon name="i-lucide-map-pin" class="text-xs" />
             {{ station.region }}
           </p>
@@ -73,38 +73,38 @@ const formatDailyPassPrice = (passes: Record<string, unknown>) => {
 
     <div class="space-y-3">
       <!-- Distance -->
-      <div v-if="station.distance" class="flex items-center gap-2 text-sm text-mountain-700">
+      <div v-if="station.distance" class="flex items-center gap-2 text-sm text-mountain-700 dark:text-mountain-300">
         <UIcon name="i-lucide-navigation" class="text-ice-500" />
         <span class="font-medium">{{ Math.round(station.distance) }} km</span>
       </div>
 
       <!-- Altitude -->
-      <div class="flex items-center gap-2 text-sm text-mountain-700">
+      <div class="flex items-center gap-2 text-sm text-mountain-700 dark:text-mountain-300">
         <UIcon name="i-lucide-trending-up" class="text-ice-500" />
         <span>{{ station.altitudeMin }}m – {{ station.altitudeMax }}m</span>
       </div>
 
       <!-- Pistes -->
-      <div class="flex items-center gap-2 text-sm text-mountain-700">
+      <div class="flex items-center gap-2 text-sm text-mountain-700 dark:text-mountain-300">
         <UIcon name="i-lucide-route" class="text-ice-500" />
         <span>{{ station.numSlopes }} pistes · {{ station.kmSlopes }} km</span>
       </div>
 
       <!-- Prix forfait & hébergement -->
       <div class="grid grid-cols-2 gap-2 pt-1">
-        <div class="bg-ice-100/50 rounded-lg p-3">
-          <div class="flex items-center gap-1 text-xs text-mountain-600 mb-1">
+        <div class="bg-ice-100/50 dark:bg-ice-900/30 rounded-lg p-3">
+          <div class="flex items-center gap-1 text-xs text-mountain-600 dark:text-mountain-400 mb-1">
             <UIcon name="i-lucide-ticket" />
             Forfait/jour
           </div>
-          <span class="text-base font-bold text-ice-700">{{ formatDailyPassPrice(station.passes) }}</span>
+          <span class="text-base font-bold text-ice-700 dark:text-ice-400">{{ formatDailyPassPrice(station.passes) }}</span>
         </div>
-        <div class="bg-mountain-100/50 rounded-lg p-3">
-          <div class="flex items-center gap-1 text-xs text-mountain-600 mb-1">
+        <div class="bg-mountain-100/50 dark:bg-mountain-700/30 rounded-lg p-3">
+          <div class="flex items-center gap-1 text-xs text-mountain-600 dark:text-mountain-400 mb-1">
             <UIcon name="i-lucide-hotel" />
             Hébergement/nuit
           </div>
-          <span class="text-base font-bold text-mountain-700">{{ station.avgAccommodationPrice }}€</span>
+          <span class="text-base font-bold text-mountain-700 dark:text-mountain-300">{{ station.avgAccommodationPrice }}€</span>
         </div>
       </div>
 
