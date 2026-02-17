@@ -1,7 +1,7 @@
 <template>
   <div class="bg-snow-50 rounded-lg shadow-card hover:shadow-card-hover transition-shadow duration-300 overflow-hidden">
     <!-- Header avec la station -->
-    <div class="bg-gradient-to-r from-ice-600 to-ice-500 px-6 py-4">
+    <div class="bg-linear-to-r from-ice-600 to-ice-500 px-6 py-4">
       <h3 class="text-xl font-bold text-snow-50">{{ session.station }}</h3>
       <p class="text-ice-100 text-sm">{{ formatDate(session.date) }}</p>
     </div>

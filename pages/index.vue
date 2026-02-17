@@ -12,29 +12,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="redirect-page">
-    <div class="loading">
-      <div class="spinner"></div>
-      <p>Chargement...</p>
+  <div class="flex items-center justify-center min-h-[50vh]">
+    <div class="text-center">
+      <div class="w-12 h-12 mx-auto mb-4 border-4 border-snow-100/30 border-t-snow-50 rounded-full animate-spin"></div>
+      <p class="text-snow-50 text-xl">Chargement...</p>
     </div>
   </div>
 </template>
-
-<style scoped>
-@reference "~/assets/css/main.css";
-.redirect-page {
-  @apply flex items-center justify-center min-h-[50vh];
-}
-
-.loading {
-  @apply text-center;
-}
-
-.spinner {
-  @apply w-12 h-12 mx-auto mb-4 border-4 border-snow-100/30 border-t-snow-50 rounded-full animate-spin;
-}
-
-.loading p {
-  @apply text-snow-50 text-xl;
-}
-</style>

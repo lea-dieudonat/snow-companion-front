@@ -13,31 +13,12 @@ const handleSessionCreated = () => {
 </script>
 
 <template>
-  <div class="add-session-page">
-    <div class="page-header">
-      <h2>➕ Nouvelle Session</h2>
-      <p class="page-subtitle">Log ton ride du jour !</p>
+  <div class="p-4 md:p-8 max-w-2xl mx-auto">
+    <div class="mb-8 text-center">
+      <h2 class="text-snow-50 text-3xl md:text-4xl font-bold m-0 mb-2 drop-shadow-lg">➕ Nouvelle Session</h2>
+      <p class="text-snow-100 text-base m-0">Log ton ride du jour !</p>
     </div>
-    
+
     <SessionsSessionForm @sessionCreated="handleSessionCreated" />
   </div>
 </template>
-
-<style scoped>
-@reference "~/assets/css/main.css";
-.add-session-page {
-  @apply p-4 md:p-8 max-w-2xl mx-auto;
-}
-
-.page-header {
-  @apply mb-8 text-center;
-}
-
-.page-header h2 {
-  @apply text-snow-50 text-3xl md:text-4xl font-bold m-0 mb-2 drop-shadow-lg;
-}
-
-.page-subtitle {
-  @apply text-snow-100 text-base m-0;
-}
-</style>

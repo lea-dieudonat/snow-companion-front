@@ -11,7 +11,7 @@
       class="bg-snow-50 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-slideUp"
     >
       <!-- Header -->
-      <div class="sticky top-0 bg-gradient-to-r from-ice-600 to-ice-500 px-6 py-4 flex justify-between items-center rounded-t-xl">
+      <div class="sticky top-0 bg-linear-to-r from-ice-600 to-ice-500 px-6 py-4 flex justify-between items-center rounded-t-xl">
         <h2 class="text-2xl font-bold text-snow-50">✏️ Edit Session</h2>
         <button
           @click="$emit('close')"
@@ -57,34 +57,3 @@ const handleSubmit = (session: Session) => {
   emit('submit', session)
 }
 </script>
-
-<style scoped>
-/* Animations personnalisées */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.2s ease-out;
-}
-
-.animate-slideUp {
-  animation: slideUp 0.3s ease-out;
-}
-</style>

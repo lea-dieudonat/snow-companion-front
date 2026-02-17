@@ -2,35 +2,35 @@
 
 @theme {
   /* Snow colors */
-  --color-snow-50: #ffffff;
-  --color-snow-100: #f8fafc;
-  --color-snow-200: #f1f5f9;
-  --color-snow-300: #e2e8f0;
+  --color-snow-50: #F5F3F2;
+  --color-snow-100: #EBE8E6;
+  --color-snow-200: #E0DCDA;
+  --color-snow-300: #D4CCC9;
 
   /* Ice colors */
-  --color-ice-50: #f0f9fe;
-  --color-ice-100: #e0f2fe;
-  --color-ice-200: #bae6fd;
-  --color-ice-300: #7dd3fc;
-  --color-ice-400: #38bdf8;
-  --color-ice-500: #0ea5e9;
-  --color-ice-600: #0284c7;
-  --color-ice-700: #0369a1;
-  --color-ice-800: #075985;
-  --color-ice-900: #0c3d66;
+  --color-ice-50: #EFF5F9;
+  --color-ice-100: #DDEAF3;
+  --color-ice-200: #B8D2E4;
+  --color-ice-300: #8FB5CF;
+  --color-ice-400: #618AAD;
+  --color-ice-500: #4A7599;
+  --color-ice-600: #357089;
+  --color-ice-700: #1C6180;
+  --color-ice-800: #154D66;
+  --color-ice-900: #0E3A4D;
 
   /* Mountain colors */
-  --color-mountain-700: #334155;
-  --color-mountain-800: #1e293b;
-  --color-mountain-900: #0f172a;
+  --color-mountain-700: #0A3347;
+  --color-mountain-800: #052536;
+  --color-mountain-900: #001721;
 
   /* Powder colors */
-  --color-powder-100: #fee2e2;
-  --color-powder-300: #fca5a5;
-  --color-powder-400: #f87171;
-  --color-powder-500: #ef4444;
-  --color-powder-600: #dc2626;
-  --color-powder-700: #b91c1c;
+  --color-powder-100: #F5EDD4;
+  --color-powder-300: #D4B44E;
+  --color-powder-400: #B8962F;
+  --color-powder-500: #947826;
+  --color-powder-600: #7A6320;
+  --color-powder-700: #5F4D18;
 
   /* Font family */
   --font-sans: 'Inter', system-ui, sans-serif;
@@ -38,4 +38,18 @@
   /* Box shadows */
   --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-card-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* Animations */
+  --animate-fadeIn: fadeIn 0.2s ease-out;
+  --animate-slideUp: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

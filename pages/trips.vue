@@ -34,7 +34,7 @@ const loadStations = async () => {
   try {
     loading.value = true;
     error.value = '';
-    
+
     // Si on a la localisation user, utiliser getNearbyStations
     if (userLocation.value) {
       const stationsWithDistance = await getNearbyStations(
@@ -79,7 +79,7 @@ const handleSearch = async (query: string, filters: StationFilters) => {
     let results = await getAllStations(apiFilters);
 
     // Filtres côté client (pour ceux non gérés par l'API)
-    
+
     // Filtre par prix forfait
     if (filters.maxLiftPassPrice) {
       results = results.filter(s => {
@@ -90,7 +90,7 @@ const handleSearch = async (query: string, filters: StationFilters) => {
 
     // Filtre par niveau
     if (filters.levels.length > 0) {
-      results = results.filter(s => 
+      results = results.filter(s =>
         filters.levels.some((level: string) => s.level.includes(level))
       );
     }
@@ -130,25 +130,25 @@ const handleCompareStation = (station: Station) => {
 </script>
 
 <template>
-  <div class="trips-page">
-    <div class="page-header">
-      <h2>🗺️ Planning Trips</h2>
-      <p class="page-subtitle">Trouve ta prochaine destination !</p>
+  <div class="p-4 md:p-8">
+    <div class="mb-8 text-center">
+      <h2 class="text-snow-50 text-3xl md:text-4xl font-bold m-0 mb-2 drop-shadow-lg">🗺️ Planning Trips</h2>
+      <p class="text-snow-100 text-base m-0">Trouve ta prochaine destination !</p>
     </div>
 
     <!-- Message d'erreur -->
-    <div v-if="error" class="error-banner">
-      <span>❌</span>
-      <p>{{ error }}</p>
-      <button @click="loadStations" class="retry-btn">Réessayer</button>
+    <div v-if="error" class="flex items-center justify-between gap-4 bg-powder-100 border border-powder-300 text-powder-700 px-6 py-4 rounded-xl mb-6 max-w-7xl mx-auto">
+      <span class="text-2xl">❌</span>
+      <p class="flex-1 m-0 font-medium">{{ error }}</p>
+      <button @click="loadStations" class="px-4 py-2 bg-powder-500 text-snow-50 rounded-lg font-medium hover:bg-powder-600 transition-colors">Réessayer</button>
     </div>
-    
+
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Sidebar : Recherche & Filtres -->
       <div class="lg:col-span-1">
         <div class="lg:sticky lg:top-24">
           <TripsStationSearch @search="handleSearch" />
-          
+
           <!-- Stations en comparaison -->
           <div v-if="compareStations.length > 0" class="mt-6 bg-ice-100 rounded-xl p-4">
             <h4 class="font-semibold text-mountain-900 mb-3">
@@ -183,7 +183,7 @@ const handleCompareStation = (station: Station) => {
       <div class="lg:col-span-2">
         <!-- Loading -->
         <div v-if="loading" class="text-center py-12">
-          <div class="spinner mx-auto mb-4"></div>
+          <div class="w-12 h-12 border-4 border-snow-100/30 border-t-snow-50 rounded-full animate-spin mx-auto mb-4"></div>
           <p class="text-snow-100 text-lg">Chargement des stations...</p>
         </div>
 
@@ -215,42 +215,3 @@ const handleCompareStation = (station: Station) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-@reference "~/assets/css/main.css";
-.trips-page {
-  @apply p-4 md:p-8;
-}
-
-.page-header {
-  @apply mb-8 text-center;
-}
-
-.page-header h2 {
-  @apply text-snow-50 text-3xl md:text-4xl font-bold m-0 mb-2 drop-shadow-lg;
-}
-
-.page-subtitle {
-  @apply text-snow-100 text-base m-0;
-}
-
-.error-banner {
-  @apply flex items-center justify-between gap-4 bg-powder-100 border border-powder-300 text-powder-700 px-6 py-4 rounded-xl mb-6 max-w-7xl mx-auto;
-}
-
-.error-banner span {
-  @apply text-2xl;
-}
-
-.error-banner p {
-  @apply flex-1 m-0 font-medium;
-}
-
-.retry-btn {
-  @apply px-4 py-2 bg-powder-500 text-snow-50 rounded-lg font-medium hover:bg-powder-600 transition-colors;
-}
-
-.spinner {
-  @apply w-12 h-12 border-4 border-snow-100/30 border-t-snow-50 rounded-full animate-spin;
-}
-</style>

@@ -40,9 +40,9 @@ const toggleLevel = (level: string) => {
 </script>
 
 <template>
-  <div class="station-search bg-snow-50 rounded-xl shadow-card p-6">
+  <div class="bg-snow-50 rounded-xl shadow-card p-6">
     <!-- Search bar -->
-    <div class="search-bar mb-6">
+    <div class="mb-6">
       <label class="block text-sm font-medium text-mountain-800 mb-2">
         🔍 Search for a resort
       </label>
@@ -55,7 +55,7 @@ const toggleLevel = (level: string) => {
     </div>
 
     <!-- Filters -->
-    <div class="filters space-y-4">
+    <div class="space-y-4">
       <h3 class="text-lg font-semibold text-mountain-900 mb-3">Filters</h3>
 
       <!-- Max distance -->
@@ -63,14 +63,7 @@ const toggleLevel = (level: string) => {
         <label class="block text-sm font-medium text-mountain-800 mb-2">
           📍 Max distance: {{ filters.maxDistance }} km
         </label>
-        <input
-          v-model.number="filters.maxDistance"
-          type="range"
-          min="50"
-          max="500"
-          step="50"
-          class="w-full h-2 bg-snow-200 rounded-lg appearance-none cursor-pointer accent-ice-500"
-        />
+        <USlider v-model="filters.maxDistance" :min="50" :max="500" :step="50" />
         <div class="flex justify-between text-xs text-mountain-600 mt-1">
           <span>50 km</span>
           <span>500 km</span>
@@ -82,14 +75,7 @@ const toggleLevel = (level: string) => {
         <label class="block text-sm font-medium text-mountain-800 mb-2">
           💰 Max lift pass price: {{ filters.maxLiftPassPrice }}€/day
         </label>
-        <input
-          v-model.number="filters.maxLiftPassPrice"
-          type="range"
-          min="30"
-          max="80"
-          step="5"
-          class="w-full h-2 bg-snow-200 rounded-lg appearance-none cursor-pointer accent-ice-500"
-        />
+        <USlider v-model="filters.maxLiftPassPrice" :min="30" :max="80" :step="5" />
         <div class="flex justify-between text-xs text-mountain-600 mt-1">
           <span>30€</span>
           <span>80€</span>
@@ -101,14 +87,7 @@ const toggleLevel = (level: string) => {
         <label class="block text-sm font-medium text-mountain-800 mb-2">
           🏨 Max lodging price: {{ filters.maxLodgingPrice }}€/night
         </label>
-        <input
-          v-model.number="filters.maxLodgingPrice"
-          type="range"
-          min="50"
-          max="200"
-          step="10"
-          class="w-full h-2 bg-snow-200 rounded-lg appearance-none cursor-pointer accent-ice-500"
-        />
+        <USlider v-model="filters.maxLodgingPrice" :min="50" :max="200" :step="10" />
         <div class="flex justify-between text-xs text-mountain-600 mt-1">
           <span>50€</span>
           <span>200€</span>
@@ -140,15 +119,3 @@ const toggleLevel = (level: string) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-@reference "~/assets/css/main.css";
-/* Custom range slider styling */
-input[type="range"]::-webkit-slider-thumb {
-  @apply appearance-none w-4 h-4 bg-ice-500 rounded-full cursor-pointer hover:bg-ice-600 transition-colors;
-}
-
-input[type="range"]::-moz-range-thumb {
-  @apply w-4 h-4 bg-ice-500 rounded-full cursor-pointer hover:bg-ice-600 transition-colors border-0;
-}
-</style>

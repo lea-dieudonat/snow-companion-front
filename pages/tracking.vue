@@ -12,10 +12,10 @@ const handleSessionCreated = () => {
 </script>
 
 <template>
-  <div class="tracking-page">
-    <div class="page-header">
-      <h2>📊 Mes Sessions</h2>
-      <p class="page-subtitle">Historique de tes rides</p>
+  <div class="p-4 md:p-8 max-w-7xl mx-auto">
+    <div class="mb-8 text-center">
+      <h2 class="text-snow-50 text-3xl md:text-4xl font-bold m-0 mb-2 drop-shadow-lg">📊 Mes Sessions</h2>
+      <p class="text-snow-100 text-base m-0">Historique de tes rides</p>
     </div>
     <UButton icon="i-lucide-mountain" color="primary">
       Test Nuxt UI
@@ -23,22 +23,3 @@ const handleSessionCreated = () => {
     <SessionsSessionList ref="sessionListRef" />
   </div>
 </template>
-
-<style scoped>
-@reference "~/assets/css/main.css";
-.tracking-page {
-  @apply p-4 md:p-8 max-w-7xl mx-auto;
-}
-
-.page-header {
-  @apply mb-8 text-center;
-}
-
-.page-header h2 {
-  @apply text-snow-50 text-3xl md:text-4xl font-bold m-0 mb-2 drop-shadow-lg;
-}
-
-.page-subtitle {
-  @apply text-snow-100 text-base m-0;
-}
-</style>
