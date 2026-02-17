@@ -10,14 +10,15 @@ const emit = defineEmits<{
   compare: [station: Station]
 }>();
 
-const getLevelColor = (level: string) => {
-  const colors: Record<string, string> = {
-    beginner: 'bg-green-100 text-green-800',
-    intermediate: 'bg-blue-100 text-blue-800',
-    advanced: 'bg-orange-100 text-orange-800',
-    expert: 'bg-red-100 text-red-800',
+// On mappe les niveaux sur les couleurs sémantiques du thème
+const getLevelBadgeClass = (level: string) => {
+  const classes: Record<string, string> = {
+    beginner: 'bg-ice-100 text-ice-700',
+    intermediate: 'bg-mountain-100 text-mountain-700',
+    advanced: 'bg-powder-100 text-powder-700',
+    expert: 'bg-powder-200 text-powder-900',
   };
-  return colors[level] || 'bg-snow-200 text-mountain-700';
+  return classes[level] || 'bg-snow-200 text-mountain-700';
 };
 
 const getLevelEmoji = (level: string) => {
@@ -30,6 +31,16 @@ const getLevelEmoji = (level: string) => {
   return emojis[level] || '';
 };
 
+const getLevelLabel = (level: string) => {
+  const labels: Record<string, string> = {
+    beginner: 'Débutant',
+    intermediate: 'Intermédiaire',
+    advanced: 'Avancé',
+    expert: 'Expert',
+  };
+  return labels[level] || level;
+};
+
 const getDailyPassPrice = (passes: Record<string, unknown>) => {
   const fullDay = passes?.full_day as { adult?: number } | undefined;
   return fullDay?.adult ?? null;
@@ -37,84 +48,79 @@ const getDailyPassPrice = (passes: Record<string, unknown>) => {
 
 const formatDailyPassPrice = (passes: Record<string, unknown>) => {
   const price = getDailyPassPrice(passes);
-  return typeof price === 'number' ? `${price}€/day` : 'N/A';
+  return typeof price === 'number' ? `${price}€` : 'N/A';
 };
 </script>
 
 <template>
-  <div class="station-card bg-snow-50 rounded-xl shadow-card hover:shadow-card-hover transition-all p-6 cursor-pointer"
-       @click="emit('select', station)">
-    
-    <!-- Header -->
-    <div class="flex justify-between items-start mb-4">
-      <div>
-        <h3 class="text-xl font-bold text-mountain-900">{{ station.name }}</h3>
-        <p class="text-sm text-mountain-600">📍 {{ station.region }}</p>
+  <UCard class="transition-all duration-200 hover:scale-[1.01] hover:shadow-card-hover cursor-pointer">
+    <template #header>
+      <div class="flex justify-between items-start">
+        <div class="flex-1">
+          <h3 class="text-xl font-bold text-mountain-900 flex items-center gap-2">
+            <UIcon name="i-lucide-mountain-snow" />
+            {{ station.name }}
+          </h3>
+          <p class="text-sm text-mountain-600 flex items-center gap-1 mt-1">
+            <UIcon name="i-lucide-map-pin" class="text-xs" />
+            {{ station.region }}
+          </p>
+        </div>
+        <UButton icon="i-lucide-git-compare" color="neutral" variant="ghost" size="xs"
+          aria-label="Ajouter à la comparaison" @click.stop="emit('compare', station)" />
       </div>
-      <button
-        @click.stop="emit('compare', station)"
-        class="px-3 py-1 bg-ice-100 text-ice-700 rounded-lg text-sm font-medium hover:bg-ice-200 transition-colors"
-      >
-        Comparer
-      </button>
-    </div>
+    </template>
 
-    <!-- Distance (si disponible) -->
-    <div v-if="station.distance" class="mb-3">
-      <span class="inline-flex items-center px-3 py-1 bg-powder-100 text-powder-700 rounded-full text-sm font-medium">
-        🚗 {{ Math.round(station.distance) }} km
-      </span>
-    </div>
+    <div class="space-y-3">
+      <!-- Distance -->
+      <div v-if="station.distance" class="flex items-center gap-2 text-sm text-mountain-700">
+        <UIcon name="i-lucide-navigation" class="text-ice-500" />
+        <span class="font-medium">{{ Math.round(station.distance) }} km</span>
+      </div>
 
-    <!-- Description -->
-    <p class="text-sm text-mountain-700 mb-4 line-clamp-2">{{ station.description }}</p>
+      <!-- Altitude -->
+      <div class="flex items-center gap-2 text-sm text-mountain-700">
+        <UIcon name="i-lucide-trending-up" class="text-ice-500" />
+        <span>{{ station.altitudeMin }}m – {{ station.altitudeMax }}m</span>
+      </div>
 
-    <!-- Infos clés -->
-    <div class="grid grid-cols-2 gap-3 mb-4">
-      <div class="bg-snow-100 rounded-lg p-3">
-        <div class="text-xs text-mountain-600 mb-1">Altitude</div>
-        <div class="text-sm font-semibold text-mountain-900">
-          {{ station.altitudeMin }} - {{ station.altitudeMax }}m
+      <!-- Pistes -->
+      <div class="flex items-center gap-2 text-sm text-mountain-700">
+        <UIcon name="i-lucide-route" class="text-ice-500" />
+        <span>{{ station.numSlopes }} pistes · {{ station.kmSlopes }} km</span>
+      </div>
+
+      <!-- Prix forfait & hébergement -->
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <div class="bg-ice-100/50 rounded-lg p-3">
+          <div class="flex items-center gap-1 text-xs text-mountain-600 mb-1">
+            <UIcon name="i-lucide-ticket" />
+            Forfait/jour
+          </div>
+          <span class="text-base font-bold text-ice-700">{{ formatDailyPassPrice(station.passes) }}</span>
+        </div>
+        <div class="bg-mountain-100/50 rounded-lg p-3">
+          <div class="flex items-center gap-1 text-xs text-mountain-600 mb-1">
+            <UIcon name="i-lucide-hotel" />
+            Hébergement/nuit
+          </div>
+          <span class="text-base font-bold text-mountain-700">{{ station.avgAccommodationPrice }}€</span>
         </div>
       </div>
-      
-      <div class="bg-snow-100 rounded-lg p-3">
-        <div class="text-xs text-mountain-600 mb-1">Pistes</div>
-        <div class="text-sm font-semibold text-mountain-900">
-          {{ station.numSlopes }} pistes ({{ station.kmSlopes }}km)
-        </div>
-      </div>
-      
-      <div class="bg-snow-100 rounded-lg p-3">
-        <div class="text-xs text-mountain-600 mb-1">Forfait</div>
-        <div class="text-sm font-semibold text-ice-600">
-          {{ formatDailyPassPrice(station.passes) }}
-        </div>
-      </div>
-      
-      <div class="bg-snow-100 rounded-lg p-3">
-        <div class="text-xs text-mountain-600 mb-1">Hébergement</div>
-        <div class="text-sm font-semibold text-ice-600">
-          ~{{ station.avgAccommodationPrice }}€/night
-        </div>
+
+      <!-- Niveaux -->
+      <div class="flex flex-wrap gap-2 pt-1">
+        <span v-for="level in station.level" :key="level"
+          :class="['inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium', getLevelBadgeClass(level)]">
+          {{ getLevelEmoji(level) }} {{ getLevelLabel(level) }}
+        </span>
       </div>
     </div>
 
-    <!-- Domaine -->
-    <div class="mb-3">
-      <span class="text-xs text-mountain-600">🏔️ Domaine :</span>
-      <span class="text-sm font-medium text-mountain-800 ml-1">{{ station.skiArea }}</span>
-    </div>
-
-    <!-- Niveaux -->
-    <div class="flex flex-wrap gap-2">
-      <span
-        v-for="level in station.level"
-        :key="level"
-        :class="['px-2 py-1 rounded text-xs font-medium', getLevelColor(level)]"
-      >
-        {{ getLevelEmoji(level) }} {{ level }}
-      </span>
-    </div>
-  </div>
+    <template #footer>
+      <UButton color="primary" block icon="i-lucide-eye" @click="emit('select', station)">
+        Voir les détails
+      </UButton>
+    </template>
+  </UCard>
 </template>

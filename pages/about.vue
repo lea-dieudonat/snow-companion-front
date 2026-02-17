@@ -1,29 +1,44 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'default'
-});
+definePageMeta({ layout: 'default' });
 </script>
 
 <template>
   <div class="p-4 max-w-4xl mx-auto">
     <div class="mb-8 text-center">
-      <h2 class="text-snow-50 text-3xl font-bold m-0 drop-shadow-lg">ℹ️ À propos</h2>
+      <UIcon name="i-lucide-info" class="text-5xl text-snow-50 mx-auto mb-4" />
+      <h2 class="text-snow-50 text-3xl font-bold m-0 drop-shadow-lg">À propos</h2>
     </div>
 
-    <div class="bg-snow-50 rounded-xl p-8 shadow-card">
-      <h3 class="text-ice-600 text-3xl font-bold m-0 mb-4 text-center">🏂 Snow Companion</h3>
-      <p class="text-mountain-700 text-lg leading-relaxed text-center m-0 mb-8">
-        Ton compagnon ultime pour tracker tes sessions de snowboard et ski,
-        et planifier tes prochaines aventures en montagne ! ⛰️
-      </p>
+    <UCard>
+      <template #header>
+        <h3 class="text-3xl font-bold text-center flex items-center justify-center gap-2">
+          <UIcon name="i-lucide-mountain-snow" class="text-ice-600" />
+          Snow Companion
+        </h3>
+      </template>
 
-      <div class="text-center p-4 bg-ice-100/50 rounded-lg mb-8">
-        <strong class="text-ice-600">Version:</strong> 1.0.0-beta
-      </div>
+      <div class="space-y-6">
+        <p class="text-mountain-700 text-lg leading-relaxed text-center">
+          Ton compagnon ultime pour tracker tes sessions de snowboard et ski,
+          et planifier tes prochaines aventures en montagne ! ⛰️
+        </p>
 
-      <div class="text-center pt-8 border-t border-snow-200">
-        <p class="m-0 text-sm text-mountain-700/70">Développé avec ❤️ pour les riders</p>
+        <UDivider />
+
+        <div class="text-center">
+          <UBadge color="primary" variant="soft" size="lg">
+            <UIcon name="i-lucide-tag" class="mr-1" />
+            Version 1.0.0-beta
+          </UBadge>
+        </div>
+
+        <UDivider />
+
+        <p class="text-sm text-mountain-700/70 text-center flex items-center justify-center gap-2">
+          <UIcon name="i-lucide-heart" class="text-error-500" />
+          Développé avec passion pour les riders
+        </p>
       </div>
-    </div>
+    </UCard>
   </div>
 </template>

@@ -4,12 +4,11 @@
     <header class="sticky top-0 z-100 bg-snow-50/95 backdrop-blur-md shadow-md">
       <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
         <h1 class="text-2xl md:text-3xl font-bold text-ice-600 m-0">🏂 Snow Companion</h1>
-        <UButton icon="i-lucide-menu" variant="ghost" size="xl" @click="toggleMenu"
-          aria-label="Menu" />
+        <UButton icon="i-lucide-menu" variant="ghost" color="primary" size="xl" aria-label="Menu" @click="toggleMenu" />
       </div>
     </header>
 
-    <!-- Burger Menu (collapsed by default) -->
+    <!-- Burger Menu -->
     <NavigationBurgerMenu :isOpen="isMenuOpen" @close="toggleMenu" />
 
     <!-- Contenu principal -->

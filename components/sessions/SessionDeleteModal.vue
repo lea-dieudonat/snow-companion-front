@@ -1,52 +1,46 @@
 <template>
-  <div 
-    v-if="isOpen"
-    @click="$emit('cancel')"
-    class="fixed inset-0 bg-mountain-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
-  >
-    <div 
-      @click.stop
-      class="bg-snow-50 rounded-xl shadow-2xl max-w-md w-full animate-slideUp"
-    >
-      <!-- Header avec icône warning -->
-      <div class="bg-powder-400 px-6 py-4 rounded-t-xl flex items-center gap-3">
-        <div class="text-4xl">⚠️</div>
-        <h2 class="text-xl font-bold text-snow-50">Confirm Deletion</h2>
-      </div>
-      
-      <!-- Content -->
-      <div class="p-6">
-        <p class="text-mountain-700 mb-6">
-          Are you sure you want to delete this session? This action cannot be undone.
-        </p>
-        
-        <!-- Actions -->
-        <div class="flex gap-3">
-          <button
-            @click="$emit('cancel')"
-            class="flex-1 px-6 py-3 bg-mountain-700 hover:bg-mountain-800 text-snow-50 rounded-lg transition-colors duration-200 font-medium"
-          >
-            Cancel
-          </button>
-          <button
-            @click="$emit('confirm')"
-            class="flex-1 px-6 py-3 bg-powder-400 hover:bg-powder-500 text-snow-50 rounded-lg transition-colors duration-200 font-medium"
-          >
-            Delete
-          </button>
+  <UModal v-model="isModalOpen">
+    <UCard>
+      <template #header>
+        <div class="flex items-center gap-3">
+          <UIcon name="i-lucide-alert-triangle" class="text-4xl text-error-500" />
+          <h2 class="text-xl font-bold text-mountain-900">Confirmer la suppression</h2>
         </div>
-      </div>
-    </div>
-  </div>
+      </template>
+
+      <p class="text-mountain-700">
+        Es-tu sûr(e) de vouloir supprimer cette session ? Cette action est irréversible.
+      </p>
+
+      <template #footer>
+        <div class="flex gap-3">
+          <UButton color="neutral" variant="outline" block @click="handleCancel">
+            Annuler
+          </UButton>
+          <UButton color="error" icon="i-lucide-trash-2" block @click="handleConfirm">
+            Supprimer
+          </UButton>
+        </div>
+      </template>
+    </UCard>
+  </UModal>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   isOpen: boolean
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   cancel: []
   confirm: []
 }>()
+
+const isModalOpen = computed({
+  get: () => props.isOpen,
+  set: (value) => { if (!value) emit('cancel') }
+})
+
+const handleCancel = () => emit('cancel')
+const handleConfirm = () => emit('confirm')
 </script>
