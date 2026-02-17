@@ -46,12 +46,8 @@ const toggleLevel = (level: string) => {
       <label class="block text-sm font-medium text-mountain-800 mb-2">
         🔍 Search for a resort
       </label>
-      <input
-        v-model="searchQuery"
-        type="text"
-        placeholder="e.g., Val Thorens, Les 2 Alpes..."
-        class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all text-base"
-      />
+      <input v-model="searchQuery" type="text" placeholder="e.g., Val Thorens, Les 2 Alpes..."
+        class="w-full px-4 py-3 rounded-lg border-2 border-snow-300 focus:border-ice-500 focus:ring-2 focus:ring-ice-500/20 outline-none transition-all text-base" />
     </div>
 
     <!-- Filters -->
@@ -100,18 +96,13 @@ const toggleLevel = (level: string) => {
           🎿 Level
         </label>
         <div class="flex flex-wrap gap-2">
-          <button
-            v-for="option in levelOptions"
-            :key="option.value"
-            type="button"
-            @click="toggleLevel(option.value)"
+          <button v-for="option in levelOptions" :key="option.value" type="button" @click="toggleLevel(option.value)"
             :class="[
               'px-4 py-2 rounded-lg text-sm font-medium transition-all',
               filters.levels.includes(option.value)
                 ? option.color + ' ring-2 ring-offset-2 ring-ice-500'
                 : 'bg-snow-200 text-mountain-700 hover:bg-snow-300'
-            ]"
-          >
+            ]">
             {{ option.label }}
           </button>
         </div>

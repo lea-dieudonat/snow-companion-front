@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@nuxt/ui";
 
 @theme {
   /* Snow colors */
@@ -7,7 +8,7 @@
   --color-snow-200: #E0DCDA;
   --color-snow-300: #D4CCC9;
 
-  /* Ice colors */
+  /* Ice colors (primary) */
   --color-ice-50: #EFF5F9;
   --color-ice-100: #DDEAF3;
   --color-ice-200: #B8D2E4;
@@ -18,19 +19,34 @@
   --color-ice-700: #1C6180;
   --color-ice-800: #154D66;
   --color-ice-900: #0E3A4D;
+  --color-ice-950: #072A3A;
 
-  /* Mountain colors */
+  /* Mountain colors (neutral) */
+  --color-mountain-50: #E8EEF2;
+  --color-mountain-100: #D1DEE5;
+  --color-mountain-200: #A3BDC9;
+  --color-mountain-300: #759CAE;
+  --color-mountain-400: #4A7B92;
+  --color-mountain-500: #2D5B72;
+  --color-mountain-600: #1A475C;
   --color-mountain-700: #0A3347;
   --color-mountain-800: #052536;
   --color-mountain-900: #001721;
+  --color-mountain-950: #000E15;
 
-  /* Powder colors */
+  /* Powder colors (error/accent) */
+  --color-powder-50: #FAF5E8;
   --color-powder-100: #F5EDD4;
+  --color-powder-200: #E8D48A;
   --color-powder-300: #D4B44E;
   --color-powder-400: #B8962F;
   --color-powder-500: #947826;
   --color-powder-600: #7A6320;
   --color-powder-700: #5F4D18;
+  --color-powder-800: #453812;
+  --color-powder-900: #2E250C;
+  --color-powder-950: #1A1507;
+
 
   /* Font family */
   --font-sans: 'Inter', system-ui, sans-serif;
