@@ -20,8 +20,8 @@ const { data: stations, pending, error } = await useLazyAsyncData(
     { watch: [ids] }
 );
 
-const stationColors = ['text-ice-500', 'text-powder-500', 'text-forest-500'];
-const stationBgColors = ['bg-ice-50 dark:bg-ice-900/20', 'bg-powder-50 dark:bg-powder-900/20', 'bg-forest-50 dark:bg-forest-900/20'];
+const stationColors = ['text-ice-500', 'text-powder-500', 'text-forest-400 dark:text-forest-300'];
+const stationBgColors = ['bg-ice-50 dark:bg-ice-800/20', 'bg-powder-50 dark:bg-powder-900/20', 'bg-forest-50 dark:bg-forest-700/20'];
 </script>
 
 <template>
