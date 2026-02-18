@@ -12,11 +12,13 @@ import {
 
 const props = defineProps<{
   station: Station & { distance?: number };
+  isFavorite?: boolean;
 }>();
 
 const emit = defineEmits<{
-  select: [station: Station]
-  compare: [station: Station]
+  select: [station: Station];
+  compare: [station: Station];
+  favorite: [station: Station];
 }>();
 </script>
 
@@ -34,8 +36,13 @@ const emit = defineEmits<{
             {{ station.region }}
           </p>
         </div>
-        <UButton icon="i-lucide-git-compare" color="neutral" variant="ghost" size="xs"
-          aria-label="Ajouter à la comparaison" @click.stop="emit('compare', station)" />
+        <div class="flex items-center gap-1">
+          <UButton :icon="isFavorite ? 'i-lucide-heart' : 'i-lucide-heart'" :color="isFavorite ? 'error' : 'neutral'"
+            :variant="isFavorite ? 'soft' : 'ghost'" size="xs" aria-label="Ajouter aux favoris"
+            @click.stop="emit('favorite', station)" />
+          <UButton icon="i-lucide-git-compare" color="neutral" variant="ghost" size="xs"
+            aria-label="Ajouter à la comparaison" @click.stop="emit('compare', station)" />
+        </div>
       </div>
     </template>
 

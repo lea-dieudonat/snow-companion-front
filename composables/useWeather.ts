@@ -41,8 +41,8 @@ export const useWeather = () => {
         const params = new URLSearchParams({
             latitude: latitude.toString(),
             longitude: longitude.toString(),
-            current: 'temperature_2m,wind_speed_10m,weathercode,snowfall',
-            daily: 'temperature_2m_max,temperature_2m_min,weathercode,snowfall',
+            current: 'temperature_2m,wind_speed_10m,weather_code,snowfall',
+            daily: 'temperature_2m_max,temperature_2m_min,weather_code,snowfall_sum',
             timezone: 'Europe/Paris',
             forecast_days: '3',
         });
@@ -58,14 +58,14 @@ export const useWeather = () => {
             date,
             temperature_max: Math.round(data.daily.temperature_2m_max[index]),
             temperature_min: Math.round(data.daily.temperature_2m_min[index]),
-            weathercode: data.daily.weathercode[index],
-            snowfall: Math.round(data.daily.snowfall[index]),
+            weathercode: data.daily.weather_code[index],
+            snowfall: Math.round(data.daily.snowfall_sum[index]),
         }));
 
         return {
             temperature: Math.round(data.current.temperature_2m),
             windspeed: Math.round(data.current.wind_speed_10m),
-            weathercode: data.current.weathercode,
+            weathercode: data.current.weather_code,
             snowfall: Math.round(data.current.snowfall),
             forecast,
         };

@@ -252,7 +252,8 @@ const handleCompareStation = (station: Station) => {
               </div>
               <div v-else class="grid grid-cols-1 gap-4">
                 <TripsStationCard v-for="station in searchResults" :key="station.id" :station="station"
-                  @select="handleSelectStation" @compare="handleCompareStation" />
+                  :is-favorite="favoriteIds.includes(station.id)" @select="handleSelectStation"
+                  @compare="handleCompareStation" @favorite="s => handleToggleFavorite(s.id)" />
               </div>
             </template>
           </div>
