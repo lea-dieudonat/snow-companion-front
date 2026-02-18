@@ -132,8 +132,9 @@ const handleCompareStation = (station: Station) => {
             </div>
 
             <template #footer>
-              <UButton v-if="compareStations.length >= 2" color="primary" block trailing-icon="i-lucide-arrow-right">
-                Comparer
+              <UButton v-if="compareStations.length >= 2" color="primary" block trailing-icon="i-lucide-arrow-right"
+                @click="router.push(`/stations/compare?ids=${compareStations.map(s => s.id).join(',')}`)">
+                Comparer {{ compareStations.length }} stations
               </UButton>
             </template>
           </UCard>
