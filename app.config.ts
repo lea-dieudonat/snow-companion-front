@@ -4,6 +4,7 @@ export default defineAppConfig({
       primary: 'ice',
       secondary: 'forest',
       warning: 'powder',
+      error: 'ember',
       neutral: 'mountain'
     },
     card: {

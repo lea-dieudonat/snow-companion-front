@@ -3,6 +3,7 @@ import type { Station, StationFilters } from '@/types/station.types';
 
 definePageMeta({ layout: 'default' });
 
+const router = useRouter();
 const { getAllStations, getNearbyStations } = useStations();
 
 const stations = ref<Station[]>([]);
@@ -72,8 +73,7 @@ const handleSearch = async (query: string, filters: StationFilters) => {
 };
 
 const handleSelectStation = (station: Station) => {
-  selectedStation.value = station;
-  console.log('Selected station:', station);
+  router.push(`/stations/${station.id}`);
 };
 
 const handleCompareStation = (station: Station) => {

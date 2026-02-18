@@ -1,5 +1,14 @@
 <script setup lang="ts">
 import type { Station } from '@/types/station.types';
+import {
+  getDailyPassPrice,
+  getSlopesBreakdown,
+  getSeasonDates,
+  getAccessInfo,
+  slopeColors,
+  getSlopeColorLabel,
+  getLevelBadgeClass,
+} from '@/utils/station.utils';
 
 const props = defineProps<{
   station: Station & { distance?: number };
@@ -9,47 +18,6 @@ const emit = defineEmits<{
   select: [station: Station]
   compare: [station: Station]
 }>();
-
-// On mappe les niveaux sur les couleurs sémantiques du thème
-const getLevelBadgeClass = (level: string) => {
-  const classes: Record<string, string> = {
-    beginner: 'bg-ice-100 text-ice-700',
-    intermediate: 'bg-mountain-100 text-mountain-700',
-    advanced: 'bg-powder-100 text-powder-700',
-    expert: 'bg-powder-200 text-powder-900',
-  };
-  return classes[level] || 'bg-snow-200 text-mountain-700';
-};
-
-const getLevelEmoji = (level: string) => {
-  const emojis: Record<string, string> = {
-    beginner: '🟢',
-    intermediate: '🔵',
-    advanced: '🟠',
-    expert: '🔴',
-  };
-  return emojis[level] || '';
-};
-
-const getLevelLabel = (level: string) => {
-  const labels: Record<string, string> = {
-    beginner: 'Débutant',
-    intermediate: 'Intermédiaire',
-    advanced: 'Avancé',
-    expert: 'Expert',
-  };
-  return labels[level] || level;
-};
-
-const getDailyPassPrice = (passes: Record<string, unknown>) => {
-  const fullDay = passes?.full_day as { adult?: number } | undefined;
-  return fullDay?.adult ?? null;
-};
-
-const formatDailyPassPrice = (passes: Record<string, unknown>) => {
-  const price = getDailyPassPrice(passes);
-  return typeof price === 'number' ? `${price}€` : 'N/A';
-};
 </script>
 
 <template>
@@ -97,14 +65,16 @@ const formatDailyPassPrice = (passes: Record<string, unknown>) => {
             <UIcon name="i-lucide-ticket" />
             Forfait/jour
           </div>
-          <span class="text-base font-bold text-ice-700 dark:text-ice-400">{{ formatDailyPassPrice(station.passes) }}</span>
+          <span class="text-base font-bold text-ice-700 dark:text-ice-400">{{ formatDailyPassPrice(station.passes)
+          }}</span>
         </div>
         <div class="bg-mountain-100/50 dark:bg-mountain-700/30 rounded-lg p-3">
           <div class="flex items-center gap-1 text-xs text-mountain-600 dark:text-mountain-400 mb-1">
             <UIcon name="i-lucide-hotel" />
             Hébergement/nuit
           </div>
-          <span class="text-base font-bold text-mountain-700 dark:text-mountain-300">{{ station.avgAccommodationPrice }}€</span>
+          <span class="text-base font-bold text-mountain-700 dark:text-mountain-300">{{ station.avgAccommodationPrice
+          }}€</span>
         </div>
       </div>
 

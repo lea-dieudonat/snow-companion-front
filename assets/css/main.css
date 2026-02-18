@@ -60,6 +60,19 @@
   --color-powder-900: #78350F;
   --color-powder-950: #451A03;
 
+  /* Ember colors (Rouge Alerte - error/danger) */
+  --color-ember-50: #fef2f2;
+  --color-ember-100: #fee2e2;
+  --color-ember-200: #fecaca;
+  --color-ember-300: #fca5a5;
+  --color-ember-400: #f87171;
+  --color-ember-500: #ef4444;
+  --color-ember-600: #dc2626;
+  --color-ember-700: #b91c1c;
+  --color-ember-800: #991b1b;
+  --color-ember-900: #7f1d1d;
+  --color-ember-950: #450a0a;
+
 
   /* Font family */
   --font-sans: 'Inter', system-ui, sans-serif;
@@ -74,11 +87,23 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

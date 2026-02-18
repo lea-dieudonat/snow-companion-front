@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { StationFilters } from '@/types/station.types';
+import { levelOptions } from '@/utils/station.utils';
 
 const searchQuery = ref('');
 const filters = ref<StationFilters>({
@@ -18,13 +19,6 @@ const handleSearch = () => {
 };
 
 watch([searchQuery, filters], handleSearch, { deep: true });
-
-const levelOptions = [
-  { value: 'beginner', label: '🟢 Débutant' },
-  { value: 'intermediate', label: '🔵 Intermédiaire' },
-  { value: 'advanced', label: '🟠 Avancé' },
-  { value: 'expert', label: '🔴 Expert' },
-];
 
 const toggleLevel = (level: string) => {
   const index = filters.value.levels.indexOf(level);
