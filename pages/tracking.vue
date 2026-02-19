@@ -11,6 +11,6 @@ const sessionListRef = ref();
       <p class="text-mountain-500 dark:text-mountain-300 text-base m-0">Historique de tes rides</p>
     </div>
 
-    <SessionsSessionList ref="sessionListRef" />
+    <SessionsList ref="sessionListRef" />
   </div>
 </template>

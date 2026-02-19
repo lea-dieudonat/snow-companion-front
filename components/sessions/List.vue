@@ -77,20 +77,21 @@ const confirmDelete = async () => {
     <div v-if="!sessions?.length" class="text-center py-16">
       <UIcon name="i-lucide-snowflake" class="text-6xl text-mountain-300 mx-auto mb-4" />
       <p class="text-mountain-700 dark:text-mountain-200 text-lg mb-2">Aucune session pour le moment ! 🏂</p>
-      <p class="text-mountain-500 dark:text-mountain-400">Crée ta première session pour commencer à tracker tes rides.</p>
+      <p class="text-mountain-500 dark:text-mountain-400">Crée ta première session pour commencer à tracker tes rides.
+      </p>
     </div>
 
     <!-- Grille de sessions -->
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <SessionsSessionCard v-for="session in sessions" :key="session.id" :session="session" @edit="handleEdit"
+      <SessionsCard v-for="session in sessions" :key="session.id" :session="session" @edit="handleEdit"
         @delete="openDeleteModal" />
     </div>
 
     <!-- Modale d'édition -->
-    <SessionsSessionEditModal :is-open="isEditModalOpen" :session="selectedSession" @close="closeEditModal"
+    <SessionsEditModal :is-open="isEditModalOpen" :session="selectedSession" @close="closeEditModal"
       @submit="handleUpdate" />
 
     <!-- Modale de suppression -->
-    <SessionsSessionDeleteModal :is-open="isDeleteModalOpen" @cancel="closeDeleteModal" @confirm="confirmDelete" />
+    <SessionsDeleteModal :is-open="isDeleteModalOpen" @cancel="closeDeleteModal" @confirm="confirmDelete" />
   </div>
 </template>

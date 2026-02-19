@@ -19,6 +19,6 @@ const handleSessionCreated = () => {
       <p class="text-mountain-500 dark:text-mountain-300 text-base m-0">Log ton ride du jour !</p>
     </div>
 
-    <SessionsSessionForm @sessionCreated="handleSessionCreated" />
+    <SessionsForm @sessionCreated="handleSessionCreated" />
   </div>
 </template>

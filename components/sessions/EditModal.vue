@@ -11,7 +11,7 @@
     </template>
 
     <template #body>
-      <SessionsSessionForm :session="session" :is-editing="true" @submit="handleSubmit" @cancel="handleClose" />
+      <SessionsForm :session="session" :is-editing="true" @submit="handleSubmit" @cancel="handleClose" />
     </template>
   </UModal>
 </template>
