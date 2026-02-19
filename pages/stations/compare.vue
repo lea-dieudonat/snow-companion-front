@@ -46,12 +46,7 @@ const stationBgColors = ['bg-ice-50 dark:bg-ice-800/20', 'bg-powder-50 dark:bg-p
             </div>
 
             <!-- Loading -->
-            <div v-if="pending" class="flex items-center justify-center min-h-[40vh]">
-                <div class="text-center">
-                    <UIcon name="i-lucide-loader-2" class="text-6xl text-ice-400 animate-spin mx-auto mb-4" />
-                    <p class="text-mountain-500 dark:text-mountain-400 text-lg">Chargement des stations...</p>
-                </div>
-            </div>
+            <AppLoader v-if="pending" size="lg" label="Chargement des stations..." />
 
             <!-- Error -->
             <UAlert v-else-if="error || !stations" color="error" variant="soft" icon="i-lucide-alert-circle"

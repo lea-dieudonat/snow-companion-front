@@ -28,12 +28,7 @@ const { data: station, error, pending } = await useLazyAsyncData(
 <template>
     <div class="min-h-screen bg-snow-50 dark:bg-mountain-900">
         <!-- Loading state -->
-        <div v-if="pending" class="flex items-center justify-center min-h-[60vh]">
-            <div class="text-center">
-                <UIcon name="i-lucide-loader-2" class="text-6xl text-ice-400 animate-spin mx-auto mb-4" />
-                <p class="text-mountain-500 dark:text-mountain-400 text-xl">Chargement de la station...</p>
-            </div>
-        </div>
+        <AppLoader v-if="pending" size="lg" label="Chargement de la station..." />
 
         <!-- Error state -->
         <div v-else-if="error || !station" class="p-4 md:p-8">

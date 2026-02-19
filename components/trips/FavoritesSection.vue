@@ -20,9 +20,7 @@ defineEmits<{
             Mes stations favorites
         </h3>
 
-        <div v-if="loadingFavorites" class="flex items-center justify-center py-10">
-            <UIcon name="i-lucide-loader-2" class="animate-spin text-ice-400 text-4xl" />
-        </div>
+        <AppLoader v-if="loadingFavorites" />
 
         <div v-else-if="favoriteStations.length === 0"
             class="border-2 border-dashed border-mountain-200 dark:border-mountain-700 rounded-2xl p-10 text-center">

@@ -75,10 +75,7 @@ defineEmits<{
                 </div>
 
                 <!-- Loading -->
-                <div v-else-if="loadingSearch" class="text-center py-12">
-                    <UIcon name="i-lucide-loader-2" class="text-6xl text-ice-400 animate-spin mx-auto mb-4" />
-                    <p class="text-mountain-500 text-lg">Recherche en cours...</p>
-                </div>
+                <AppLoader v-else-if="loadingSearch" size="lg" label="Recherche en cours..." />
 
                 <!-- Erreur -->
                 <UAlert v-else-if="searchError" color="error" variant="soft" icon="i-lucide-alert-circle"
@@ -97,7 +94,8 @@ defineEmits<{
                     <div v-else class="grid grid-cols-1 gap-4">
                         <TripsStationCard v-for="station in searchResults" :key="station.id" :station="station"
                             :is-favorite="favoriteIds.includes(station.id)" @select="$emit('selectStation', $event)"
-                            @compare="$emit('compareStation', $event)" @favorite="(s: Station) => $emit('toggleFavorite', s.id)" />
+                            @compare="$emit('compareStation', $event)"
+                            @favorite="(s: Station) => $emit('toggleFavorite', s.id)" />
                     </div>
                 </template>
             </div>

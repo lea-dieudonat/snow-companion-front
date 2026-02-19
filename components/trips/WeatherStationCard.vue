@@ -74,9 +74,7 @@ const snowColor = (cm: number) => {
         </template>
 
         <!-- Loading -->
-        <div v-if="loading" class="flex items-center justify-center py-6">
-            <UIcon name="i-lucide-loader-2" class="animate-spin text-ice-400 text-2xl" />
-        </div>
+        <AppLoader v-if="loading" size="sm" />
 
         <!-- Error -->
         <div v-else-if="error" class="text-center py-4 text-mountain-400 text-sm">
