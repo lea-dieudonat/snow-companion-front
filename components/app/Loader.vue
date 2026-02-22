@@ -1,4 +1,3 @@
-<!-- components/app/Loader.vue -->
 <script setup lang="ts">
 defineProps<{
     size?: 'sm' | 'md' | 'lg';

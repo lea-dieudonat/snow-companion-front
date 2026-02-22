@@ -64,15 +64,8 @@ defineEmits<{
             <!-- Résultats -->
             <div class="lg:col-span-2">
                 <!-- État par défaut : invite à chercher -->
-                <div v-if="!hasSearched"
-                    class="border-2 border-dashed border-mountain-200 dark:border-mountain-700 rounded-2xl p-12 text-center">
-                    <UIcon name="i-lucide-mountain-snow"
-                        class="text-5xl text-mountain-300 dark:text-mountain-600 mx-auto mb-3" />
-                    <p class="text-mountain-500 dark:text-mountain-400 font-medium">Lance une recherche pour explorer
-                        les
-                        stations</p>
-                    <p class="text-mountain-400 dark:text-mountain-500 text-sm mt-1">Nom, région, niveau, budget...</p>
-                </div>
+                <AppEmptyState v-if="!hasSearched" label="Lance une recherche pour explorer les stations"
+                    description="Nom, région, niveau, budget..." icon="i-lucide-mountain-snow" dashed />
 
                 <!-- Loading -->
                 <AppLoader v-else-if="loadingSearch" size="lg" label="Recherche en cours..." />

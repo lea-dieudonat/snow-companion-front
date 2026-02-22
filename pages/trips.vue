@@ -13,6 +13,7 @@ const {
   loadingSearch,
   searchError,
   handleSearch,
+  nextTrip,
   compareStations,
   handleCompareStation,
   handleSelectStation
@@ -27,14 +28,15 @@ onMounted(loadFavorites);
 
     <div class="max-w-7xl mx-auto space-y-10">
       <!-- SECTION 1 : Stations favorites + météo                           -->
-      <FavoritesSection :favorite-stations="favoriteStations" :loading-favorites="loadingFavorites"
+      <TripsFavoritesSection :favorite-stations="favoriteStations" :loading-favorites="loadingFavorites"
         @toggleFavorite="handleToggleFavorite" />
       <!-- SECTION 2 : Recherche de stations                                -->
-      <SearchSection :has-searched="hasSearched" :search-results="searchResults" :loading-search="loadingSearch"
-        :search-error="searchError" @search="handleSearch" @compare-station="handleCompareStation"
-        @select-station="handleSelectStation" />
+      <TripsSearchSection :favorite-ids="favoriteIds" :compare-stations="compareStations" :has-searched="hasSearched"
+        :search-results="searchResults" :loading-search="loadingSearch" :search-error="searchError"
+        @search="handleSearch" @compare-station="handleCompareStation" @select-station="handleSelectStation"
+        @toggle-favorite="handleToggleFavorite" />
       <!-- TODO: SECTION 3 : Prochain voyage (placeholder Phase 2)                -->
-      <NextTripSection />
+      <TripsNextTripSection :next-trip="nextTrip" />
     </div>
   </div>
 </template>

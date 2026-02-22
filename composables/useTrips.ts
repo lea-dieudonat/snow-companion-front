@@ -43,6 +43,9 @@ export const useTrips = () => {
     const loadingSearch = ref(false);
     const searchError = ref('');
 
+    // --- Prochain voyage ---
+    const nextTrip = ref<unknown | null>(null);
+
     // --- Handlers recherche ---
     const handleSearch = async (query: string, filters: StationFilters) => {
         if (!query && !Object.values(filters).some(v => v && (Array.isArray(v) ? v.length : true))) {
@@ -116,6 +119,9 @@ export const useTrips = () => {
         loadingSearch,
         searchError,
         handleSearch,
+
+        // --- Prochain voyage ---
+        nextTrip,
 
         // --- Comparaison ---
         compareStations,
