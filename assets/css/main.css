@@ -128,10 +128,12 @@
 .card-grid-3 { @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4; }
 
 /* ── Component utilities ───────────────────────────────────────────────── */
-.info-box    { @apply bg-snow-100 dark:bg-mountain-700/50 rounded-lg px-3 py-2; }
-.info-item   { @apply flex items-center gap-2 text-sm text-mountain-700 dark:text-mountain-300; }
-.icon-label  { @apply flex items-center gap-1 text-xs text-mountain-600 dark:text-mountain-400; }
-.range-label { @apply flex justify-between text-xs text-mountain-600 dark:text-mountain-400 mt-1; }
+.info-box      { @apply bg-snow-100 dark:bg-mountain-700/50 rounded-lg px-3 py-2; }
+.info-item     { @apply flex items-center gap-2 text-sm text-mountain-700 dark:text-mountain-300; }
+.icon-label    { @apply flex items-center gap-1 text-xs text-mountain-600 dark:text-mountain-400; }
+.range-label   { @apply flex justify-between text-xs text-mountain-600 dark:text-mountain-400 mt-1; }
+.filter-label  { @apply flex items-center gap-1.5 text-sm font-medium text-mountain-700 dark:text-mountain-300; }
+.range-input   { @apply w-full h-1.5 rounded-full appearance-none cursor-pointer bg-snow-200 dark:bg-mountain-700 accent-green-500; }
 
 /* ── Table ─────────────────────────────────────────────────────────────── */
 .table-header { @apply text-left py-3 px-4 text-sm font-semibold text-mountain-600 dark:text-mountain-400; }
