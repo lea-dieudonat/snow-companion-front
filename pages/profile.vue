@@ -3,7 +3,7 @@ definePageMeta({ layout: 'default' });
 </script>
 
 <template>
-  <div class="p-4 max-w-4xl mx-auto">
+  <div class="page-container-sm">
     <AppPageHeader title="Profil" icon="i-lucide-user" />
 
     <UCard>

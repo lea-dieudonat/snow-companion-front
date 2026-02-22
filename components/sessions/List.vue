@@ -67,7 +67,7 @@ const confirmDelete = async () => {
 <template>
   <div>
     <div class="flex justify-between items-center mb-8">
-      <h2 class="text-2xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2">
+      <h2 class="heading-card">
         <UIcon name="i-lucide-list" class="text-3xl" />
         Tes Sessions ({{ sessions?.length ?? 0 }})
       </h2>
@@ -77,12 +77,12 @@ const confirmDelete = async () => {
     <div v-if="!sessions?.length" class="text-center py-16">
       <UIcon name="i-lucide-snowflake" class="text-6xl text-mountain-300 mx-auto mb-4" />
       <p class="text-mountain-700 dark:text-mountain-200 text-lg mb-2">Aucune session pour le moment ! 🏂</p>
-      <p class="text-mountain-500 dark:text-mountain-400">Crée ta première session pour commencer à tracker tes rides.
+      <p class="text-muted">Crée ta première session pour commencer à tracker tes rides.
       </p>
     </div>
 
     <!-- Grille de sessions -->
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div v-else class="card-grid-3 gap-6">
       <SessionsCard v-for="session in sessions" :key="session.id" :session="session" @edit="handleEdit"
         @delete="openDeleteModal" />
     </div>

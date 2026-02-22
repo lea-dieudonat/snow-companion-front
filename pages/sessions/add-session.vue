@@ -13,7 +13,7 @@ const handleSessionCreated = () => {
 </script>
 
 <template>
-  <div class="p-4 md:p-8 max-w-2xl mx-auto">
+  <div class="page-container-narrow">
     <AppPageHeader title="Nouvelle Session" description="Log ton ride du jour !" icon="i-lucide-plus-circle" />
 
     <SessionsForm @sessionCreated="handleSessionCreated" />

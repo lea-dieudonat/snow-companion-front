@@ -14,17 +14,17 @@
       </div>
 
       <nav class="py-4">
-        <NuxtLink to="/profile" class="flex items-center gap-4 px-6 py-4 no-underline text-mountain-800 dark:text-mountain-200 transition-colors text-base font-medium hover:bg-ice-100/50 dark:hover:bg-ice-900/30" @click="emit('close')">
+        <NuxtLink to="/profile" class="nav-link" @click="emit('close')">
           <UIcon name="i-lucide-user" class="text-2xl w-8 text-center" />
           <span>Profil</span>
         </NuxtLink>
 
-        <NuxtLink to="/settings" class="flex items-center gap-4 px-6 py-4 no-underline text-mountain-800 dark:text-mountain-200 transition-colors text-base font-medium hover:bg-ice-100/50 dark:hover:bg-ice-900/30" @click="emit('close')">
+        <NuxtLink to="/settings" class="nav-link" @click="emit('close')">
           <UIcon name="i-lucide-settings" class="text-2xl w-8 text-center" />
           <span>Paramètres</span>
         </NuxtLink>
 
-        <NuxtLink to="/about" class="flex items-center gap-4 px-6 py-4 no-underline text-mountain-800 dark:text-mountain-200 transition-colors text-base font-medium hover:bg-ice-100/50 dark:hover:bg-ice-900/30" @click="emit('close')">
+        <NuxtLink to="/about" class="nav-link" @click="emit('close')">
           <UIcon name="i-lucide-info" class="text-2xl w-8 text-center" />
           <span>À propos</span>
         </NuxtLink>

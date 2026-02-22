@@ -107,3 +107,36 @@
     transform: translateY(0);
   }
 }
+
+/* ── Headings ──────────────────────────────────────────────────────────── */
+.heading-page       { @apply text-3xl md:text-4xl font-bold text-mountain-900 dark:text-snow-50; }
+.heading-card       { @apply text-2xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2; }
+.heading-section    { @apply text-xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2; }
+.heading-subsection { @apply text-lg font-semibold text-mountain-900 dark:text-snow-50 flex items-center gap-2; }
+
+/* ── Text ──────────────────────────────────────────────────────────────── */
+.text-body  { @apply text-mountain-700 dark:text-mountain-300; }
+.text-muted { @apply text-mountain-500 dark:text-mountain-400; }
+.text-label { @apply text-xs text-mountain-600 dark:text-mountain-400; }
+
+/* ── Page containers ───────────────────────────────────────────────────── */
+.page-container        { @apply p-4 md:p-8 max-w-7xl mx-auto; }
+.page-container-sm     { @apply p-4 max-w-4xl mx-auto; }
+.page-container-narrow { @apply p-4 md:p-8 max-w-2xl mx-auto; }
+
+/* ── Grid layouts ──────────────────────────────────────────────────────── */
+.card-grid-3 { @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4; }
+
+/* ── Component utilities ───────────────────────────────────────────────── */
+.info-box    { @apply bg-snow-100 dark:bg-mountain-700/50 rounded-lg px-3 py-2; }
+.info-item   { @apply flex items-center gap-2 text-sm text-mountain-700 dark:text-mountain-300; }
+.icon-label  { @apply flex items-center gap-1 text-xs text-mountain-600 dark:text-mountain-400; }
+.range-label { @apply flex justify-between text-xs text-mountain-600 dark:text-mountain-400 mt-1; }
+
+/* ── Table ─────────────────────────────────────────────────────────────── */
+.table-header { @apply text-left py-3 px-4 text-sm font-semibold text-mountain-600 dark:text-mountain-400; }
+.table-cell   { @apply py-3 px-4 text-sm text-mountain-600 dark:text-mountain-400; }
+
+/* ── Navigation ────────────────────────────────────────────────────────── */
+.nav-link        { @apply flex items-center gap-4 px-6 py-4 no-underline text-mountain-800 dark:text-mountain-200 transition-colors text-base font-medium hover:bg-ice-100/50 dark:hover:bg-ice-900/30; }
+.nav-link-bottom { @apply flex flex-col items-center gap-1 px-4 py-2 no-underline text-mountain-700 dark:text-mountain-300 transition-all rounded-xl min-w-17.5 hover:text-ice-600 hover:bg-ice-100/50 dark:hover:text-ice-400 dark:hover:bg-ice-900/30; }

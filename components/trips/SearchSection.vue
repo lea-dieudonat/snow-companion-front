@@ -22,7 +22,7 @@ defineEmits<{
 
 <template>
     <section>
-        <h3 class="text-xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2 mb-4">
+        <h3 class="heading-section mb-4">
             <UIcon name="i-lucide-search" class="text-ice-500" />
             Rechercher une station
         </h3>
@@ -43,7 +43,7 @@ defineEmits<{
                         </template>
                         <div class="space-y-2">
                             <div v-for="station in compareStations" :key="station.id"
-                                class="flex justify-between items-center bg-snow-100 dark:bg-mountain-700/50 rounded-lg px-3 py-2">
+                                class="flex justify-between items-center info-box">
                                 <span class="text-sm font-medium text-mountain-800 dark:text-mountain-200">{{
                                     station.name }}</span>
                                 <UButton icon="i-lucide-x" color="neutral" variant="ghost" size="xs"

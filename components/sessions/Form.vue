@@ -1,6 +1,6 @@
 <template>
   <form class="bg-snow-50 dark:bg-mountain-800 rounded-lg shadow-card p-6" @submit.prevent="handleSubmit">
-    <h2 v-if="!isEditing" class="text-2xl font-bold text-mountain-900 dark:text-snow-50 mb-6 flex items-center gap-2">
+    <h2 v-if="!isEditing" class="heading-card mb-6">
       <UIcon name="i-lucide-plus-circle" />
       New Session
     </h2>

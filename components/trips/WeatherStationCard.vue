@@ -108,7 +108,7 @@ const snowColor = (cm: number) => {
 
             <!-- % pistes ouvertes (mock) -->
             <div>
-                <div class="flex justify-between text-xs text-mountain-600 dark:text-mountain-400 mb-1">
+                <div class="text-label flex justify-between mb-1">
                     <span class="flex items-center gap-1">
                         <UIcon name="i-lucide-route" />
                         Pistes ouvertes
@@ -122,7 +122,7 @@ const snowColor = (cm: number) => {
 
             <!-- Prévisions week-end -->
             <div v-if="weekendForecast.length > 0">
-                <p class="text-xs font-semibold text-mountain-600 dark:text-mountain-400 mb-2 flex items-center gap-1">
+                <p class="icon-label font-semibold mb-2">
                     <UIcon name="i-lucide-calendar" />
                     Week-end
                 </p>

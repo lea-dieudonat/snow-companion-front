@@ -15,7 +15,7 @@ const { tableRows } = useStationComparison(stationsRef);
     <table class="w-full">
       <thead>
         <tr class="border-b border-mountain-100 dark:border-mountain-700">
-          <th class="text-left py-3 px-4 text-sm font-semibold text-mountain-600 dark:text-mountain-400 w-48">
+          <th class="table-header w-48">
             Critère
           </th>
           <th v-for="(station, i) in stations" :key="station.id"
@@ -37,7 +37,7 @@ const { tableRows } = useStationComparison(stationsRef);
           <!-- Data row -->
           <tr
             class="border-b border-mountain-50 dark:border-mountain-800 hover:bg-snow-100 dark:hover:bg-mountain-800/30 transition-colors">
-            <td class="py-3 px-4 text-sm text-mountain-600 dark:text-mountain-400 font-medium">
+            <td class="table-cell font-medium">
               {{ row.label }}
             </td>
             <td v-for="(value, colIdx) in row.values" :key="colIdx"

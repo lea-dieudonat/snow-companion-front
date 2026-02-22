@@ -14,7 +14,7 @@ defineEmits<{
 
 <template>
     <section>
-        <h3 class="text-xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2 mb-4">
+        <h3 class="heading-section mb-4">
             <UIcon name="i-lucide-heart" class="text-red-400" />
             Mes stations favorites
         </h3>
