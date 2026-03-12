@@ -1,5 +1,3 @@
-import type { Station } from '@/types/station.types';
-
 // ============================================================================
 // CONFIGURATION DES NIVEAUX
 // ============================================================================
@@ -109,7 +107,7 @@ type SlopeColorKey = keyof typeof SLOPE_COLOR_CONFIG;
  * Classes Tailwind pour les couleurs de pistes
  */
 export const slopeColors = Object.fromEntries(
-  Object.entries(SLOPE_COLOR_CONFIG).map(([key, { label, ...classes }]) => [key, classes])
+  Object.entries(SLOPE_COLOR_CONFIG).map(([key, { label: _label, ...classes }]) => [key, classes])
 ) as Record<SlopeColorKey, { bg: string; light: string; text: string }>;
 
 /**

@@ -1,7 +1,7 @@
 <template>
   <!-- Overlay -->
   <Transition name="fade">
-    <div v-if="isOpen" class="fixed inset-0 bg-mountain-900/50 z-200" @click="emit('close')"></div>
+    <div v-if="isOpen" class="fixed inset-0 bg-mountain-900/50 z-200" @click="emit('close')"/>
   </Transition>
 
   <!-- Menu Panel -->
@@ -9,8 +9,9 @@
     <div v-if="isOpen" class="fixed top-0 right-0 bottom-0 w-70 max-w-[85vw] bg-snow-50 dark:bg-mountain-900 z-300 shadow-[-2px_0_10px_rgba(0_0_0/0.1)] overflow-y-auto">
       <div class="flex justify-between items-center p-6 border-b border-snow-200 dark:border-mountain-700 bg-linear-to-br from-ice-400 to-ice-600 text-snow-50">
         <h2 class="m-0 text-2xl">Menu</h2>
-        <UButton icon="i-lucide-x" variant="ghost" size="xl" @click="emit('close')"
-          aria-label="Fermer le menu" />
+        <UButton
+icon="i-lucide-x" variant="ghost" size="xl" aria-label="Fermer le menu"
+          @click="emit('close')" />
       </div>
 
       <nav class="py-4">

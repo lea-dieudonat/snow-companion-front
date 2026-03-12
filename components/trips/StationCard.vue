@@ -1,16 +1,7 @@
 <script setup lang="ts">
 import type { Station } from '@/types/station.types';
-import {
-  getDailyPassPrice,
-  getSlopesBreakdown,
-  getSeasonDates,
-  getAccessInfo,
-  slopeColors,
-  getSlopeColorLabel,
-  getLevelBadgeClass,
-} from '@/utils/station.utils';
 
-const props = defineProps<{
+defineProps<{
   station: Station & { distance?: number };
   isFavorite?: boolean;
 }>();
@@ -37,10 +28,12 @@ const emit = defineEmits<{
           </p>
         </div>
         <div class="flex items-center gap-1">
-          <UButton :icon="isFavorite ? 'i-lucide-heart' : 'i-lucide-heart'" :color="isFavorite ? 'error' : 'neutral'"
+          <UButton
+:icon="isFavorite ? 'i-lucide-heart' : 'i-lucide-heart'" :color="isFavorite ? 'error' : 'neutral'"
             :variant="isFavorite ? 'soft' : 'ghost'" size="xs" aria-label="Ajouter aux favoris"
             @click.stop="emit('favorite', station)" />
-          <UButton icon="i-lucide-git-compare" color="neutral" variant="ghost" size="xs"
+          <UButton
+icon="i-lucide-git-compare" color="neutral" variant="ghost" size="xs"
             aria-label="Ajouter à la comparaison" @click.stop="emit('compare', station)" />
         </div>
       </div>
@@ -87,7 +80,8 @@ const emit = defineEmits<{
 
       <!-- Niveaux -->
       <div class="flex flex-wrap gap-2 pt-1">
-        <span v-for="level in station.level" :key="level"
+        <span
+v-for="level in station.level" :key="level"
           :class="['inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium', getLevelBadgeClass(level)]">
           {{ getLevelEmoji(level) }} {{ getLevelLabel(level) }}
         </span>

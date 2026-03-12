@@ -25,7 +25,7 @@ onMounted(async () => {
         loading.value = true;
         error.value = false;
         weather.value = await getWeather(props.station.latitude, props.station.longitude);
-    } catch (e) {
+    } catch {
         error.value = true;
     } finally {
         loading.value = false;
@@ -64,10 +64,12 @@ const snowColor = (cm: number) => {
                     </p>
                 </div>
                 <div class="flex items-center gap-1">
-                    <UButton :icon="isFavorite ? 'i-lucide-heart' : 'i-lucide-heart'"
+                    <UButton
+:icon="isFavorite ? 'i-lucide-heart' : 'i-lucide-heart'"
                         :color="isFavorite ? 'error' : 'neutral'" :variant="isFavorite ? 'soft' : 'ghost'" size="xs"
                         @click="emit('toggleFavorite', station.id)" />
-                    <UButton icon="i-lucide-external-link" color="neutral" variant="ghost" size="xs"
+                    <UButton
+icon="i-lucide-external-link" color="neutral" variant="ghost" size="xs"
                         :to="`/stations/${station.id}`" />
                 </div>
             </div>
@@ -127,7 +129,8 @@ const snowColor = (cm: number) => {
                     Week-end
                 </p>
                 <div class="grid grid-cols-2 gap-2">
-                    <div v-for="day in weekendForecast" :key="day.date"
+                    <div
+v-for="day in weekendForecast" :key="day.date"
                         class="bg-snow-100 dark:bg-mountain-700/50 rounded-lg p-2 text-center">
                         <p class="text-xs text-mountain-500 mb-1">
                             {{ new Date(day.date).toLocaleDateString('fr-FR', { weekday: 'short' }) }}

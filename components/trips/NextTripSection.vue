@@ -11,7 +11,8 @@ defineProps<{
             Mon prochain voyage
         </h3>
 
-        <AppEmptyState v-if="!nextTrip" label="Aucun voyage planifié"
+        <AppEmptyState
+v-if="!nextTrip" label="Aucun voyage planifié"
             description="Crée ton premier trip et visualise-le ici" icon="i-lucide-map-pinned" dashed>
             <UButton icon="i-lucide-plus" color="primary" variant="soft" disabled>
                 Créer un voyage (bientôt)

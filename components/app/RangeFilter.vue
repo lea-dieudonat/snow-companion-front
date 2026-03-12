@@ -27,8 +27,9 @@ const emit = defineEmits<{
                 <span class="text-sm font-semibold text-ice-500">{{ modelValue }}{{ valueSuffix }}</span>
             </div>
         </template>
-        <input :value="modelValue" type="range" :min="min" :max="max" :step="step" class="range-input"
-            @input="emit('update:modelValue', Number(($event.target as HTMLInputElement).value))" />
+        <input
+:value="modelValue" type="range" :min="min" :max="max" :step="step" class="range-input"
+            @input="emit('update:modelValue', Number(($event.target as HTMLInputElement).value))" >
         <div class="range-label">
             <span>{{ minLabel }}</span>
             <span>{{ maxLabel }}</span>

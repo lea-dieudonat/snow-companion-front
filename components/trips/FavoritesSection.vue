@@ -21,11 +21,13 @@ defineEmits<{
 
         <AppLoader v-if="loadingFavorites" />
 
-        <AppEmptyState v-else-if="favoriteStations.length === 0" label="Aucune station favorite pour l'instant"
+        <AppEmptyState
+v-else-if="favoriteStations.length === 0" label="Aucune station favorite pour l'instant"
             description="Recherche une station ci-dessous et ajoute-la à tes favoris ❤️" icon="i-lucide-heart" dashed />
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            <TripsWeatherStationCard v-for="station in favoriteStations" :key="station.id" :station="station"
+            <TripsWeatherStationCard
+v-for="station in favoriteStations" :key="station.id" :station="station"
                 :is-favorite="true" @toggle-favorite="$emit('toggleFavorite', $event)" />
         </div>
     </section>

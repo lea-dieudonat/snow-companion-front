@@ -29,7 +29,8 @@ const stationBgColors = ['bg-ice-50 dark:bg-ice-800/20', 'bg-powder-50 dark:bg-p
         <div class="max-w-7xl mx-auto">
 
             <!-- Back -->
-            <UButton icon="i-lucide-arrow-left" variant="ghost" color="neutral" class="mb-6"
+            <UButton
+icon="i-lucide-arrow-left" variant="ghost" color="neutral" class="mb-6"
                 @click="router.push('/trips')">
                 Retour aux stations
             </UButton>
@@ -49,7 +50,8 @@ const stationBgColors = ['bg-ice-50 dark:bg-ice-800/20', 'bg-powder-50 dark:bg-p
             <AppLoader v-if="pending" size="lg" label="Chargement des stations..." />
 
             <!-- Error -->
-            <UAlert v-else-if="error || !stations" color="error" variant="soft" icon="i-lucide-alert-circle"
+            <UAlert
+v-else-if="error || !stations" color="error" variant="soft" icon="i-lucide-alert-circle"
                 title="Impossible de charger les stations." class="max-w-xl mx-auto" />
 
             <template v-else>
@@ -57,7 +59,8 @@ const stationBgColors = ['bg-ice-50 dark:bg-ice-800/20', 'bg-powder-50 dark:bg-p
                 <!-- Station headers (noms + liens) -->
                 <div class="grid mb-8" :style="`grid-template-columns: 220px repeat(${stations.length}, 1fr)`">
                     <div /> <!-- cellule vide pour aligner avec le tableau -->
-                    <div v-for="(station, i) in stations" :key="station.id" class="text-center p-4 rounded-xl mx-1"
+                    <div
+v-for="(station, i) in stations" :key="station.id" class="text-center p-4 rounded-xl mx-1"
                         :class="stationBgColors[i]">
                         <UIcon name="i-lucide-mountain-snow" class="text-2xl mb-2" :class="stationColors[i]" />
                         <h2 class="font-bold text-lg text-mountain-900 dark:text-snow-50">{{ station.name }}</h2>
@@ -67,12 +70,14 @@ const stationBgColors = ['bg-ice-50 dark:bg-ice-800/20', 'bg-powder-50 dark:bg-p
                             {{ station.region }}
                         </p>
                         <div class="flex flex-wrap gap-1 justify-center mt-2">
-                            <UBadge v-for="level in station.level" :key="level" variant="soft" color="neutral"
+                            <UBadge
+v-for="level in station.level" :key="level" variant="soft" color="neutral"
                                 size="xs">
                                 {{ getLevelBadge(level) }}
                             </UBadge>
                         </div>
-                        <UButton :to="`/stations/${station.id}`" variant="ghost" size="xs"
+                        <UButton
+:to="`/stations/${station.id}`" variant="ghost" size="xs"
                             trailing-icon="i-lucide-external-link" class="mt-3" :class="stationColors[i]">
                             Voir la fiche
                         </UButton>

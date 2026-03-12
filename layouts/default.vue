@@ -5,17 +5,19 @@
       <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
         <h1 class="text-2xl md:text-3xl font-bold text-ice-600 dark:text-ice-400 m-0">🏂 Snow Companion</h1>
         <div class="flex items-center gap-1">
-          <UButton :icon="colorMode.preference === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'" variant="ghost"
+          <UButton
+:icon="colorMode.preference === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'" variant="ghost"
             color="primary" size="xl" aria-label="Toggle theme"
             @click="colorMode.preference = colorMode.preference === 'dark' ? 'light' : 'dark'" />
-          <UButton icon="i-lucide-menu" variant="ghost" color="primary" size="xl" aria-label="Menu"
+          <UButton
+icon="i-lucide-menu" variant="ghost" color="primary" size="xl" aria-label="Menu"
             @click="toggleMenu" />
         </div>
       </div>
     </header>
 
     <!-- Burger Menu -->
-    <NavigationBurgerMenu :isOpen="isMenuOpen" @close="toggleMenu" />
+    <NavigationBurgerMenu :is-open="isMenuOpen" @close="toggleMenu" />
 
     <!-- Contenu principal -->
     <main class="min-h-0 flex-1 overflow-y-auto pb-[calc(7.5rem+env(safe-area-inset-bottom))]">

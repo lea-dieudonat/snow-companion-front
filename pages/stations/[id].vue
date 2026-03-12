@@ -1,16 +1,4 @@
 <script setup lang="ts">
-import type { Station } from '@/types/station.types';
-import {
-    getDailyPassPrice,
-    getSlopesBreakdown,
-    getSeasonDates,
-    getAccessInfo,
-    slopeColors,
-    getSlopeColorLabel,
-    getLevelBadge,
-    getLevelBadgeClass
-} from '@/utils/station.utils';
-
 definePageMeta({ layout: 'default' });
 
 const route = useRoute();
@@ -32,7 +20,8 @@ const { data: station, error, pending } = await useLazyAsyncData(
 
         <!-- Error state -->
         <div v-else-if="error || !station" class="p-4 md:p-8">
-            <UAlert color="error" variant="soft" icon="i-lucide-alert-circle" title="Erreur"
+            <UAlert
+color="error" variant="soft" icon="i-lucide-alert-circle" title="Erreur"
                 description="Impossible de charger les informations de cette station." class="max-w-2xl mx-auto">
                 <template #actions>
                     <UButton color="error" variant="outline" @click="router.push('/trips')">
@@ -72,7 +61,8 @@ const { data: station, error, pending } = await useLazyAsyncData(
                             </div>
                         </div>
 
-                        <UButton color="neutral" variant="solid" size="lg" trailing-icon="i-lucide-calendar-plus"
+                        <UButton
+color="neutral" variant="solid" size="lg" trailing-icon="i-lucide-calendar-plus"
                             class="bg-white text-ice-600 hover:bg-snow-100 shadow-lg font-semibold">
                             Planifier un trip
                         </UButton>
@@ -156,7 +146,8 @@ const { data: station, error, pending } = await useLazyAsyncData(
                         <div class="space-y-4">
                             <div v-for="(count, color) in getSlopesBreakdown(station.slopesDetail)" :key="color">
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="font-medium capitalize"
+                                    <span
+class="font-medium capitalize"
                                         :class="slopeColors[color as keyof typeof slopeColors].text">
                                         {{ color === 'green' ? 'Vertes' : color === 'blue' ? 'Bleues' : color === 'red'
                                             ?
@@ -166,9 +157,10 @@ const { data: station, error, pending } = await useLazyAsyncData(
                                         pistes</span>
                                 </div>
                                 <div class="w-full bg-snow-200 dark:bg-mountain-700 rounded-full h-3 overflow-hidden">
-                                    <div :class="slopeColors[color as keyof typeof slopeColors].bg"
+                                    <div
+:class="slopeColors[color as keyof typeof slopeColors].bg"
                                         class="h-full rounded-full transition-all duration-500"
-                                        :style="{ width: `${(count / station.numSlopes) * 100}%` }"></div>
+                                        :style="{ width: `${(count / station.numSlopes) * 100}%` }"/>
                                 </div>
                             </div>
                         </div>
@@ -260,9 +252,11 @@ const { data: station, error, pending } = await useLazyAsyncData(
                             </h3>
                         </template>
                         <ul class="space-y-2">
-                            <li v-for="service in station.services" :key="service"
+                            <li
+v-for="service in station.services" :key="service"
                                 class="flex items-center gap-2 text-mountain-700 dark:text-mountain-300">
-                                <UIcon name="i-lucide-check-circle"
+                                <UIcon
+name="i-lucide-check-circle"
                                     class="text-forest-500 dark:text-forest-300 shrink-0" />
                                 <span class="capitalize">{{ service }}</span>
                             </li>
@@ -278,7 +272,8 @@ const { data: station, error, pending } = await useLazyAsyncData(
                             </h3>
                         </template>
                         <ul class="space-y-2">
-                            <li v-for="activity in station.activities" :key="activity"
+                            <li
+v-for="activity in station.activities" :key="activity"
                                 class="flex items-center gap-2 text-mountain-700 dark:text-mountain-300">
                                 <UIcon name="i-lucide-star" class="text-powder-500 shrink-0" />
                                 <span class="capitalize">{{ activity }}</span>
@@ -288,7 +283,8 @@ const { data: station, error, pending } = await useLazyAsyncData(
 
                     <!-- Website link -->
                     <UCard>
-                        <UButton :to="station.website" target="_blank" color="primary" block
+                        <UButton
+:to="station.website" target="_blank" color="primary" block
                             trailing-icon="i-lucide-external-link">
                             Site officiel
                         </UButton>

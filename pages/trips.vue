@@ -1,6 +1,6 @@
 <script setup lang="ts">
-definePageMeta({ layout: 'default' });
 import { useTrips } from '@/composables/useTrips';
+definePageMeta({ layout: 'default' });
 
 const {
   favoriteStations,
@@ -28,10 +28,12 @@ onMounted(loadFavorites);
 
     <div class="max-w-7xl mx-auto space-y-10">
       <!-- SECTION 1 : Stations favorites + météo                           -->
-      <TripsFavoritesSection :favorite-stations="favoriteStations" :loading-favorites="loadingFavorites"
-        @toggleFavorite="handleToggleFavorite" />
+      <TripsFavoritesSection
+:favorite-stations="favoriteStations" :loading-favorites="loadingFavorites"
+        @toggle-favorite="handleToggleFavorite" />
       <!-- SECTION 2 : Recherche de stations                                -->
-      <TripsSearchSection :favorite-ids="favoriteIds" :compare-stations="compareStations" :has-searched="hasSearched"
+      <TripsSearchSection
+:favorite-ids="favoriteIds" :compare-stations="compareStations" :has-searched="hasSearched"
         :search-results="searchResults" :loading-search="loadingSearch" :search-error="searchError"
         @search="handleSearch" @compare-station="handleCompareStation" @select-station="handleSelectStation"
         @toggle-favorite="handleToggleFavorite" />

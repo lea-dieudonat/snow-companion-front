@@ -9,7 +9,7 @@ const handleSessionCreated = () => router.push('/tracking');
         <AppPageHeader title="Nouvelle Session" description="Log ton ride du jour !" icon="i-lucide-plus-circle" />
 
         <div class="max-w-2xl mx-auto">
-            <SessionsForm @sessionCreated="handleSessionCreated" />
+            <SessionsForm @session-created="handleSessionCreated" />
         </div>
     </div>
 </template>

@@ -42,16 +42,19 @@ defineEmits<{
                             </h4>
                         </template>
                         <div class="space-y-2">
-                            <div v-for="station in compareStations" :key="station.id"
+                            <div
+v-for="station in compareStations" :key="station.id"
                                 class="flex justify-between items-center info-box">
                                 <span class="text-sm font-medium text-mountain-800 dark:text-mountain-200">{{
                                     station.name }}</span>
-                                <UButton icon="i-lucide-x" color="neutral" variant="ghost" size="xs"
+                                <UButton
+icon="i-lucide-x" color="neutral" variant="ghost" size="xs"
                                     @click="$emit('compareStation', station)" />
                             </div>
                         </div>
                         <template #footer>
-                            <UButton v-if="compareStations.length >= 2" color="primary" block
+                            <UButton
+v-if="compareStations.length >= 2" color="primary" block
                                 trailing-icon="i-lucide-arrow-right"
                                 @click="router.push(`/stations/compare?ids=${compareStations.map(s => s.id).join(',')}`)">
                                 Comparer {{ compareStations.length }} stations
@@ -64,14 +67,16 @@ defineEmits<{
             <!-- Résultats -->
             <div class="lg:col-span-2">
                 <!-- État par défaut : invite à chercher -->
-                <AppEmptyState v-if="!hasSearched" label="Lance une recherche pour explorer les stations"
+                <AppEmptyState
+v-if="!hasSearched" label="Lance une recherche pour explorer les stations"
                     description="Nom, région, niveau, budget..." icon="i-lucide-mountain-snow" dashed />
 
                 <!-- Loading -->
                 <AppLoader v-else-if="loadingSearch" size="lg" label="Recherche en cours..." />
 
                 <!-- Erreur -->
-                <UAlert v-else-if="searchError" color="error" variant="soft" icon="i-lucide-alert-circle"
+                <UAlert
+v-else-if="searchError" color="error" variant="soft" icon="i-lucide-alert-circle"
                     :title="searchError" class="mb-4" />
 
                 <!-- Résultats -->
@@ -85,7 +90,8 @@ defineEmits<{
                         <p class="text-mountain-500 text-lg">Aucune station ne correspond à tes critères</p>
                     </div>
                     <div v-else class="grid grid-cols-1 gap-4">
-                        <TripsStationCard v-for="station in searchResults" :key="station.id" :station="station"
+                        <TripsStationCard
+v-for="station in searchResults" :key="station.id" :station="station"
                             :is-favorite="favoriteIds.includes(station.id)" @select="$emit('selectStation', $event)"
                             @compare="$emit('compareStation', $event)"
                             @favorite="(s: Station) => $emit('toggleFavorite', s.id)" />

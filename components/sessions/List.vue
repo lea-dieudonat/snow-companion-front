@@ -83,12 +83,14 @@ const confirmDelete = async () => {
 
     <!-- Grille de sessions -->
     <div v-else class="card-grid-3 gap-6">
-      <SessionsCard v-for="session in sessions" :key="session.id" :session="session" @edit="handleEdit"
+      <SessionsCard
+v-for="session in sessions" :key="session.id" :session="session" @edit="handleEdit"
         @delete="openDeleteModal" />
     </div>
 
     <!-- Modale d'édition -->
-    <SessionsEditModal :is-open="isEditModalOpen" :session="selectedSession" @close="closeEditModal"
+    <SessionsEditModal
+:is-open="isEditModalOpen" :session="selectedSession" @close="closeEditModal"
       @submit="handleUpdate" />
 
     <!-- Modale de suppression -->

@@ -7,13 +7,15 @@
 
     <!-- Messages -->
     <UAlert v-if="error" color="error" variant="soft" icon="i-lucide-alert-circle" :title="error" class="mb-6" />
-    <UAlert v-if="success" color="success" variant="soft" icon="i-lucide-check-circle"
+    <UAlert
+v-if="success" color="success" variant="soft" icon="i-lucide-check-circle"
       title="Session créée avec succès !" class="mb-6" />
 
     <div class="space-y-5">
       <!-- Station -->
       <UFormField label="Station" required>
-        <UInput v-model="formData.station" icon="i-lucide-mountain" placeholder="Ex: Les 3 Vallées" size="lg"
+        <UInput
+v-model="formData.station" icon="i-lucide-mountain" placeholder="Ex: Les 3 Vallées" size="lg"
           class="w-full" required />
       </UFormField>
 
@@ -25,31 +27,36 @@
       <!-- Conditions + Rating on same row -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <UFormField label="Conditions">
-          <USelect v-model="formData.conditions" :items="CONDITION_OPTIONS"
+          <USelect
+v-model="formData.conditions" :items="CONDITION_OPTIONS"
             placeholder="-- Conditions --" size="lg" class="w-full" />
         </UFormField>
 
         <UFormField label="Note (1-5)">
-          <UInput v-model.number="formData.rating" type="number" min="1" max="5" icon="i-lucide-star" placeholder="3"
+          <UInput
+v-model.number="formData.rating" type="number" min="1" max="5" icon="i-lucide-star" placeholder="3"
             size="lg" class="w-full" />
         </UFormField>
       </div>
 
       <!-- Tricks -->
       <UFormField label="Tricks" hint="Sépare les tricks par des virgules">
-        <UInput v-model="tricksInput" icon="i-lucide-sparkles" placeholder="Ex: Ollie, 180, Grab" size="lg"
+        <UInput
+v-model="tricksInput" icon="i-lucide-sparkles" placeholder="Ex: Ollie, 180, Grab" size="lg"
           class="w-full" />
       </UFormField>
 
       <!-- Notes -->
       <UFormField label="Notes">
-        <UTextarea v-model="formData.notes" :rows="3" placeholder="Comment était la neige ? Des nouveaux tricks ?"
+        <UTextarea
+v-model="formData.notes" :rows="3" placeholder="Comment était la neige ? Des nouveaux tricks ?"
           size="lg" class="w-full" />
       </UFormField>
 
       <!-- Actions -->
       <div class="flex gap-3 pt-2">
-        <UButton v-if="isEditing" type="button" color="neutral" variant="outline" size="lg" block
+        <UButton
+v-if="isEditing" type="button" color="neutral" variant="outline" size="lg" block
           @click="$emit('cancel')">
           Annuler
         </UButton>
