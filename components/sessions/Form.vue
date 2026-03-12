@@ -76,7 +76,8 @@ const emit = defineEmits<{
   cancel: [];
 }>();
 
-const { createSession } = useSessions();
+const store = useSessionsStore();
+const { userId } = useUserStore();
 
 const isEditing = computed(() => props.isEditing && props.session);
 
@@ -88,7 +89,7 @@ const formData = ref<CreateSessionInput>({
   notes: '',
   photos: [],
   rating: undefined,
-  userId: 'cmlew0i3z000014oao6mkmk7m',
+  userId,
 });
 
 const tricksInput = ref('');
@@ -146,7 +147,7 @@ const handleSubmit = async () => {
       if (formData.value.notes) sessionData.notes = formData.value.notes;
       if (formData.value.rating) sessionData.rating = formData.value.rating;
 
-      await createSession(sessionData);
+      await store.create(sessionData);
       success.value = true;
       emit('sessionCreated');
 
@@ -158,12 +159,12 @@ const handleSubmit = async () => {
         notes: '',
         photos: [],
         rating: undefined,
-        userId: 'cmlew0i3z000014oao6mkmk7m',
+        userId,
       };
       tricksInput.value = '';
     }
-  } catch (e: any) {
-    error.value = e.message || 'Une erreur est survenue';
+  } catch (e: unknown) {
+    error.value = e instanceof Error ? e.message : 'Une erreur est survenue';
   } finally {
     loading.value = false;
   }

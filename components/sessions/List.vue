@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { Session } from '~/types/session.types';
 
-const { getAllSessions, updateSession, deleteSession } = useSessions();
+const store = useSessionsStore();
 
 const { data: sessions, refresh: fetchSessions } = await useAsyncData(
   'sessions',
-  () => getAllSessions(),
+  () => store.load().then(() => store.sessions),
   { default: () => [] as Session[] }
 );
 
@@ -26,7 +26,7 @@ const closeEditModal = () => {
 
 const handleUpdate = async ({ id, date, station, conditions, tricks, notes, rating, userId }: Session) => {
   try {
-    await updateSession(id, {
+    await store.update(id, {
       date: new Date(date).toISOString(),
       station,
       conditions: conditions || undefined,
@@ -37,7 +37,7 @@ const handleUpdate = async ({ id, date, station, conditions, tricks, notes, rati
     });
     await fetchSessions();
     closeEditModal();
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error('Error updating session:', e);
   }
 };
@@ -55,10 +55,10 @@ const closeDeleteModal = () => {
 const confirmDelete = async () => {
   if (sessionToDelete.value === null) return;
   try {
-    await deleteSession(sessionToDelete.value);
+    await store.remove(sessionToDelete.value);
     await fetchSessions();
     closeDeleteModal();
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error('Error deleting session:', e);
   }
 };
