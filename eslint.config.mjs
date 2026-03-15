@@ -5,6 +5,9 @@ export default withNuxt({
   rules: {
     // Vue
     'vue/multi-word-component-names': 'off', // pages & layouts are single-word by Nuxt convention
+    'vue/first-attribute-linebreak': 'off',
+    'vue/max-attributes-per-line': 'off',
+    'vue/html-closing-bracket-newline': 'off',
 
     // TypeScript
     '@typescript-eslint/no-explicit-any': 'error',
