@@ -26,9 +26,10 @@ npx vue-tsc --noEmit  # Type-check without building
 
 ### Key directories
 
-- [pages/](pages/) — File-based routing. `index.vue` redirects to `/trips`. Dynamic routes use `[id].vue` convention.
+- [pages/](pages/) — File-based routing. `index.vue` is the dashboard. Dynamic routes use `[id].vue` convention.
 - [components/app/](components/app/) — Shared layout primitives: `AppPageHeader`, `AppLoader`, `EmptyState`, `RangeFilter`.
-- [composables/](composables/) — API composables (`useStations`, `useWeather`) and orchestration (`useTrips`). Pages/components stay thin.
+- [composables/](composables/) — API composables (`useStations`, `useWeather`), orchestration (`useTrips`), and dashboard logic (`useDashboard`). Pages/components stay thin.
+- [middleware/](middleware/) — Route guards. `auth.ts` protects all non-public pages.
 - [stores/](stores/) — Pinia stores for shared state: `useUserStore`, `useFavoritesStore`, `useSessionsStore`.
 - [types/](types/) — TypeScript interfaces (`Station`, `Session`, `StationFilters`, etc.)
 - [utils/](utils/) — Pure helper functions (formatting, config lookups).
@@ -61,7 +62,7 @@ Shared state lives in Pinia stores (auto-imported from `stores/`):
 - `useFavoritesStore` — favorite stations, synced with the API
 - `useSessionsStore` — ride sessions, synced with the API
 
-Composables like `useStations` and `useWeather` are stateless API wrappers — they return async functions only, no refs. `useTrips` is an orchestration composable that combines `useStations` + `useFavoritesStore` for the trips page.
+Composables like `useStations` and `useWeather` are stateless API wrappers — they return async functions only, no refs. `useTrips` orchestrates `useStations` + `useFavoritesStore` for the trips page. `useDashboard` computes all dashboard stats (sessions, top station, top condition, chart data) from the sessions store.
 
 ### Styling conventions
 
