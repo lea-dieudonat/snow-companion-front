@@ -5,15 +5,13 @@ export const useTrips = () => {
     const router = useRouter();
     const { getAllStations } = useStations();
     const favorites = useFavoritesStore();
+    const tripsStore = useTripsStore();
 
     // --- Recherche ---
     const hasSearched = ref(false);
     const searchResults = ref<Station[]>([]);
     const loadingSearch = ref(false);
     const searchError = ref('');
-
-    // --- Prochain voyage ---
-    const nextTrip = ref<unknown | null>(null);
 
     const handleSearch = async (query: string, filters: StationFilters) => {
         if (!query && !Object.values(filters).some(v => v && (Array.isArray(v) ? v.length : true))) {
@@ -84,8 +82,8 @@ export const useTrips = () => {
         searchError,
         handleSearch,
 
-        // --- Prochain voyage ---
-        nextTrip,
+        // --- Prochain voyage (depuis le store trips) ---
+        tripsStore,
 
         // --- Comparaison ---
         compareStations,
