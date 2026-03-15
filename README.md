@@ -1,52 +1,37 @@
-# 🏔️ Snow Companion - Frontend
+# Snow Companion — Frontend
 
-Interface utilisateur pour Snow Companion, plateforme de tracking et planification pour riders.
+Interface de tracking et planification pour riders. Recherche de stations, suivi de sessions, météo et favoris.
 
-## 🚀 Stack
+**Stack:** Nuxt 4 · Vue 3 · TypeScript · @nuxt/ui · Tailwind CSS v4 · Pinia
 
-- **Nuxt 3** - Framework Vue.js
-- **TypeScript** - Typage statique
-- **Vue 3** - Framework UI
-- **Vite** - Build tool
+**Backend:** [snow-companion-api](https://github.com/lea-dieudonat/snow-companion-api) — REST API Node.js
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install
+npx nuxi prepare   # génère les types Nuxt
 ```
 
-## ⚙️ Configuration
-
-Crée un fichier `.env` à la racine :
+Crée un fichier `.env` :
 
 ```env
-API_BASE_URL=http://localhost:3001/api
+API_BASE=http://localhost:3001/api
 ```
 
-## 🏃 Lancer le projet
+## Développement
 
 ```bash
-# Mode développement
-npm run dev
-
-# Build production
-npm run build
-npm run preview
+npm run dev        # serveur de dev (http://localhost:3000)
+npm run lint       # ESLint
+npm run test:run   # tests unitaires
+npm run build      # build production
 ```
 
-## 📁 Structure
+## Fonctionnalités
 
-```
-components/
-├── sessions/       # Composants liés aux sessions
-composables/        # Composables réutilisables (API calls)
-pages/              # Pages (routing automatique)
-types/              # Types TypeScript
-```
-
-## 🎨 Features
-
-- ✅ Création de sessions de ride
-- 🚧 Liste des sessions (à venir)
-- 🚧 Statistiques et progression (à venir)
-- 🚧 Recherche de stations (à venir)
+- Authentification JWT (inscription / connexion)
+- Recherche et comparaison de stations de ski
+- Stations favorites avec météo
+- Suivi de sessions de ride (conditions, tricks, notes, rating)
+- Thème sombre / clair
