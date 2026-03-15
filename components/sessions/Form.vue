@@ -84,7 +84,7 @@ const emit = defineEmits<{
 }>();
 
 const store = useSessionsStore();
-const { userId } = useUserStore();
+const userStore = useUserStore();
 
 const isEditing = computed(() => props.isEditing && props.session);
 
@@ -96,7 +96,7 @@ const formData = ref<CreateSessionInput>({
   notes: '',
   photos: [],
   rating: undefined,
-  userId,
+  userId: userStore.userId!,
 });
 
 const tricksInput = ref('');
@@ -166,7 +166,7 @@ const handleSubmit = async () => {
         notes: '',
         photos: [],
         rating: undefined,
-        userId,
+        userId: userStore.userId!,
       };
       tricksInput.value = '';
     }
