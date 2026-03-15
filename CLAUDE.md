@@ -48,7 +48,8 @@ const data = await api<Station[]>('/stations')
 
 JWT-based auth. The token is stored in a cookie (`auth_token`) via `useCookie` — accessible on both client and server.
 
-- `useUserStore` ([stores/user.ts](stores/user.ts)) — holds `token`, `currentUser`, `isAuthenticated`, `userId`. Exposes `login()`, `register()`, `logout()`.
+- `useUserStore` ([stores/user.ts](stores/user.ts)) — holds `token`, `currentUser`, `isAuthenticated`, `userId`. Exposes `login()`, `register()`, `logout()`, `fetchMe()`.
+- On app init ([app.vue](app.vue)), `fetchMe()` calls `GET /auth/me` to restore `currentUser` from the cookie token. If the token is invalid, it auto-logs out and redirects to `/login`.
 - `useApi()` automatically injects `Authorization: Bearer <token>` on every request when a token is present.
 - `middleware/auth.ts` — route guard that redirects to `/login` if no token. Applied per-page via `definePageMeta({ middleware: 'auth' })`.
 - Public pages (`/login`, `/register`) use `definePageMeta({ layout: false })` to bypass the default layout.

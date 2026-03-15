@@ -2,7 +2,6 @@ import type { Station } from '@/types/station.types';
 
 export const useFavoritesStore = defineStore('favorites', () => {
   const api = useApi();
-  const userStore = useUserStore();
 
   const stations = ref<Station[]>([]);
   const ids = computed(() => stations.value.map(s => s.id));
@@ -11,19 +10,19 @@ export const useFavoritesStore = defineStore('favorites', () => {
   async function load() {
     loading.value = true;
     try {
-      stations.value = await api<Station[]>(`/users/${userStore.userId}/favorites`);
+      stations.value = await api<Station[]>('/users/favorites');
     } finally {
       loading.value = false;
     }
   }
 
   async function add(stationId: string) {
-    await api(`/users/${userStore.userId}/favorites/${stationId}`, { method: 'POST' });
+    await api(`/users/favorites/${stationId}`, { method: 'POST' });
     await load();
   }
 
   async function remove(stationId: string) {
-    await api(`/users/${userStore.userId}/favorites/${stationId}`, { method: 'DELETE' });
+    await api(`/users/favorites/${stationId}`, { method: 'DELETE' });
     stations.value = stations.value.filter(s => s.id !== stationId);
   }
 

@@ -26,10 +26,20 @@ export const useUserStore = defineStore('user', () => {
     currentUser.value = user;
   }
 
+  async function fetchMe() {
+    if (!token.value) return;
+    try {
+      const { user } = await api<{ user: AuthUser }>('/auth/me');
+      currentUser.value = user;
+    } catch {
+      logout();
+    }
+  }
+
   function logout() {
     token.value = null;
     currentUser.value = null;
   }
 
-  return { token, currentUser, isAuthenticated, userId, login, register, logout };
+  return { token, currentUser, isAuthenticated, userId, login, register, logout, fetchMe };
 });

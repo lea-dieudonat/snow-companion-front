@@ -30,8 +30,13 @@ npm run build      # build production
 
 ## Fonctionnalités
 
-- Authentification JWT (inscription / connexion)
+- Authentification JWT (inscription / connexion / restauration de session)
+- Tableau de bord avec statistiques de ride
 - Recherche et comparaison de stations de ski
 - Stations favorites avec météo
 - Suivi de sessions de ride (conditions, tricks, notes, rating)
 - Thème sombre / clair
+
+## Auth
+
+Le token JWT est stocké dans un cookie (`auth_token`). Au chargement de l'app, `GET /auth/me` est appelé pour restaurer l'utilisateur. Les routes protégées utilisent le middleware `auth` — toute route sans token redirige vers `/login`.

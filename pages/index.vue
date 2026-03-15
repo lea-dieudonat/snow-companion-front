@@ -136,7 +136,7 @@ const ratingStars = (rating: number) => '★'.repeat(rating) + '☆'.repeat(5 - 
 
       <!-- Hero / salutation -->
       <div class="mb-8">
-        <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div class="flex items-start justify-between gap-4 flex-wrap mb-4">
           <div>
             <h1 class="heading-page flex items-center gap-3 mb-2">
               <UIcon name="i-lucide-mountain-snow" class="text-ice-500" />
@@ -148,6 +148,28 @@ const ratingStars = (rating: number) => '★'.repeat(rating) + '☆'.repeat(5 - 
           </div>
           <UButton to="/sessions/add-session" color="primary" icon="i-lucide-plus" size="lg">
             Nouvelle session
+          </UButton>
+        </div>
+
+        <!-- Bannière dernière session -->
+        <div v-if="lastSession"
+          class="flex items-center gap-4 px-4 py-3 rounded-xl bg-ice-50 dark:bg-ice-900/20 border border-ice-200 dark:border-ice-800/50">
+          <UIcon name="i-lucide-history" class="text-xl text-ice-500 shrink-0" />
+          <div class="flex-1 min-w-0 flex items-center gap-2 flex-wrap">
+            <span class="text-sm text-mountain-600 dark:text-mountain-400">Dernière session :</span>
+            <span class="font-semibold text-mountain-900 dark:text-snow-50">{{ lastSession.station }}</span>
+            <span class="text-mountain-400 dark:text-mountain-500 hidden sm:inline">·</span>
+            <span class="text-sm text-muted">{{ formatDate(lastSession.date) }}</span>
+            <UBadge v-if="lastSession.conditions" color="primary" variant="soft" size="sm"
+              class="hidden md:inline-flex">
+              {{ formatCondition(lastSession.conditions) }}
+            </UBadge>
+            <span v-if="lastSession.rating" class="text-sm text-powder-500 dark:text-powder-400 hidden sm:inline">{{
+              ratingStars(lastSession.rating) }}</span>
+          </div>
+          <UButton to="/tracking" color="neutral" variant="ghost" size="xs" trailing-icon="i-lucide-arrow-right"
+            class="shrink-0">
+            Voir
           </UButton>
         </div>
       </div>
@@ -244,7 +266,7 @@ const ratingStars = (rating: number) => '★'.repeat(rating) + '☆'.repeat(5 - 
                 <p v-else class="text-muted text-sm">—</p>
                 <p v-if="topStation" class="text-xs text-muted">{{ topStation.count }} visite{{ topStation.count > 1 ?
                   's' : ''
-                  }}</p>
+                }}</p>
               </div>
             </div>
           </UCard>

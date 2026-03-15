@@ -13,6 +13,8 @@ export interface AuthUser {
   id: string;
   email: string;
   name: string;
+  favoriteStations?: string[];
+  createdAt?: string;
 }
 
 export interface AuthResponse {
