@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTrips } from '@/composables/useTrips';
-definePageMeta({ layout: 'default' });
+definePageMeta({ layout: 'default', middleware: 'auth' });
 
 const {
   favoriteStations,

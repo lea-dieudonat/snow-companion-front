@@ -50,10 +50,13 @@ const emit = defineEmits<{
   close: [];
 }>();
 
+const userStore = useUserStore();
+const router = useRouter();
+
 const handleLogout = () => {
-  // TODO: Implémenter la déconnexion
-  console.log('Déconnexion');
+  userStore.logout();
   emit('close');
+  router.push('/login');
 };
 </script>
 
