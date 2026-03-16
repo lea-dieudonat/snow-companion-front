@@ -35,7 +35,7 @@ async function handleRegister() {
 
       <UForm :state="form" class="space-y-4" @submit="handleRegister">
         <UFormField label="Prénom" name="name">
-          <UInput v-model="form.name" placeholder="Alex" autocomplete="given-name" class="w-full" />
+          <UInput v-model="form.name" placeholder="Léa" autocomplete="given-name" class="w-full" />
         </UFormField>
 
         <UFormField label="Email" name="email">
@@ -43,7 +43,8 @@ async function handleRegister() {
         </UFormField>
 
         <UFormField label="Mot de passe" name="password">
-          <UInput v-model="form.password" type="password" placeholder="••••••••" autocomplete="new-password" class="w-full" />
+          <UInput v-model="form.password" type="password" placeholder="••••••••" autocomplete="new-password"
+            class="w-full" />
         </UFormField>
 
         <UAlert v-if="error" color="error" variant="soft" :description="error" />
