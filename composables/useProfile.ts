@@ -6,9 +6,9 @@ export interface UserProfile {
   rideStyles: string[];
   freestyleLevel: string | null;
   snowPreference: string | null;
-  offPiste: boolean;
+  offPiste: boolean | null;
   level: string | null;
-  withChildren: boolean;
+  withChildren: boolean | null;
   regions: string[];
   budgetRange: string | null;
 }
@@ -19,9 +19,9 @@ export interface UpsertProfilePayload {
   rideStyles: string[];
   freestyleLevel?: string;
   snowPreference?: string;
-  offPiste: boolean;
+  offPiste?: boolean | null;
   level?: string;
-  withChildren: boolean;
+  withChildren?: boolean | null;
   regions: string[];
   budgetRange?: string;
 }

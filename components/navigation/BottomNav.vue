@@ -1,5 +1,5 @@
 <template>
-  <nav class="fixed bottom-0 left-0 right-0 z-100 flex justify-around items-center bg-snow-50 dark:bg-mountain-950 shadow-[0_-2px_10px_rgba(0_0_0/0.1)] py-3 border-t border-snow-200 dark:border-mountain-700 md:max-w-125 md:mx-auto md:left-1/2 md:-translate-x-1/2 md:rounded-t-3xl">
+  <nav class="fixed bottom-0 left-0 right-0 z-100 flex justify-around items-center bg-snow-50 dark:bg-mountain-950 shadow-[0_-2px_10px_rgba(0_0_0/0.1)] py-3 border-t border-snow-200 dark:border-mountain-700">
 
     <NuxtLink to="/" class="group nav-link-bottom" active-class="!text-ice-600 dark:!text-ice-400 !font-semibold">
       <UIcon name="i-lucide-home" class="text-2xl transition-transform group-hover:scale-110" />

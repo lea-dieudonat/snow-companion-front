@@ -66,9 +66,9 @@ const form = reactive<UpsertProfilePayload>({
   rideStyles: [],
   freestyleLevel: undefined,
   snowPreference: undefined,
-  offPiste: false,
+  offPiste: null,
   level: undefined,
-  withChildren: false,
+  withChildren: null,
   regions: [],
   budgetRange: undefined,
 });
@@ -287,22 +287,43 @@ const toggleItem = (arr: string[], value: string) => {
           </div>
         </div>
 
-        <!-- Toggles ──────────────────────────────────────────────────────── -->
-        <div class="info-box space-y-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-semibold text-mountain-800 dark:text-snow-100">Hors-piste</p>
-              <p class="text-xs text-muted">Je skie / ride hors des pistes balisées</p>
-            </div>
-            <UToggle v-model="form.offPiste" color="primary" />
+        <!-- Hors-piste ──────────────────────────────────────────────────── -->
+        <div>
+          <p class="text-sm font-semibold text-mountain-800 dark:text-snow-100 mb-1">Hors-piste</p>
+          <p class="text-xs text-muted mb-2">Je skie / ride hors des pistes balisées</p>
+          <div class="flex gap-2">
+            <button
+              v-for="opt in ([{ label: 'Oui', value: true }, { label: 'Non', value: false }, { label: 'Non renseigné', value: null }] as const)"
+              :key="String(opt.value)"
+              type="button"
+              class="px-3 py-1.5 rounded-full text-sm border transition-colors"
+              :class="form.offPiste === opt.value
+                ? 'bg-ice-500 border-ice-500 text-white'
+                : 'border-mountain-300 dark:border-mountain-600 text-mountain-700 dark:text-mountain-300 hover:border-ice-400'"
+              @click="form.offPiste = opt.value"
+            >
+              {{ opt.label }}
+            </button>
           </div>
-          <UDivider />
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-semibold text-mountain-800 dark:text-snow-100">Avec enfants</p>
-              <p class="text-xs text-muted">Je voyage avec des enfants</p>
-            </div>
-            <UToggle v-model="form.withChildren" color="primary" />
+        </div>
+
+        <!-- Avec enfants ─────────────────────────────────────────────────── -->
+        <div>
+          <p class="text-sm font-semibold text-mountain-800 dark:text-snow-100 mb-1">Avec enfants</p>
+          <p class="text-xs text-muted mb-2">Je voyage avec des enfants</p>
+          <div class="flex gap-2">
+            <button
+              v-for="opt in ([{ label: 'Oui', value: true }, { label: 'Non', value: false }, { label: 'Non renseigné', value: null }] as const)"
+              :key="String(opt.value)"
+              type="button"
+              class="px-3 py-1.5 rounded-full text-sm border transition-colors"
+              :class="form.withChildren === opt.value
+                ? 'bg-ice-500 border-ice-500 text-white'
+                : 'border-mountain-300 dark:border-mountain-600 text-mountain-700 dark:text-mountain-300 hover:border-ice-400'"
+              @click="form.withChildren = opt.value"
+            >
+              {{ opt.label }}
+            </button>
           </div>
         </div>
 
