@@ -184,7 +184,7 @@ const handleSubmit = async () => {
       const updatedSession: Session = {
         ...props.session,
         station: formData.value.station,
-        date: new Date(formData.value.date),
+        date: formData.value.date,
         conditions: formData.value.conditions || null,
         tricks,
         rating: formData.value.rating,

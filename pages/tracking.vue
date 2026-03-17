@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { Chart, registerables } from 'chart.js';
 import type { Session } from '@/types/session.types';
 import { CONDITIONS } from '@/constants/conditions';
+
+Chart.register(...registerables);
 
 definePageMeta({ layout: 'default', middleware: 'auth' });
 
@@ -16,7 +19,7 @@ const { data: sessions, refresh: fetchSessions } = await useAsyncData(
 type ChartMode = 'sessions' | 'rating';
 const chartMode = ref<ChartMode>('sessions');
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
-let chartInstance: InstanceType<Window['Chart']> | null = null;
+let chartInstance: Chart | null = null;
 
 const chartDataSessions = computed(() => {
   const now = new Date();
@@ -48,7 +51,7 @@ const chartDataRating = computed(() => {
 });
 
 const renderChart = () => {
-  if (!chartCanvas.value || !(window as unknown as { Chart?: unknown }).Chart) return;
+  if (!chartCanvas.value) return;
   chartInstance?.destroy();
 
   const isDark = document.documentElement.classList.contains('dark');
@@ -65,7 +68,7 @@ const renderChart = () => {
     ? (isDark ? 'rgba(251, 191, 36, 0.9)' : 'rgba(245, 158, 11, 0.9)')
     : (isDark ? 'rgba(147, 197, 253, 0.9)' : 'rgba(59, 130, 246, 0.9)');
 
-  chartInstance = (new window.Chart(chartCanvas.value, {
+  chartInstance = new Chart(chartCanvas.value, {
     type: isRating ? 'line' : 'bar',
     data: {
       labels: raw.map(d => d.label),
@@ -91,7 +94,7 @@ const renderChart = () => {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (ctx: { parsed: { y: number } }) => {
+            label: (ctx) => {
               const v = ctx.parsed.y;
               if (v == null) return ' Aucune donnée';
               return isRating ? ` ${v}/5` : ` ${v} session${v > 1 ? 's' : ''}`;
@@ -112,12 +115,12 @@ const renderChart = () => {
             color: labelColor,
             stepSize: isRating ? 1 : 1,
             precision: 0,
-            callback: (v: unknown) => isRating ? `${v}/5` : v,
+            callback: (v) => isRating ? `${v}/5` : (v as number),
           },
         },
       },
     },
-  }) as InstanceType<Window['Chart']>);
+  }) as unknown as Chart;
 };
 
 const loadChartJs = () => {

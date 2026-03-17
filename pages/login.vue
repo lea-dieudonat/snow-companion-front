@@ -28,7 +28,7 @@ async function handleLogin() {
       <template #header>
         <div class="text-center space-y-1">
           <UIcon name="i-lucide-mountain-snow" class="text-4xl text-ice-500" />
-          <h1 class="heading-card">Snow Companion</h1>
+          <h1 class="heading-card justify-center">Snow Companion</h1>
           <p class="text-mountain-500 text-sm">Connecte-toi à ton espace</p>
         </div>
       </template>

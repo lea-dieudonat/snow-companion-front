@@ -52,7 +52,11 @@ export const useWeather = () => {
             throw new Error('Météo indisponible');
         }
 
-        let data: Record<string, unknown>;
+        interface OpenMeteoResponse {
+            current: { temperature_2m: number; wind_speed_10m: number; weather_code: number; snowfall: number };
+            daily: { time: string[]; temperature_2m_max: number[]; temperature_2m_min: number[]; weather_code: number[]; snowfall_sum: number[] };
+        }
+        let data: OpenMeteoResponse;
         try {
             data = await response.json();
         } catch {
@@ -61,10 +65,10 @@ export const useWeather = () => {
 
         const forecast: ForecastDay[] = data.daily.time.map((date: string, index: number) => ({
             date,
-            temperature_max: Math.round(data.daily.temperature_2m_max[index]),
-            temperature_min: Math.round(data.daily.temperature_2m_min[index]),
-            weathercode: data.daily.weather_code[index],
-            snowfall: Math.round(data.daily.snowfall_sum[index]),
+            temperature_max: Math.round(data.daily.temperature_2m_max[index] ?? 0),
+            temperature_min: Math.round(data.daily.temperature_2m_min[index] ?? 0),
+            weathercode: data.daily.weather_code[index] ?? 0,
+            snowfall: Math.round(data.daily.snowfall_sum[index] ?? 0),
         }));
 
         return {

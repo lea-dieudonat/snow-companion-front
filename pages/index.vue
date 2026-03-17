@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { Chart, registerables } from 'chart.js';
 import { CONDITIONS } from '@/constants/conditions';
+
+Chart.register(...registerables);
 
 definePageMeta({ layout: 'default', middleware: 'auth' });
 
@@ -24,10 +27,10 @@ onMounted(loadData);
 
 // ── Graphique Chart.js ───────────────────────────────────────────────────────
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
-let chartInstance: InstanceType<Window['Chart']> | null = null;
+let chartInstance: Chart | null = null;
 
 const renderChart = () => {
-  if (!chartCanvas.value || !window.Chart) return;
+  if (!chartCanvas.value) return;
 
   chartInstance?.destroy();
 
@@ -36,7 +39,7 @@ const renderChart = () => {
   const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
   const labelColor = isDark ? '#94a3b8' : '#64748b';
 
-  chartInstance = (new window.Chart(chartCanvas.value, {
+  chartInstance = new Chart(chartCanvas.value, {
     type: 'bar',
     data: {
       labels: data.map(d => d.label),
@@ -61,8 +64,9 @@ const renderChart = () => {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (ctx: { parsed: { y: number } }) => {
+            label: (ctx) => {
               const v = ctx.parsed.y;
+              if (v == null) return '';
               return ` ${v} session${v > 1 ? 's' : ''}`;
             },
           },
@@ -89,22 +93,11 @@ const renderChart = () => {
         },
       },
     },
-  }) as InstanceType<Window['Chart']>);
+  });
 };
 
 watch([chartData, loading], ([, isLoading]) => {
-  if (!isLoading) {
-    nextTick(() => {
-      if (typeof window !== 'undefined' && !(window as unknown as { Chart?: unknown }).Chart) {
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js';
-        script.onload = renderChart;
-        document.head.appendChild(script);
-      } else {
-        renderChart();
-      }
-    });
-  }
+  if (!isLoading) nextTick(renderChart);
 });
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

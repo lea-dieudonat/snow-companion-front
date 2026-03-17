@@ -16,16 +16,20 @@ vi.mock('@/stores/user', () => ({
 
 const makeSession = (overrides: Partial<Session> = {}): Session => ({
   id: 'ses-1',
-  date: new Date('2024-01-15'),
+  date: '2024-01-15',
   station: 'Courchevel',
   conditions: 'powder',
   tricks: ['Ollie', '180'],
   notes: 'Super session',
   photos: [],
   rating: 5,
+  runCount: null,
+  maxSpeed: null,
+  totalDistance: null,
+  verticalDrop: null,
   userId: MOCK_USER_ID,
-  createdAt: new Date('2024-01-15'),
-  updatedAt: new Date('2024-01-15'),
+  createdAt: '2024-01-15T00:00:00.000Z',
+  updatedAt: '2024-01-15T00:00:00.000Z',
   ...overrides,
 });
 
