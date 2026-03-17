@@ -52,7 +52,12 @@ export const useWeather = () => {
             throw new Error('Météo indisponible');
         }
 
-        const data = await response.json();
+        let data: Record<string, unknown>;
+        try {
+            data = await response.json();
+        } catch {
+            throw new Error('Réponse météo invalide');
+        }
 
         const forecast: ForecastDay[] = data.daily.time.map((date: string, index: number) => ({
             date,

@@ -63,7 +63,7 @@ describe('useFavoritesStore', () => {
     const store = useFavoritesStore();
     await store.load();
 
-    expect(mockApi).toHaveBeenCalledWith(`/users/${MOCK_USER_ID}/favorites`);
+    expect(mockApi).toHaveBeenCalledWith('/users/favorites');
     expect(store.stations).toEqual([stationA, stationB]);
     expect(store.ids).toEqual(['sta-1', 'sta-2']);
   });
@@ -85,7 +85,7 @@ describe('useFavoritesStore', () => {
     await store.remove('sta-1');
 
     expect(mockApi).toHaveBeenCalledWith(
-      `/users/${MOCK_USER_ID}/favorites/sta-1`,
+      '/users/favorites/sta-1',
       { method: 'DELETE' },
     );
     expect(store.stations).toEqual([stationB]);
@@ -100,7 +100,7 @@ describe('useFavoritesStore', () => {
     await store.add('sta-1');
 
     expect(mockApi).toHaveBeenCalledWith(
-      `/users/${MOCK_USER_ID}/favorites/sta-1`,
+      '/users/favorites/sta-1',
       { method: 'POST' },
     );
     expect(store.stations).toEqual([stationA, stationB]);

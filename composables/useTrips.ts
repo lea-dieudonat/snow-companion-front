@@ -3,6 +3,7 @@ import { getDailyPassPrice } from '@/utils/station.utils';
 
 export const useTrips = () => {
     const router = useRouter();
+    const toast = useToast();
     const { getAllStations } = useStations();
     const favorites = useFavoritesStore();
     const tripsStore = useTripsStore();
@@ -63,7 +64,11 @@ export const useTrips = () => {
         } else if (compareStations.value.length < 3) {
             compareStations.value.push(station);
         } else {
-            alert('Tu peux comparer maximum 3 stations à la fois !');
+            toast.add({
+                title: 'Comparaison limitée',
+                description: 'Tu peux comparer maximum 3 stations à la fois.',
+                color: 'warning',
+            });
         }
     };
 

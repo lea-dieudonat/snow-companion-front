@@ -28,10 +28,10 @@ npx vue-tsc --noEmit  # Type-check without building
 
 - [pages/](pages/) — File-based routing. `index.vue` is the dashboard. Dynamic routes use `[id].vue` convention.
 - [components/app/](components/app/) — Shared layout primitives: `AppPageHeader`, `AppLoader`, `EmptyState`, `RangeFilter`.
-- [composables/](composables/) — API composables (`useStations`, `useWeather`), orchestration (`useTrips`), and dashboard logic (`useDashboard`). Pages/components stay thin.
+- [composables/](composables/) — API composables (`useStations`, `useWeather`), orchestration (`useTrips`), dashboard logic (`useDashboard`), and SSE agent (`useAgent`). Pages/components stay thin.
 - [middleware/](middleware/) — Route guards. `auth.ts` protects all non-public pages.
 - [stores/](stores/) — Pinia stores for shared state: `useUserStore`, `useFavoritesStore`, `useSessionsStore`.
-- [types/](types/) — TypeScript interfaces (`Station`, `Session`, `StationFilters`, etc.)
+- [types/](types/) — TypeScript interfaces (`Station`, `Session`, `StationFilters`, `AgentChatMessage`, etc.)
 - [utils/](utils/) — Pure helper functions (formatting, config lookups).
 - [constants/](constants/) — Static data (e.g. ride condition options).
 - [assets/css/main.css](assets/css/main.css) — Tailwind v4 `@theme` block with the custom Alpine color palette (Ice, Forest, Mountain, Powder, Ember, Snow) and reusable utility classes.
@@ -63,6 +63,8 @@ Shared state lives in Pinia stores (auto-imported from `stores/`):
 - `useSessionsStore` — ride sessions, synced with the API
 
 Composables like `useStations` and `useWeather` are stateless API wrappers — they return async functions only, no refs. `useTrips` orchestrates `useStations` + `useFavoritesStore` for the trips page. `useDashboard` computes all dashboard stats (sessions, top station, top condition, chart data) from the sessions store.
+
+`useAgent` manages the SSE lifecycle for the AI agent (`pages/agent.vue`): it POSTs to `/api/agent/chat` and reads the streaming response via the Fetch `ReadableStream` API (not `EventSource`, which doesn't support POST). It parses `event: token`, `event: tool_call`, `event: done`, and `event: error` events line by line.
 
 ### Styling conventions
 
