@@ -1,3 +1,4 @@
+import { useLocalStorage } from '@vueuse/core';
 import type { AgentChatMessage, AgentToolCall } from '@/types/agent.types';
 
 interface SendOptions {
@@ -13,7 +14,7 @@ export const useAgent = () => {
   const streamingText = ref('');
   const isLoading = ref(false);
   const activeTool = ref<string | null>(null);
-  const conversationId = ref<string | null>(null);
+  const conversationId = useLocalStorage<string | null>('snow_companion_conversation_id', null);
   const error = ref<string | null>(null);
 
   async function sendMessage({ content }: SendOptions): Promise<void> {
