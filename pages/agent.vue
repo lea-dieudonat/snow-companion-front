@@ -95,7 +95,7 @@ watch([messages, streamingText], () => {
       class="mb-4 shrink-0"
     >
       <template #actions>
-        <UButton color="warning" variant="soft" size="xs" to="/settings">
+        <UButton color="warning" variant="soft" size="xs" to="/profile">
           Configurer mon profil
         </UButton>
       </template>
