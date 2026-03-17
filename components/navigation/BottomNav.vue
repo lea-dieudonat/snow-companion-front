@@ -6,11 +6,11 @@
       <span class="text-xs font-medium">Accueil</span>
     </NuxtLink>
 
-    <NuxtLink to="/sessions/add-session" class="relative nav-link-bottom" active-class="!text-ice-600 dark:!text-ice-400 !font-semibold">
+    <NuxtLink to="/agent" class="relative nav-link-bottom" active-class="!text-ice-600 dark:!text-ice-400 !font-semibold">
       <div class="bg-linear-to-br from-ice-400 to-ice-600 text-snow-50 w-14 h-14 flex items-center justify-center rounded-full shadow-lg transition-all hover:scale-105 hover:-translate-y-0.5 hover:shadow-xl">
-        <UIcon name="i-lucide-plus" class="text-3xl" />
+        <UIcon name="i-lucide-sparkles" class="text-3xl" />
       </div>
-      <span class="text-xs font-medium mt-2">Session</span>
+      <span class="text-xs font-medium mt-2">Planner</span>
     </NuxtLink>
 
     <NuxtLink to="/trips" class="group nav-link-bottom" active-class="!text-ice-600 dark:!text-ice-400 !font-semibold">

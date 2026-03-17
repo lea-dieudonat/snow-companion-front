@@ -20,7 +20,7 @@
           <span>Profil</span>
         </NuxtLink>
 
-        <NuxtLink to="/about" class="nav-link" @click="emit('close')">
+<NuxtLink to="/about" class="nav-link" @click="emit('close')">
           <UIcon name="i-lucide-info" class="text-2xl w-8 text-center" />
           <span>À propos</span>
         </NuxtLink>

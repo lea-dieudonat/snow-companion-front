@@ -13,7 +13,7 @@ async function handleLogin() {
   loading.value = true;
   try {
     await userStore.login(form);
-    await router.push('/trips');
+    await router.push('/');
   } catch {
     error.value = 'Email ou mot de passe incorrect.';
   } finally {

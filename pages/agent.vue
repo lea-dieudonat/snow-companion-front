@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { marked } from 'marked';
 import { getToolLabel } from '@/types/agent.types';
+
+marked.setOptions({ breaks: true });
+
+function renderMarkdown(content: string): string {
+  return marked.parse(content) as string;
+}
 
 definePageMeta({ layout: 'default', middleware: 'auth' });
 
@@ -61,7 +68,7 @@ watch([messages, streamingText], () => {
 </script>
 
 <template>
-  <div class="page-container-sm flex flex-col" style="height: calc(100dvh - 4rem);">
+  <div class="page-container-sm flex flex-col" style="height: calc(100dvh - 12rem);">
     <!-- En-tête ────────────────────────────────────────────────────────────── -->
     <div class="flex items-center justify-between mb-4 shrink-0">
       <AppPageHeader title="Snow Planner" icon="i-lucide-sparkles" class="mb-0" />
@@ -148,7 +155,8 @@ watch([messages, streamingText], () => {
               </UBadge>
             </div>
             <!-- Texte ────────────────────────────────────────────────────────── -->
-            <p class="text-sm whitespace-pre-wrap leading-relaxed">{{ msg.content }}</p>
+            <p v-if="msg.role === 'user'" class="text-sm whitespace-pre-wrap leading-relaxed">{{ msg.content }}</p>
+            <div v-else class="prose-agent" v-html="renderMarkdown(msg.content)" />
           </div>
         </div>
 

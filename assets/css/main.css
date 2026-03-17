@@ -139,6 +139,35 @@
 .table-header { @apply text-left py-3 px-4 text-sm font-semibold text-mountain-600 dark:text-mountain-400; }
 .table-cell   { @apply py-3 px-4 text-sm text-mountain-600 dark:text-mountain-400; }
 
+/* ── Agent markdown ────────────────────────────────────────────────────── */
+.prose-agent { @apply text-sm leading-relaxed; }
+.prose-agent p   { @apply mb-2 last:mb-0; }
+.prose-agent ul  { @apply list-disc pl-4 mb-2 space-y-0.5; }
+.prose-agent ol  { @apply list-decimal pl-4 mb-2 space-y-0.5; }
+.prose-agent li  { @apply text-sm; }
+.prose-agent strong { @apply font-semibold; }
+.prose-agent em     { @apply italic; }
+.prose-agent h1, .prose-agent h2, .prose-agent h3, .prose-agent h4 {
+  @apply font-semibold mt-3 mb-1 first:mt-0;
+}
+.prose-agent h3 { @apply text-base; }
+.prose-agent h4 { @apply text-sm; }
+.prose-agent code {
+  @apply bg-mountain-200 dark:bg-mountain-700 text-mountain-800 dark:text-snow-100 rounded px-1 py-0.5 text-xs font-mono;
+}
+.prose-agent pre {
+  @apply bg-mountain-200 dark:bg-mountain-700 rounded-lg p-3 mb-2 overflow-x-auto;
+}
+.prose-agent pre code { @apply bg-transparent p-0; }
+.prose-agent blockquote {
+  @apply border-l-2 border-ice-400 pl-3 italic text-mountain-600 dark:text-mountain-300 mb-2;
+}
+.prose-agent hr { @apply border-mountain-300 dark:border-mountain-600 my-3; }
+.prose-agent table { @apply w-full text-sm mb-2 border-collapse; }
+.prose-agent th { @apply text-left font-semibold py-1.5 px-2 border-b border-mountain-300 dark:border-mountain-600; }
+.prose-agent td { @apply py-1.5 px-2 border-b border-mountain-200 dark:border-mountain-700; }
+.prose-agent a  { @apply text-ice-600 dark:text-ice-400 underline underline-offset-2; }
+
 /* ── Navigation ────────────────────────────────────────────────────────── */
 .nav-link        { @apply flex items-center gap-4 px-6 py-4 no-underline text-mountain-800 dark:text-mountain-200 transition-colors text-base font-medium hover:bg-ice-100/50 dark:hover:bg-ice-900/30; }
 .nav-link-bottom { @apply flex flex-col items-center gap-1 px-4 py-2 no-underline text-mountain-700 dark:text-mountain-300 transition-all rounded-xl min-w-17.5 hover:text-ice-600 hover:bg-ice-100/50 dark:hover:text-ice-400 dark:hover:bg-ice-900/30; }
