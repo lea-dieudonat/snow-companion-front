@@ -17,9 +17,11 @@ export const useSessionsStore = defineStore('sessions', () => {
   }
 
   async function create(input: Omit<CreateSessionInput, 'userId'>) {
+    const { userId } = userStore;
+    if (!userId) throw new Error('Utilisateur non authentifié');
     const { session } = await api<{ session: Session }>('/sessions', {
       method: 'POST',
-      body: { ...input, userId: userStore.userId },
+      body: { ...input, userId },
     });
     sessions.value.push(session);
     return session;

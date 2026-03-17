@@ -30,8 +30,8 @@ describe('getLevelEmoji', () => {
   it('retourne les bons emojis', () => {
     expect(getLevelEmoji('beginner')).toBe('🟢');
     expect(getLevelEmoji('intermediate')).toBe('🔵');
-    expect(getLevelEmoji('advanced')).toBe('🟠');
-    expect(getLevelEmoji('expert')).toBe('🔴');
+    expect(getLevelEmoji('advanced')).toBe('🔴');
+    expect(getLevelEmoji('expert')).toBe('🟠');
   });
 
   it('retourne une chaîne vide pour un niveau inconnu', () => {
@@ -52,7 +52,7 @@ describe('getLevelBadge', () => {
 describe('getLevelBadgeClass', () => {
   it('retourne des classes Tailwind pour les niveaux connus', () => {
     expect(getLevelBadgeClass('beginner')).toContain('bg-forest');
-    expect(getLevelBadgeClass('expert')).toContain('bg-ember');
+    expect(getLevelBadgeClass('expert')).toContain('bg-powder');
   });
 
   it('retourne la classe par défaut pour un niveau inconnu', () => {

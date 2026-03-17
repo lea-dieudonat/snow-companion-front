@@ -16,7 +16,7 @@ const { data: sessions, refresh: fetchSessions } = await useAsyncData(
 type ChartMode = 'sessions' | 'rating';
 const chartMode = ref<ChartMode>('sessions');
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
-let chartInstance: unknown = null;
+let chartInstance: InstanceType<Window['Chart']> | null = null;
 
 const chartDataSessions = computed(() => {
   const now = new Date();
@@ -49,7 +49,7 @@ const chartDataRating = computed(() => {
 
 const renderChart = () => {
   if (!chartCanvas.value || !(window as unknown as { Chart?: unknown }).Chart) return;
-  if (chartInstance) (chartInstance as { destroy: () => void }).destroy();
+  chartInstance?.destroy();
 
   const isDark = document.documentElement.classList.contains('dark');
   const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
@@ -65,7 +65,7 @@ const renderChart = () => {
     ? (isDark ? 'rgba(251, 191, 36, 0.9)' : 'rgba(245, 158, 11, 0.9)')
     : (isDark ? 'rgba(147, 197, 253, 0.9)' : 'rgba(59, 130, 246, 0.9)');
 
-  chartInstance = new (window as unknown as { Chart: new (...args: unknown[]) => unknown }).Chart(chartCanvas.value, {
+  chartInstance = (new window.Chart(chartCanvas.value, {
     type: isRating ? 'line' : 'bar',
     data: {
       labels: raw.map(d => d.label),
@@ -117,7 +117,7 @@ const renderChart = () => {
         },
       },
     },
-  });
+  }) as InstanceType<Window['Chart']>);
 };
 
 const loadChartJs = () => {

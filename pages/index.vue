@@ -24,22 +24,19 @@ onMounted(loadData);
 
 // ── Graphique Chart.js ───────────────────────────────────────────────────────
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
-let chartInstance: unknown = null;
+let chartInstance: InstanceType<Window['Chart']> | null = null;
 
 const renderChart = () => {
   if (!chartCanvas.value || !window.Chart) return;
 
-  // Détruire l'instance précédente si elle existe
-  if (chartInstance) {
-    (chartInstance as { destroy: () => void }).destroy();
-  }
+  chartInstance?.destroy();
 
   const data = chartData.value;
   const isDark = document.documentElement.classList.contains('dark');
   const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
   const labelColor = isDark ? '#94a3b8' : '#64748b';
 
-  chartInstance = new (window as unknown as { Chart: new (...args: unknown[]) => unknown }).Chart(chartCanvas.value, {
+  chartInstance = (new window.Chart(chartCanvas.value, {
     type: 'bar',
     data: {
       labels: data.map(d => d.label),
@@ -92,7 +89,7 @@ const renderChart = () => {
         },
       },
     },
-  });
+  }) as InstanceType<Window['Chart']>);
 };
 
 watch([chartData, loading], ([, isLoading]) => {

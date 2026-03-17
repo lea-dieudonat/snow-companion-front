@@ -1,3 +1,5 @@
+import type { SlopesDetail, StationPasses, StationAccess, StationSeason } from '@/types/station.types';
+
 // ============================================================================
 // CONFIGURATION DES NIVEAUX
 // ============================================================================
@@ -18,13 +20,13 @@ const LEVEL_CONFIG = {
   },
   advanced: {
     label: 'Avancé',
-    emoji: '🟠',
-    classes: 'bg-powder-100 text-powder-700 dark:bg-powder-900/30 dark:text-powder-300',
+    emoji: '🔴',
+    classes: 'bg-ember-200 text-ember-900 dark:bg-ember-800/30 dark:text-ember-200',
   },
   expert: {
     label: 'Expert',
-    emoji: '🔴',
-    classes: 'bg-ember-200 text-ember-900 dark:bg-ember-800/30 dark:text-ember-200',
+    emoji: '🟠',
+    classes: 'bg-powder-100 text-powder-700 dark:bg-powder-900/30 dark:text-powder-300',
   },
 } as const;
 
@@ -124,15 +126,14 @@ export const getSlopeColorLabel = (color: string): string => {
 /**
  * Récupère le prix du forfait journée adulte
  */
-export const getDailyPassPrice = (passes: Record<string, unknown>): number | null => {
-  const fullDay = passes?.full_day as { adult?: number } | undefined;
-  return fullDay?.adult ?? null;
+export const getDailyPassPrice = (passes: StationPasses): number | null => {
+  return passes?.full_day?.adult ?? null;
 };
 
 /**
  * Formate le prix du forfait journée
  */
-export const formatDailyPassPrice = (passes: Record<string, unknown>): string => {
+export const formatDailyPassPrice = (passes: StationPasses): string => {
   const price = getDailyPassPrice(passes);
   return typeof price === 'number' ? `${price}€` : 'N/A';
 };
@@ -140,21 +141,20 @@ export const formatDailyPassPrice = (passes: Record<string, unknown>): string =>
 /**
  * Récupère la répartition des pistes par couleur
  */
-export const getSlopesBreakdown = (slopesDetail: Record<string, unknown>) => {
+export const getSlopesBreakdown = (slopesDetail: SlopesDetail) => {
   return {
-    green: (slopesDetail?.green as number) ?? 0,
-    blue: (slopesDetail?.blue as number) ?? 0,
-    red: (slopesDetail?.red as number) ?? 0,
-    black: (slopesDetail?.black as number) ?? 0,
+    green: slopesDetail?.green ?? 0,
+    blue: slopesDetail?.blue ?? 0,
+    red: slopesDetail?.red ?? 0,
+    black: slopesDetail?.black ?? 0,
   };
 };
 
 /**
  * Récupère les dates de saison formatées
  */
-export const getSeasonDates = (season: Record<string, unknown>): string => {
-  const start = season?.start as string | undefined;
-  const end = season?.end as string | undefined;
+export const getSeasonDates = (season: StationSeason): string => {
+  const { start, end } = season ?? {};
 
   if (!start || !end) return 'Non disponible';
 
@@ -170,12 +170,8 @@ export const getSeasonDates = (season: Record<string, unknown>): string => {
 /**
  * Récupère les informations d'accès
  */
-export const getAccessInfo = (access: Record<string, unknown>) => {
-  const airport = access?.nearest_airport as string | undefined;
-  const airportDist = access?.distance_from_airport_km as number | undefined;
-  const train = access?.nearest_train_station as string | undefined;
-  const parking = access?.parking as boolean | undefined;
-  const trainDist = access?.distance_from_train as number | undefined;
+export const getAccessInfo = (access: StationAccess) => {
+  const { nearest_airport: airport, distance_from_airport_km: airportDist, nearest_train_station: train, parking, distance_from_train: trainDist } = access ?? {};
 
   return {
     airport: airport ? `${airport}${airportDist ? ` (${airportDist} km)` : ''}` : 'Non disponible',
