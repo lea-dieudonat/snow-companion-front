@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const emit = defineEmits<{ openMenu: [] }>();
+</script>
+
 <template>
   <nav class="fixed bottom-0 left-0 right-0 z-100 flex justify-around items-center bg-snow-50 dark:bg-mountain-950 shadow-[0_-2px_10px_rgba(0_0_0/0.1)] py-3 border-t border-snow-200 dark:border-mountain-700">
 
@@ -17,6 +21,11 @@
       <UIcon name="i-lucide-map" class="text-2xl transition-transform group-hover:scale-110" />
       <span class="text-xs font-medium">Trips</span>
     </NuxtLink>
+
+    <button class="group nav-link-bottom" @click="emit('openMenu')">
+      <UIcon name="i-lucide-user-circle" class="text-2xl transition-transform group-hover:scale-110" />
+      <span class="text-xs font-medium">Profil</span>
+    </button>
 
   </nav>
 </template>

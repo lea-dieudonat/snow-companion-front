@@ -70,7 +70,7 @@ watch([messages, streamingText], () => {
 </script>
 
 <template>
-  <div class="page-container-sm flex flex-col" style="height: calc(100dvh - 12rem);">
+  <div class="page-container-sm flex flex-col" style="height: calc(100dvh - 8.5rem);">
     <!-- En-tête ────────────────────────────────────────────────────────────── -->
     <div v-if="messages.length > 0" class="flex justify-end mb-4 shrink-0">
       <UButton
@@ -107,7 +107,7 @@ watch([messages, streamingText], () => {
       class="flex-1 overflow-y-auto space-y-4 pb-2 pr-1"
     >
       <!-- Suggestions (si aucun message) -->
-      <div v-if="messages.length === 0 && !isLoading" class="flex flex-col items-center justify-center h-full gap-6 text-center">
+      <div v-if="messages.length === 0 && !isLoading" class="flex flex-col items-center min-h-full justify-center gap-6 text-center py-8">
         <div>
           <div class="w-16 h-16 rounded-2xl bg-ice-100 dark:bg-ice-900/40 flex items-center justify-center mx-auto mb-3">
             <UIcon name="i-lucide-sparkles" class="text-3xl text-ice-500" />

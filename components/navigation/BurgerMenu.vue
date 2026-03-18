@@ -4,6 +4,8 @@ import type { UpsertProfilePayload } from '@/composables/useProfile';
 const props = defineProps<{ isOpen: boolean }>();
 const emit = defineEmits<{ close: [] }>();
 
+const colorMode = useColorMode();
+
 const userStore = useUserStore();
 const sessionsStore = useSessionsStore();
 const favoritesStore = useFavoritesStore();
@@ -69,8 +71,16 @@ const handleLogout = () => {
       v-if="isOpen"
       class="fixed top-0 right-0 bottom-0 w-[min(92vw,440px)] bg-snow-50 dark:bg-mountain-900 z-300 shadow-[-2px_0_10px_rgba(0,0,0,0.15)] flex flex-col"
     >
-      <!-- Close button -->
-      <div class="flex justify-end p-3 shrink-0">
+      <!-- Header du panel -->
+      <div class="flex justify-between items-center p-3 shrink-0">
+        <UButton
+          :icon="colorMode.preference === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'"
+          variant="ghost"
+          color="neutral"
+          size="lg"
+          aria-label="Changer le thème"
+          @click="colorMode.preference = colorMode.preference === 'dark' ? 'light' : 'dark'"
+        />
         <UButton icon="i-lucide-x" variant="ghost" color="neutral" size="lg" aria-label="Fermer" @click="emit('close')" />
       </div>
 
