@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 import { getToolLabel } from '@/types/agent.types';
 
 marked.setOptions({ breaks: true });
 
 function renderMarkdown(content: string): string {
-  return marked.parse(content) as string;
+  const raw = marked.parse(content) as string;
+  return import.meta.client ? DOMPurify.sanitize(raw) : raw;
 }
 
 definePageMeta({ layout: 'default', middleware: 'auth' });
@@ -70,10 +72,8 @@ watch([messages, streamingText], () => {
 <template>
   <div class="page-container-sm flex flex-col" style="height: calc(100dvh - 12rem);">
     <!-- En-tête ────────────────────────────────────────────────────────────── -->
-    <div class="flex items-center justify-between mb-4 shrink-0">
-      <AppPageHeader title="Snow Planner" icon="i-lucide-sparkles" class="mb-0" />
+    <div v-if="messages.length > 0" class="flex justify-end mb-4 shrink-0">
       <UButton
-        v-if="messages.length > 0"
         color="neutral"
         variant="ghost"
         icon="i-lucide-rotate-ccw"
