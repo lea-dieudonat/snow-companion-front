@@ -34,8 +34,8 @@ const buildRadarData = () => {
     const mm = {
         altMax: minMax(s.map(x => x.altitudeMax)),
         km: minMax(s.map(x => x.kmSlopes)),
-        slopes: minMax(s.map(x => x.numSlopes)),
-        lifts: minMax(s.map(x => x.numLifts)),
+        slopes: minMax(s.map(x => x.liveData?.pistesTotal ?? 0)),
+        lifts: minMax(s.map(x => x.liveData?.liftsTotal ?? 0)),
         cannons: minMax(s.map(x => x.snowCannons)),
         price: minMax(s.map(x => getDailyPassPrice(x.passes) ?? 0)),
         services: minMax(s.map(x => x.services?.length ?? 0)),
@@ -57,8 +57,8 @@ const buildRadarData = () => {
                 data: [
                     normalize(station.altitudeMax, mm.altMax.min, mm.altMax.max),
                     normalize(station.kmSlopes, mm.km.min, mm.km.max),
-                    normalize(station.numSlopes, mm.slopes.min, mm.slopes.max),
-                    normalize(station.numLifts, mm.lifts.min, mm.lifts.max),
+                    normalize(station.liveData?.pistesTotal ?? 0, mm.slopes.min, mm.slopes.max),
+                    normalize(station.liveData?.liftsTotal ?? 0, mm.lifts.min, mm.lifts.max),
                     normalize(station.snowCannons, mm.cannons.min, mm.cannons.max),
                     priceScore,
                     normalize(station.services?.length ?? 0, mm.services.min, mm.services.max),

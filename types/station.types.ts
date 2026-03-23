@@ -30,29 +30,41 @@ export interface StationSeason {
   end?: string;
 }
 
+export interface StationLiveData {
+  liftsOpen: number | null;
+  liftsTotal: number | null;
+  pistesOpen: number | null;
+  pistesTotal: number | null;
+  baseSnowDepthCm: number | null;
+  summitSnowDepthCm: number | null;
+  avalancheRisk: number | null;
+  updatedAt: string;
+}
+
 export interface Station {
   id: string;
   name: string;
   region: string;
-  altitudeMin: number;
-  altitudeMax: number;
+  altitudeMin: number | null;
+  altitudeMax: number | null;
   latitude: number;
   longitude: number;
-  numSlopes: number;
-  numLifts: number;
-  kmSlopes: number;
-  slopesDetail: SlopesDetail;
-  snowCannons: number;
-  skiArea: string;
+  kmSlopes: number | null;
+  slopesDetail: SlopesDetail | null;
+  snowCannons: number | null;
+  snowPark: unknown | null;
+  skiArea: string | null;
   level: string[];
-  passes: StationPasses;
-  avgAccommodationPrice: number;
-  website: string;
-  description: string;
-  access: StationAccess;
-  season: StationSeason;
+  passes: StationPasses | null;
+  avgAccommodationPrice: number | null;
+  website: string | null;
+  description: string | null;
+  access: StationAccess | null;
+  season: StationSeason | null;
   services: string[];
   activities: string[];
+  openPisteCovered: boolean;
+  liveData: StationLiveData | null;
   createdAt: string;
   updatedAt: string;
   trips: unknown[];

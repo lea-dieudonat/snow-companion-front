@@ -126,14 +126,14 @@ export const getSlopeColorLabel = (color: string): string => {
 /**
  * Récupère le prix du forfait journée adulte
  */
-export const getDailyPassPrice = (passes: StationPasses): number | null => {
+export const getDailyPassPrice = (passes: StationPasses | null): number | null => {
   return passes?.full_day?.adult ?? null;
 };
 
 /**
  * Formate le prix du forfait journée
  */
-export const formatDailyPassPrice = (passes: StationPasses): string => {
+export const formatDailyPassPrice = (passes: StationPasses | null): string => {
   const price = getDailyPassPrice(passes);
   return typeof price === 'number' ? `${price}€` : 'N/A';
 };
@@ -141,7 +141,7 @@ export const formatDailyPassPrice = (passes: StationPasses): string => {
 /**
  * Récupère la répartition des pistes par couleur
  */
-export const getSlopesBreakdown = (slopesDetail: SlopesDetail) => {
+export const getSlopesBreakdown = (slopesDetail: SlopesDetail | null) => {
   return {
     green: slopesDetail?.green ?? 0,
     blue: slopesDetail?.blue ?? 0,
@@ -153,7 +153,7 @@ export const getSlopesBreakdown = (slopesDetail: SlopesDetail) => {
 /**
  * Récupère les dates de saison formatées
  */
-export const getSeasonDates = (season: StationSeason): string => {
+export const getSeasonDates = (season: StationSeason | null): string => {
   const { start, end } = season ?? {};
 
   if (!start || !end) return 'Non disponible';
@@ -170,7 +170,7 @@ export const getSeasonDates = (season: StationSeason): string => {
 /**
  * Récupère les informations d'accès
  */
-export const getAccessInfo = (access: StationAccess) => {
+export const getAccessInfo = (access: StationAccess | null) => {
   const { nearest_airport: airport, distance_from_airport_km: airportDist, nearest_train_station: train, parking, distance_from_train: trainDist } = access ?? {};
 
   return {

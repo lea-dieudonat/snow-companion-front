@@ -11,6 +11,29 @@ const { data: station, error, pending } = await useLazyAsyncData(
     `station-${stationId}`,
     () => getStationById(stationId)
 );
+
+const totalSlopesFromDetail = computed(() => {
+    const d = station.value?.slopesDetail;
+    return (d?.green ?? 0) + (d?.blue ?? 0) + (d?.red ?? 0) + (d?.black ?? 0) || 1;
+});
+
+const avalancheRiskLabel = (risk: number | null): string => {
+    const labels: Record<number, string> = { 1: 'Faible', 2: 'Limité', 3: 'Marqué', 4: 'Fort', 5: 'Très fort' };
+    return risk ? (labels[risk] ?? '—') : '—';
+};
+
+const avalancheRiskColor = (risk: number | null): 'success' | 'warning' | 'error' | 'neutral' => {
+    if (!risk) return 'neutral';
+    if (risk <= 2) return 'success';
+    if (risk === 3) return 'warning';
+    return 'error';
+};
+
+const liveUpdatedAt = computed(() => {
+    const d = station.value?.liveData?.updatedAt;
+    if (!d) return null;
+    return new Date(d).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+});
 </script>
 
 <template>
@@ -52,12 +75,11 @@ color="error" variant="soft" icon="i-lucide-alert-circle" title="Erreur"
                             </h1>
                             <p class="text-xl text-ice-100 flex items-center gap-2 mb-4">
                                 <UIcon name="i-lucide-map-pin" />
-                                {{ station.region }} · {{ station.skiArea }}
+                                {{ station.region }}{{ station.skiArea ? ` · ${station.skiArea}` : '' }}
                             </p>
-                            <div class="flex items-center gap-2 text-ice-50">
+                            <div v-if="station.altitudeMin || station.altitudeMax" class="flex items-center gap-2 text-ice-50">
                                 <UIcon name="i-lucide-mountain" />
-                                <span class="text-lg font-medium">{{ station.altitudeMin }}m - {{ station.altitudeMax
-                                }}m</span>
+                                <span class="text-lg font-medium">{{ station.altitudeMin ?? '?' }}m - {{ station.altitudeMax ?? '?' }}m</span>
                             </div>
                         </div>
 
@@ -92,7 +114,7 @@ color="neutral" variant="solid" size="lg" trailing-icon="i-lucide-calendar-plus"
                                 <UIcon name="i-lucide-bed" class="text-3xl text-powder-500 mx-auto mb-2" />
                                 <p class="text-sm text-mountain-600 dark:text-mountain-400 mb-1">Hébergement</p>
                                 <p class="text-2xl font-bold text-mountain-900 dark:text-snow-50">
-                                    {{ station.avgAccommodationPrice }}€
+                                    {{ station.avgAccommodationPrice ? `${station.avgAccommodationPrice}€` : 'N/A' }}
                                 </p>
                                 <p class="text-xs text-mountain-500 dark:text-mountain-400">/nuit</p>
                             </div>
@@ -103,10 +125,12 @@ color="neutral" variant="solid" size="lg" trailing-icon="i-lucide-calendar-plus"
                                 <UIcon name="i-lucide-route" class="text-3xl text-forest-400 mx-auto mb-2" />
                                 <p class="text-sm text-mountain-600 dark:text-mountain-400 mb-1">Pistes</p>
                                 <p class="text-2xl font-bold text-mountain-900 dark:text-snow-50">
-                                    {{ station.kmSlopes }} km
+                                    {{ station.kmSlopes ?? '—' }} km
                                 </p>
-                                <p class="text-xs text-mountain-500 dark:text-mountain-400">{{ station.numSlopes }}
-                                    pistes</p>
+                                <p v-if="station.liveData?.pistesOpen != null || station.liveData?.pistesTotal != null"
+                                    class="text-xs text-mountain-500 dark:text-mountain-400">
+                                    {{ station.liveData?.pistesOpen ?? '—' }}/{{ station.liveData?.pistesTotal ?? '—' }} ouvertes
+                                </p>
                             </div>
                         </UCard>
 
@@ -115,14 +139,18 @@ color="neutral" variant="solid" size="lg" trailing-icon="i-lucide-calendar-plus"
                                 <UIcon name="i-lucide-cable-car" class="text-3xl text-mountain-500 mx-auto mb-2" />
                                 <p class="text-sm text-mountain-600 dark:text-mountain-400 mb-1">Remontées</p>
                                 <p class="text-2xl font-bold text-mountain-900 dark:text-snow-50">
-                                    {{ station.numLifts }}
+                                    {{ station.liveData?.liftsOpen ?? '—' }}
+                                </p>
+                                <p v-if="station.liveData?.liftsTotal != null"
+                                    class="text-xs text-mountain-500 dark:text-mountain-400">
+                                    sur {{ station.liveData.liftsTotal }}
                                 </p>
                             </div>
                         </UCard>
                     </div>
 
                     <!-- Description -->
-                    <UCard>
+                    <UCard v-if="station.description">
                         <template #header>
                             <h3 class="text-xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2">
                                 <UIcon name="i-lucide-info" />
@@ -135,7 +163,7 @@ color="neutral" variant="solid" size="lg" trailing-icon="i-lucide-calendar-plus"
                     </UCard>
 
                     <!-- Slopes breakdown -->
-                    <UCard>
+                    <UCard v-if="station.slopesDetail">
                         <template #header>
                             <h3 class="text-xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2">
                                 <UIcon name="i-lucide-activity" />
@@ -160,14 +188,14 @@ class="font-medium capitalize"
                                     <div
 :class="slopeColors[color as keyof typeof slopeColors].bg"
                                         class="h-full rounded-full transition-all duration-500"
-                                        :style="{ width: `${(count / station.numSlopes) * 100}%` }"/>
+                                        :style="{ width: `${(count / totalSlopesFromDetail) * 100}%` }"/>
                                 </div>
                             </div>
                         </div>
                     </UCard>
 
                     <!-- Access -->
-                    <UCard>
+                    <UCard v-if="station.access">
                         <template #header>
                             <h3 class="text-xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2">
                                 <UIcon name="i-lucide-navigation" />
@@ -215,8 +243,71 @@ class="font-medium capitalize"
 
                 <!-- Right column - Sidebar -->
                 <div class="lg:col-span-1 space-y-6">
+                    <!-- Live conditions -->
+                    <UCard v-if="station.liveData">
+                        <template #header>
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2">
+                                    <UIcon name="i-lucide-radio" class="text-forest-500" />
+                                    Conditions en direct
+                                </h3>
+                                <span v-if="liveUpdatedAt" class="text-xs text-mountain-400">{{ liveUpdatedAt }}</span>
+                            </div>
+                        </template>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-mountain-600 dark:text-mountain-400 flex items-center gap-1">
+                                    <UIcon name="i-lucide-cable-car" />
+                                    Remontées ouvertes
+                                </span>
+                                <span class="font-semibold text-mountain-900 dark:text-snow-50">
+                                    {{ station.liveData.liftsOpen ?? '—' }}
+                                    <span v-if="station.liveData.liftsTotal" class="text-mountain-400 font-normal">/ {{ station.liveData.liftsTotal }}</span>
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-mountain-600 dark:text-mountain-400 flex items-center gap-1">
+                                    <UIcon name="i-lucide-route" />
+                                    Pistes ouvertes
+                                </span>
+                                <span class="font-semibold text-mountain-900 dark:text-snow-50">
+                                    {{ station.liveData.pistesOpen ?? '—' }}
+                                    <span v-if="station.liveData.pistesTotal" class="text-mountain-400 font-normal">/ {{ station.liveData.pistesTotal }}</span>
+                                </span>
+                            </div>
+                            <UDivider />
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-mountain-600 dark:text-mountain-400 flex items-center gap-1">
+                                    <UIcon name="i-lucide-snowflake" />
+                                    Neige en bas
+                                </span>
+                                <span class="font-semibold text-mountain-900 dark:text-snow-50">
+                                    {{ station.liveData.baseSnowDepthCm != null ? `${station.liveData.baseSnowDepthCm} cm` : '—' }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-mountain-600 dark:text-mountain-400 flex items-center gap-1">
+                                    <UIcon name="i-lucide-snowflake" />
+                                    Neige en haut
+                                </span>
+                                <span class="font-semibold text-mountain-900 dark:text-snow-50">
+                                    {{ station.liveData.summitSnowDepthCm != null ? `${station.liveData.summitSnowDepthCm} cm` : '—' }}
+                                </span>
+                            </div>
+                            <div v-if="station.liveData.avalancheRisk != null" class="flex justify-between items-center">
+                                <span class="text-sm text-mountain-600 dark:text-mountain-400 flex items-center gap-1">
+                                    <UIcon name="i-lucide-triangle-alert" />
+                                    Risque avalanche
+                                </span>
+                                <UBadge :color="avalancheRiskColor(station.liveData.avalancheRisk)" variant="soft">
+                                    {{ station.liveData.avalancheRisk }} — {{ avalancheRiskLabel(station.liveData.avalancheRisk) }}
+                                </UBadge>
+                            </div>
+                        </div>
+                    </UCard>
+
                     <!-- Season -->
-                    <UCard>
+                    <UCard v-if="station.season">
                         <template #header>
                             <h3 class="text-lg font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2">
                                 <UIcon name="i-lucide-calendar" />
@@ -282,7 +373,7 @@ v-for="activity in station.activities" :key="activity"
                     </UCard>
 
                     <!-- Website link -->
-                    <UCard>
+                    <UCard v-if="station.website">
                         <UButton
 :to="station.website" target="_blank" color="primary" block
                             trailing-icon="i-lucide-external-link">

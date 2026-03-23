@@ -59,11 +59,11 @@ export const useStationComparison = (stations: Ref<Station[] | null>) => {
       { section: null, label: 'Km de pistes', values: s.map(x => `${x.kmSlopes} km`), winner: getWinnerIndex(s.map(x => x.kmSlopes), 'max') },
       { section: null, label: 'Ski area', values: s.map(x => x.skiArea || '—'), winner: -1 },
       // --- Pistes ---
-      { section: 'Pistes', label: 'Nombre total', values: s.map(x => `${x.numSlopes}`), winner: getWinnerIndex(s.map(x => x.numSlopes), 'max') },
+      { section: 'Pistes', label: 'Nombre total', values: s.map(x => x.liveData?.pistesTotal != null ? `${x.liveData.pistesTotal}` : '—'), winner: getWinnerIndex(s.map(x => x.liveData?.pistesTotal ?? null), 'max') },
       { section: null, label: 'Détail', values: s.map(x => getSlopesDetail(x)), winner: -1 },
       { section: null, label: 'Canons à neige', values: s.map(x => `${x.snowCannons}`), winner: getWinnerIndex(s.map(x => x.snowCannons), 'max') },
       // --- Remontées ---
-      { section: 'Remontées', label: 'Nombre', values: s.map(x => `${x.numLifts}`), winner: getWinnerIndex(s.map(x => x.numLifts), 'max') },
+      { section: 'Remontées', label: 'Nombre', values: s.map(x => x.liveData?.liftsTotal != null ? `${x.liveData.liftsTotal}` : '—'), winner: getWinnerIndex(s.map(x => x.liveData?.liftsTotal ?? null), 'max') },
       // --- Prix ---
       { section: 'Tarifs', label: 'Forfait/jour adulte', values: s.map(x => getPassPrice(x)), winner: getWinnerIndex(s.map(x => getDailyPassPrice(x.passes)), 'min') },
       { section: null, label: 'Hébergement/nuit', values: s.map(x => x.avgAccommodationPrice ? `${x.avgAccommodationPrice} €` : '—'), winner: getWinnerIndex(s.map(x => x.avgAccommodationPrice), 'min') },
