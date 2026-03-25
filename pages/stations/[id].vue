@@ -75,7 +75,7 @@ color="error" variant="soft" icon="i-lucide-alert-circle" title="Erreur"
                             </h1>
                             <p class="text-xl text-ice-100 flex items-center gap-2 mb-4">
                                 <UIcon name="i-lucide-map-pin" />
-                                {{ station.region }}{{ station.skiArea ? ` · ${station.skiArea}` : '' }}
+                                {{ station.region }}{{ station.skiArea ? ` · ${station.skiArea.name}` : '' }}
                             </p>
                             <div v-if="station.altitudeMin || station.altitudeMax" class="flex items-center gap-2 text-ice-50">
                                 <UIcon name="i-lucide-mountain" />

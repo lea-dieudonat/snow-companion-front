@@ -54,7 +54,7 @@ export interface Station {
   kmSlopes: number | null;
   snowCannons: number | null;
   snowPark: unknown | null;
-  skiArea: string | null;
+  skiArea: { id: string; name: string; region: string | null; website: string | null } | null;
   level: string[];
   passes: StationPasses | null;
   avgAccommodationPrice: number | null;

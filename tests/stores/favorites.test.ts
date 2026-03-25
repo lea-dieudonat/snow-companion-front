@@ -25,7 +25,7 @@ const stationA: Station = {
   kmSlopes: 200,
   snowCannons: 10,
   snowPark: null,
-  skiArea: 'Paradiski',
+  skiArea: { id: 'paradiski', name: 'Paradiski', region: 'Savoie', website: null },
   level: ['beginner', 'intermediate', 'advanced'],
   passes: {},
   avgAccommodationPrice: 120,
