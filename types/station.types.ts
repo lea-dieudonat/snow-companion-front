@@ -35,6 +35,8 @@ export interface StationLiveData {
   liftsTotal: number | null;
   pistesOpen: number | null;
   pistesTotal: number | null;
+  slopesDetail: SlopesDetail | null;
+  slopesOpen: SlopesDetail | null;
   baseSnowDepthCm: number | null;
   summitSnowDepthCm: number | null;
   avalancheRisk: number | null;
@@ -50,7 +52,6 @@ export interface Station {
   latitude: number;
   longitude: number;
   kmSlopes: number | null;
-  slopesDetail: SlopesDetail | null;
   snowCannons: number | null;
   snowPark: unknown | null;
   skiArea: string | null;

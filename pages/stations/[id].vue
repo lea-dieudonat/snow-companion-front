@@ -13,7 +13,7 @@ const { data: station, error, pending } = await useLazyAsyncData(
 );
 
 const totalSlopesFromDetail = computed(() => {
-    const d = station.value?.slopesDetail;
+    const d = station.value?.liveData?.slopesDetail;
     return (d?.green ?? 0) + (d?.blue ?? 0) + (d?.red ?? 0) + (d?.black ?? 0) || 1;
 });
 
@@ -163,7 +163,7 @@ color="neutral" variant="solid" size="lg" trailing-icon="i-lucide-calendar-plus"
                     </UCard>
 
                     <!-- Slopes breakdown -->
-                    <UCard v-if="station.slopesDetail">
+                    <UCard v-if="station.liveData?.slopesDetail">
                         <template #header>
                             <h3 class="text-xl font-bold text-mountain-900 dark:text-snow-50 flex items-center gap-2">
                                 <UIcon name="i-lucide-activity" />
@@ -172,7 +172,7 @@ color="neutral" variant="solid" size="lg" trailing-icon="i-lucide-calendar-plus"
                         </template>
 
                         <div class="space-y-4">
-                            <div v-for="(count, color) in getSlopesBreakdown(station.slopesDetail)" :key="color">
+                            <div v-for="(count, color) in getSlopesBreakdown(station.liveData?.slopesDetail ?? null)" :key="color">
                                 <div class="flex justify-between items-center mb-2">
                                     <span
 class="font-medium capitalize"

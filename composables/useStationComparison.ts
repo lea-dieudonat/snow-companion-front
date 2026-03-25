@@ -15,7 +15,7 @@ export const useStationComparison = (stations: Ref<Station[] | null>) => {
   };
 
   const getSlopesDetail = (s: Station): string => {
-    const detail = s.slopesDetail as Record<string, number>;
+    const detail = s.liveData?.slopesDetail as Record<string, number> | null;
     if (!detail) return '—';
     const parts = [];
     if (detail.green) parts.push(`${detail.green} vertes`);
