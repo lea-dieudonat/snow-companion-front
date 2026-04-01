@@ -55,7 +55,7 @@ icon="i-lucide-git-compare" color="neutral" variant="ghost" size="xs"
       <!-- Pistes -->
       <div class="info-item">
         <UIcon name="i-lucide-route" class="text-ice-500" />
-        <span>{{ station.liveData?.pistesTotal ?? '—' }} pistes · {{ station.kmSlopes ?? '—' }} km</span>
+        <span>{{ station.liveData?.pistesTotal ?? '—' }} pistes</span>
       </div>
 
       <!-- Prix forfait & hébergement -->

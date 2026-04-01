@@ -57,7 +57,6 @@ export const useStationComparison = (stations: Ref<Station[] | null>) => {
       // --- Domaine skiable ---
       { section: 'Domaine skiable', label: 'Altitude min', values: s.map(x => `${x.altitudeMin} m`), winner: getWinnerIndex(s.map(x => x.altitudeMin), 'max') },
       { section: null, label: 'Altitude max', values: s.map(x => `${x.altitudeMax} m`), winner: getWinnerIndex(s.map(x => x.altitudeMax), 'max') },
-      { section: null, label: 'Km de pistes', values: s.map(x => `${x.kmSlopes} km`), winner: getWinnerIndex(s.map(x => x.kmSlopes), 'max') },
       { section: null, label: 'Ski area', values: s.map(x => x.skiArea?.name || '—'), winner: -1 },
       // --- Pistes ---
       { section: 'Pistes', label: 'Nombre total', values: s.map(x => x.liveData?.pistesTotal != null ? `${x.liveData.pistesTotal}` : '—'), winner: getWinnerIndex(s.map(x => x.liveData?.pistesTotal ?? null), 'max') },

@@ -33,7 +33,6 @@ const buildRadarData = () => {
     const s = props.stations;
     const mm = {
         altMax: minMax(s.map(x => x.altitudeMax ?? 0)),
-        km: minMax(s.map(x => x.kmSlopes ?? 0)),
         slopes: minMax(s.map(x => x.liveData?.pistesTotal ?? 0)),
         lifts: minMax(s.map(x => x.liveData?.liftsTotal ?? 0)),
         cannons: minMax(s.map(x => x.snowCannons ?? 0)),
@@ -44,7 +43,7 @@ const buildRadarData = () => {
     const defaultColor = { border: 'rgba(148, 163, 184, 1)', bg: 'rgba(148, 163, 184, 0.15)' };
 
     return {
-        labels: ['Altitude max', 'Km de pistes', 'Nb pistes', 'Remontées', 'Canons à neige', 'Prix (inversé)', 'Services'],
+        labels: ['Altitude max', 'Nb pistes', 'Remontées', 'Canons à neige', 'Prix (inversé)', 'Services'],
         datasets: s.map((station, i) => {
             const color = STATION_COLORS[i] ?? defaultColor;
             const price = getDailyPassPrice(station.passes) ?? mm.price.max;
@@ -56,7 +55,6 @@ const buildRadarData = () => {
                 label: station.name,
                 data: [
                     normalize(station.altitudeMax ?? 0, mm.altMax.min, mm.altMax.max),
-                    normalize(station.kmSlopes ?? 0, mm.km.min, mm.km.max),
                     normalize(station.liveData?.pistesTotal ?? 0, mm.slopes.min, mm.slopes.max),
                     normalize(station.liveData?.liftsTotal ?? 0, mm.lifts.min, mm.lifts.max),
                     normalize(station.snowCannons ?? 0, mm.cannons.min, mm.cannons.max),

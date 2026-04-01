@@ -51,7 +51,6 @@ export interface Station {
   altitudeMax: number | null;
   latitude: number;
   longitude: number;
-  kmSlopes: number | null;
   snowCannons: number | null;
   snowPark: unknown | null;
   skiArea: { id: string; name: string; region: string | null; website: string | null } | null;

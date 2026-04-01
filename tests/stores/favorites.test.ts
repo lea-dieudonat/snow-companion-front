@@ -22,7 +22,6 @@ const stationA: Station = {
   altitudeMax: 3226,
   latitude: 45.55,
   longitude: 6.78,
-  kmSlopes: 200,
   snowCannons: 10,
   snowPark: null,
   skiArea: { id: 'paradiski', name: 'Paradiski', region: 'Savoie', website: null },

@@ -125,11 +125,11 @@ color="neutral" variant="solid" size="lg" trailing-icon="i-lucide-calendar-plus"
                                 <UIcon name="i-lucide-route" class="text-3xl text-forest-400 mx-auto mb-2" />
                                 <p class="text-sm text-mountain-600 dark:text-mountain-400 mb-1">Pistes</p>
                                 <p class="text-2xl font-bold text-mountain-900 dark:text-snow-50">
-                                    {{ station.kmSlopes ?? '—' }} km
+                                    {{ station.liveData?.pistesTotal ?? '—' }}
                                 </p>
-                                <p v-if="station.liveData?.pistesOpen != null || station.liveData?.pistesTotal != null"
+                                <p v-if="station.liveData?.pistesOpen != null"
                                     class="text-xs text-mountain-500 dark:text-mountain-400">
-                                    {{ station.liveData?.pistesOpen ?? '—' }}/{{ station.liveData?.pistesTotal ?? '—' }} ouvertes
+                                    {{ station.liveData?.pistesOpen }} ouvertes
                                 </p>
                             </div>
                         </UCard>
