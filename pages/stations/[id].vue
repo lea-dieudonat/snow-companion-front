@@ -327,11 +327,9 @@ class="font-medium capitalize"
                                 Niveau
                             </h3>
                         </template>
-                        <div class="flex flex-wrap gap-2">
-                            <UBadge v-for="level in getStationLevels(station.liveData?.slopesDetail)" :key="level" :class="getLevelBadgeClass(level)">
-                                {{ getLevelBadge(level) }}
-                            </UBadge>
-                        </div>
+                        <p class="text-mountain-600 dark:text-mountain-300">
+                            {{ getSlopesLevelSummary(station.liveData?.slopesDetail) || '—' }}
+                        </p>
                     </UCard>
 
                     <!-- Services -->

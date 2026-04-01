@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import type { StationFilters } from '@/types/station.types';
-import { levelOptions } from '@/utils/station.utils';
 
 const searchQuery = ref('');
 const filters = ref<StationFilters>({
   maxDistance: 300,
   maxLiftPassPrice: 70,
   maxLodgingPrice: 150,
-  levels: [] as string[],
 });
 
 const emit = defineEmits<{
@@ -19,17 +17,6 @@ const handleSearch = () => {
 };
 
 watch([searchQuery, filters], handleSearch, { deep: true });
-
-const toggleLevel = (level: string) => {
-  const index = filters.value.levels.indexOf(level);
-  if (index > -1) {
-    filters.value.levels.splice(index, 1);
-  } else {
-    filters.value.levels.push(level);
-  }
-};
-
-const isLevelSelected = (level: string) => filters.value.levels.includes(level);
 </script>
 
 <template>
@@ -71,23 +58,6 @@ v-model="filters.maxLodgingPrice" icon="i-lucide-bed"
         label="Hébergement max" :min="50" :max="300" :step="10"
         value-suffix="€/nuit" min-label="50€" max-label="300€" />
 
-      <!-- Niveau -->
-      <UFormField>
-        <template #label>
-          <div class="flex items-center gap-1.5 text-sm font-medium text-mountain-700 dark:text-mountain-300">
-            <UIcon name="i-lucide-flag" class="text-ice-500" />
-            Niveau de difficulté
-          </div>
-        </template>
-        <div class="flex flex-wrap gap-2">
-          <UButton
-v-for="option in levelOptions" :key="option.value"
-            :color="isLevelSelected(option.value) ? 'primary' : 'neutral'"
-            :variant="isLevelSelected(option.value) ? 'solid' : 'outline'" size="sm" @click="toggleLevel(option.value)">
-            {{ option.label }}
-          </UButton>
-        </div>
-      </UFormField>
     </div>
 
     <template #footer>

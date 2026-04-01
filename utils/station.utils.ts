@@ -69,6 +69,24 @@ export const getLevelBadgeClass = (level: string): string => {
   return LEVEL_CONFIG[level as LevelKey]?.classes || 'bg-snow-200 text-mountain-700 dark:bg-mountain-700 dark:text-mountain-300';
 };
 
+/**
+ * Formate le profil de difficulté en chaîne lisible : "🟢 22% · 🔵 39% · 🔴 31% · ⚫ 8%"
+ */
+export const getSlopesLevelSummary = (slopesDetail: SlopesDetail | null | undefined): string => {
+  if (!slopesDetail) return '';
+  const total =
+    (slopesDetail.green ?? 0) + (slopesDetail.blue ?? 0) +
+    (slopesDetail.red ?? 0) + (slopesDetail.black ?? 0);
+  if (total === 0) return '';
+  const pct = (n: number) => Math.round((n / total) * 100);
+  const parts: string[] = [];
+  if (slopesDetail.green) parts.push(`🟢 ${pct(slopesDetail.green)}%`);
+  if (slopesDetail.blue) parts.push(`🔵 ${pct(slopesDetail.blue)}%`);
+  if (slopesDetail.red) parts.push(`🔴 ${pct(slopesDetail.red)}%`);
+  if (slopesDetail.black) parts.push(`⚫ ${pct(slopesDetail.black)}%`);
+  return parts.join(' · ');
+};
+
 // ============================================================================
 // CONFIGURATION DES COULEURS DE PISTES
 // ============================================================================

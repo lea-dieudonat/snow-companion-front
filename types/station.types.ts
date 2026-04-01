@@ -74,5 +74,4 @@ export interface StationFilters {
   maxDistance: number;
   maxLiftPassPrice: number;
   maxLodgingPrice: number;
-  levels: string[];
 }

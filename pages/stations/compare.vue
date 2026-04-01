@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { getLevelBadge } from '@/utils/station.utils';
 
 definePageMeta({ layout: 'default' });
 
@@ -69,13 +68,9 @@ v-for="(station, i) in stations" :key="station.id" class="text-center p-4 rounde
                             <UIcon name="i-lucide-map-pin" class="text-xs" />
                             {{ station.region }}
                         </p>
-                        <div class="flex flex-wrap gap-1 justify-center mt-2">
-                            <UBadge
-v-for="level in getStationLevels(station.liveData?.slopesDetail)" :key="level" variant="soft" color="neutral"
-                                size="xs">
-                                {{ getLevelBadge(level) }}
-                            </UBadge>
-                        </div>
+                        <p class="text-xs text-mountain-500 dark:text-mountain-400 mt-2">
+                            {{ getSlopesLevelSummary(station.liveData?.slopesDetail) }}
+                        </p>
                         <UButton
 :to="`/stations/${station.id}`" variant="ghost" size="xs"
                             trailing-icon="i-lucide-external-link" class="mt-3" :class="stationColors[i]">

@@ -1,5 +1,4 @@
 import type { Station, StationFilters } from '@/types/station.types';
-import { getStationLevels } from '@/utils/station-levels';
 import { getDailyPassPrice } from '@/utils/station.utils';
 
 export const useTrips = () => {
@@ -16,7 +15,7 @@ export const useTrips = () => {
     const searchError = ref('');
 
     const handleSearch = async (query: string, filters: StationFilters) => {
-        if (!query && !Object.values(filters).some(v => v && (Array.isArray(v) ? v.length : true))) {
+        if (!query && !Object.values(filters).some(v => v)) {
             hasSearched.value = false;
             searchResults.value = [];
             return;
@@ -38,9 +37,6 @@ export const useTrips = () => {
                     const passPrice = getDailyPassPrice(s.passes);
                     return typeof passPrice === 'number' && passPrice <= filters.maxLiftPassPrice;
                 });
-            }
-            if (filters.levels.length > 0) {
-                results = results.filter(s => filters.levels.some((level: string) => getStationLevels(s.liveData?.slopesDetail).includes(level)));
             }
 
             searchResults.value = results;

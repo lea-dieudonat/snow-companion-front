@@ -7,14 +7,12 @@ export const useStations = () => {
     region?: string;
     maxPrice?: number;
     minAltitude?: number;
-    level?: string;
     search?: string;
   }): Promise<Station[]> => {
     const params = new URLSearchParams();
     if (filters?.region) params.append('region', filters.region);
     if (filters?.maxPrice) params.append('maxPrice', filters.maxPrice.toString());
     if (filters?.minAltitude) params.append('minAltitude', filters.minAltitude.toString());
-    if (filters?.level) params.append('level', filters.level);
     if (filters?.search) params.append('search', filters.search);
 
     const query = params.toString();
