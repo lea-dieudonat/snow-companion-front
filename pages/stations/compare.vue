@@ -71,7 +71,7 @@ v-for="(station, i) in stations" :key="station.id" class="text-center p-4 rounde
                         </p>
                         <div class="flex flex-wrap gap-1 justify-center mt-2">
                             <UBadge
-v-for="level in station.level" :key="level" variant="soft" color="neutral"
+v-for="level in getStationLevels(station.liveData?.slopesDetail)" :key="level" variant="soft" color="neutral"
                                 size="xs">
                                 {{ getLevelBadge(level) }}
                             </UBadge>

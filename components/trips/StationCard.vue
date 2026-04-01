@@ -81,7 +81,7 @@ icon="i-lucide-git-compare" color="neutral" variant="ghost" size="xs"
       <!-- Niveaux -->
       <div class="flex flex-wrap gap-2 pt-1">
         <span
-v-for="level in station.level" :key="level"
+v-for="level in getStationLevels(station.liveData?.slopesDetail)" :key="level"
           :class="['inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium', getLevelBadgeClass(level)]">
           {{ getLevelEmoji(level) }} {{ getLevelLabel(level) }}
         </span>

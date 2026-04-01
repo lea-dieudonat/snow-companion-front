@@ -1,4 +1,5 @@
 import type { Station, StationFilters } from '@/types/station.types';
+import { getStationLevels } from '@/utils/station-levels';
 import { getDailyPassPrice } from '@/utils/station.utils';
 
 export const useTrips = () => {
@@ -39,7 +40,7 @@ export const useTrips = () => {
                 });
             }
             if (filters.levels.length > 0) {
-                results = results.filter(s => filters.levels.some((level: string) => s.level.includes(level)));
+                results = results.filter(s => filters.levels.some((level: string) => getStationLevels(s.liveData?.slopesDetail).includes(level)));
             }
 
             searchResults.value = results;

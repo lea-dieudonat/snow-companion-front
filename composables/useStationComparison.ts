@@ -1,4 +1,5 @@
 import type { Station } from '@/types/station.types';
+import { getStationLevels } from '@/utils/station-levels';
 import {
   getDailyPassPrice,
   getSeasonDates,
@@ -75,7 +76,7 @@ export const useStationComparison = (stations: Ref<Station[] | null>) => {
       { section: 'Services', label: 'Équipements', values: s.map(x => x.services?.join(', ') || '—'), winner: -1 },
       { section: null, label: 'Activités', values: s.map(x => x.activities?.join(', ') || '—'), winner: -1 },
       // --- Niveaux ---
-      { section: 'Niveaux', label: 'Public cible', values: s.map(x => x.level?.join(', ') || '—'), winner: -1 },
+      { section: 'Niveaux', label: 'Public cible', values: s.map(x => getStationLevels(x.liveData?.slopesDetail).join(', ') || '—'), winner: -1 },
     ];
   });
 

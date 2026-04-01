@@ -328,7 +328,7 @@ class="font-medium capitalize"
                             </h3>
                         </template>
                         <div class="flex flex-wrap gap-2">
-                            <UBadge v-for="level in station.level" :key="level" :class="getLevelBadgeClass(level)">
+                            <UBadge v-for="level in getStationLevels(station.liveData?.slopesDetail)" :key="level" :class="getLevelBadgeClass(level)">
                                 {{ getLevelBadge(level) }}
                             </UBadge>
                         </div>
