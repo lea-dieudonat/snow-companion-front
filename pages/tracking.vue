@@ -21,32 +21,53 @@ const chartMode = ref<ChartMode>('sessions');
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
 let chartInstance: Chart | null = null;
 
-const chartDataSessions = computed(() => {
-  const now = new Date();
-  return Array.from({ length: 12 }, (_, i) => {
-    const d = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1);
-    const label = d.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' });
-    const count = (sessions.value ?? []).filter(s => {
-      const sd = new Date(s.date);
-      return sd.getFullYear() === d.getFullYear() && sd.getMonth() === d.getMonth();
-    }).length;
-    return { label, value: count };
+// Génère les colonnes du graphique selon la saison sélectionnée
+function getChartColumns(): { label: string; year: number; month: number }[] {
+  if (!selectedSeason.value) {
+    const now = new Date();
+    return Array.from({ length: 12 }, (_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1);
+      return {
+        label: d.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' }),
+        year: d.getFullYear(),
+        month: d.getMonth(),
+      };
+    });
+  }
+  const [startYear] = selectedSeason.value.split('-').map(Number) as [number, number];
+  return [11, 12, 1, 2, 3, 4].map(m => {
+    const year = m >= 11 ? startYear : startYear + 1;
+    const d = new Date(year, m - 1, 1);
+    return {
+      label: d.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' }),
+      year,
+      month: m - 1,
+    };
   });
+}
+
+const chartDataSessions = computed(() => {
+  const s = filteredSessions.value;
+  return getChartColumns().map(col => ({
+    label: col.label,
+    value: s.filter(sess => {
+      const sd = new Date(sess.date);
+      return sd.getFullYear() === col.year && sd.getMonth() === col.month;
+    }).length,
+  }));
 });
 
 const chartDataRating = computed(() => {
-  const now = new Date();
-  return Array.from({ length: 12 }, (_, i) => {
-    const d = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1);
-    const label = d.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' });
-    const monthSessions = (sessions.value ?? []).filter(s => {
-      const sd = new Date(s.date);
-      return sd.getFullYear() === d.getFullYear() && sd.getMonth() === d.getMonth() && s.rating != null;
+  const s = filteredSessions.value;
+  return getChartColumns().map(col => {
+    const monthSessions = s.filter(sess => {
+      const sd = new Date(sess.date);
+      return sd.getFullYear() === col.year && sd.getMonth() === col.month && sess.rating != null;
     });
     const avg = monthSessions.length
-      ? Math.round((monthSessions.reduce((acc, s) => acc + (s.rating ?? 0), 0) / monthSessions.length) * 10) / 10
+      ? Math.round((monthSessions.reduce((acc, sess) => acc + (sess.rating ?? 0), 0) / monthSessions.length) * 10) / 10
       : null;
-    return { label, value: avg };
+    return { label: col.label, value: avg };
   });
 });
 
@@ -136,12 +157,45 @@ const loadChartJs = () => {
   });
 };
 
-watch([sessions, chartMode], () => loadChartJs());
+watch([sessions, chartMode, selectedSeason], () => loadChartJs());
 onMounted(loadChartJs);
+
+// ── Sélecteur de saison ───────────────────────────────────────────────────────
+function getSeasonLabel(date: Date): string | null {
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  if (month >= 11) return `${year}-${year + 1}`;
+  if (month <= 4) return `${year - 1}-${year}`;
+  return null; // hors saison
+}
+
+const availableSeasons = computed(() => {
+  const labels = new Set<string>();
+  for (const s of sessions.value ?? []) {
+    const label = getSeasonLabel(new Date(s.date));
+    if (label) labels.add(label);
+  }
+  return [...labels].sort().reverse();
+});
+
+const selectedSeason = ref<string | null>(null);
+
+// Initialiser sur la saison la plus récente dès que les données arrivent
+watch(availableSeasons, (seasons) => {
+  if (seasons.length > 0 && selectedSeason.value === null) {
+    selectedSeason.value = seasons[0] ?? null;
+  }
+}, { immediate: true });
+
+const filteredSessions = computed(() => {
+  const all = sessions.value ?? [];
+  if (!selectedSeason.value) return all;
+  return all.filter(s => getSeasonLabel(new Date(s.date)) === selectedSeason.value);
+});
 
 // ── Stats globales ────────────────────────────────────────────────────────────
 const globalStats = computed(() => {
-  const s = sessions.value ?? [];
+  const s = filteredSessions.value;
   return {
     totalRuns: s.reduce((acc, s) => acc + (s.runCount ?? 0), 0),
     maxSpeed: s.reduce((acc, s) => Math.max(acc, s.maxSpeed ?? 0), 0),
@@ -214,16 +268,40 @@ const ratingStars = (r: number) => '★'.repeat(r) + '☆'.repeat(5 - r);
 
 <template>
   <div class="page-container">
-    <div class="flex items-start justify-between gap-4 flex-wrap mb-8">
-      <AppPageHeader title="Mes sessions" description="Historique et progression de tes rides"
+    <div class="flex items-start justify-between gap-4 flex-wrap mb-6">
+      <AppPageHeader title="Mes stats" description="Historique et progression de tes rides"
         icon="i-lucide-bar-chart-3" />
       <UButton to="/sessions/add-session" color="primary" icon="i-lucide-plus" size="lg">
         Nouvelle session
       </UButton>
     </div>
 
+    <!-- ── Sélecteur de saison ──────────────────────────────────────────── -->
+    <div v-if="(sessions?.length ?? 0) > 0" class="flex items-center gap-2 flex-wrap mb-6">
+      <button
+        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+        :class="selectedSeason === null
+          ? 'bg-ice-500 text-white'
+          : 'bg-mountain-100 dark:bg-mountain-700 text-mountain-600 dark:text-mountain-300 hover:bg-mountain-200 dark:hover:bg-mountain-600'"
+        @click="selectedSeason = null"
+      >
+        Tout
+      </button>
+      <button
+        v-for="season in availableSeasons"
+        :key="season"
+        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+        :class="selectedSeason === season
+          ? 'bg-ice-500 text-white'
+          : 'bg-mountain-100 dark:bg-mountain-700 text-mountain-600 dark:text-mountain-300 hover:bg-mountain-200 dark:hover:bg-mountain-600'"
+        @click="selectedSeason = season"
+      >
+        {{ season }}
+      </button>
+    </div>
+
     <!-- ── Stats globales perf ────────────────────────────────────────────── -->
-    <div v-if="(sessions?.length ?? 0) > 0" class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div v-if="filteredSessions.length > 0" class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       <UCard class="text-center">
         <div class="py-1">
           <UIcon name="i-lucide-repeat" class="text-2xl text-ice-500 mb-1" />
@@ -289,7 +367,7 @@ const ratingStars = (r: number) => '★'.repeat(r) + '☆'.repeat(5 - r);
         </div>
       </template>
 
-      <div v-if="!sessions?.length" class="flex flex-col items-center justify-center py-12 text-center">
+      <div v-if="!filteredSessions.length" class="flex flex-col items-center justify-center py-12 text-center">
         <UIcon name="i-lucide-snowflake" class="text-5xl text-mountain-300 mb-3" />
         <p class="text-muted">Aucune session pour le moment.</p>
       </div>
@@ -303,22 +381,22 @@ const ratingStars = (r: number) => '★'.repeat(r) + '☆'.repeat(5 - r);
       <template #header>
         <h2 class="heading-card">
           <UIcon name="i-lucide-list" class="text-ice-500" />
-          Sessions ({{ sessions?.length ?? 0 }})
+          Sessions ({{ filteredSessions.length }})
         </h2>
       </template>
 
       <!-- Vide -->
-      <div v-if="!sessions?.length" class="text-center py-12">
+      <div v-if="!filteredSessions.length" class="text-center py-12">
         <UIcon name="i-lucide-snowflake" class="text-5xl text-mountain-300 mx-auto mb-3" />
         <p class="text-muted mb-4">Aucune session pour le moment.</p>
-        <UButton to="/sessions/add-session" color="primary" icon="i-lucide-plus">
+        <UButton v-if="!sessions?.length" to="/sessions/add-session" color="primary" icon="i-lucide-plus">
           Ajouter ma première session
         </UButton>
       </div>
 
       <!-- Liste -->
       <div v-else class="divide-y divide-mountain-100 dark:divide-mountain-700">
-        <button v-for="session in sessions" :key="session.id"
+        <button v-for="session in filteredSessions" :key="session.id"
           class="w-full flex items-center gap-4 py-3 px-2 first:pt-0 last:pb-0 rounded-lg hover:bg-snow-100 dark:hover:bg-mountain-700/50 transition-colors text-left"
           @click="openDetail(session)">
           <!-- Icône -->

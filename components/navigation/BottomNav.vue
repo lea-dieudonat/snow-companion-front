@@ -10,11 +10,16 @@ const emit = defineEmits<{ openMenu: [] }>();
       <span class="text-xs font-medium">Accueil</span>
     </NuxtLink>
 
-    <NuxtLink to="/agent" class="relative nav-link-bottom" active-class="!text-ice-600 dark:!text-ice-400 !font-semibold">
+    <NuxtLink to="/tracking" class="group nav-link-bottom" active-class="!text-ice-600 dark:!text-ice-400 !font-semibold">
+      <UIcon name="i-lucide-bar-chart-2" class="text-2xl transition-transform group-hover:scale-110" />
+      <span class="text-xs font-medium">Stats</span>
+    </NuxtLink>
+
+    <NuxtLink to="/sessions/add-session" class="relative nav-link-bottom" active-class="!text-ice-600 dark:!text-ice-400 !font-semibold">
       <div class="bg-linear-to-br from-ice-400 to-ice-600 text-snow-50 w-14 h-14 flex items-center justify-center rounded-full shadow-lg transition-all hover:scale-105 hover:-translate-y-0.5 hover:shadow-xl">
-        <UIcon name="i-lucide-sparkles" class="text-3xl" />
+        <UIcon name="i-lucide-plus" class="text-3xl" />
       </div>
-      <span class="text-xs font-medium mt-2">Planner</span>
+      <span class="text-xs font-medium mt-2">Session</span>
     </NuxtLink>
 
     <NuxtLink to="/trips" class="group nav-link-bottom" active-class="!text-ice-600 dark:!text-ice-400 !font-semibold">
@@ -23,8 +28,8 @@ const emit = defineEmits<{ openMenu: [] }>();
     </NuxtLink>
 
     <button class="group nav-link-bottom" @click="emit('openMenu')">
-      <UIcon name="i-lucide-user-circle" class="text-2xl transition-transform group-hover:scale-110" />
-      <span class="text-xs font-medium">Profil</span>
+      <UIcon name="i-lucide-menu" class="text-2xl transition-transform group-hover:scale-110" />
+      <span class="text-xs font-medium">Menu</span>
     </button>
 
   </nav>

@@ -1,9 +1,30 @@
 import type { Session } from '@/types/session.types';
 import { CONDITIONS } from '@/constants/conditions';
 
+function getCurrentSeason(): { start: Date; end: Date; label: string } {
+    const now = new Date();
+    const month = now.getMonth() + 1; // 1-12
+    const year = now.getFullYear();
+
+    if (month >= 11) {
+        return {
+            start: new Date(year, 10, 1),
+            end: new Date(year + 1, 3, 30, 23, 59, 59),
+            label: `${year}-${year + 1}`,
+        };
+    } else {
+        return {
+            start: new Date(year - 1, 10, 1),
+            end: new Date(year, 3, 30, 23, 59, 59),
+            label: `${year - 1}-${year}`,
+        };
+    }
+}
+
 export const useDashboard = () => {
     const sessionsStore = useSessionsStore();
     const favoritesStore = useFavoritesStore();
+    const tripsStore = useTripsStore();
     const userStore = useUserStore();
 
     // ── Chargement ──────────────────────────────────────────────────────────
@@ -17,6 +38,7 @@ export const useDashboard = () => {
             await Promise.all([
                 sessionsStore.load(),
                 favoritesStore.load(),
+                tripsStore.load(),
             ]);
         } catch (e: unknown) {
             error.value = e instanceof Error ? e.message : 'Erreur de chargement';
@@ -107,6 +129,31 @@ export const useDashboard = () => {
     // ── Favoris ──────────────────────────────────────────────────────────────
     const favoritesCount = computed(() => favoritesStore.stations.length);
 
+    // ── Stats saison en cours ────────────────────────────────────────────────
+    const season = getCurrentSeason();
+
+    const seasonSessions = computed(() =>
+        sessions.value.filter(s => {
+            const d = new Date(s.date);
+            return d >= season.start && d <= season.end;
+        })
+    );
+
+    const seasonTotalSessions = computed(() => seasonSessions.value.length);
+
+    const seasonUniqueStations = computed(() =>
+        new Set(seasonSessions.value.map(s => s.station)).size
+    );
+
+    const seasonVerticalDrop = computed(() =>
+        seasonSessions.value.reduce((acc, s) => acc + (s.verticalDrop ?? 0), 0)
+    );
+
+    const seasonLabel = season.label;
+
+    // ── Trips à venir ────────────────────────────────────────────────────────
+    const upcomingTrips = computed(() => tripsStore.upcomingTrips.slice(0, 3));
+
     // ── Utilisateur ──────────────────────────────────────────────────────────
     const userName = computed(() => userStore.currentUser?.name ?? userStore.currentUser?.email ?? 'Rider');
 
@@ -115,7 +162,7 @@ export const useDashboard = () => {
         loading,
         error,
         loadData,
-        // stats
+        // stats all-time (utilisées par le burger menu)
         totalSessions,
         averageRating,
         totalTricks,
@@ -128,6 +175,13 @@ export const useDashboard = () => {
         recentSessions,
         // chart
         chartData,
+        // stats saison
+        seasonLabel,
+        seasonTotalSessions,
+        seasonUniqueStations,
+        seasonVerticalDrop,
+        // trips
+        upcomingTrips,
         // user
         userName,
     };
