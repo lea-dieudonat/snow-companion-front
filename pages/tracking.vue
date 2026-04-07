@@ -15,6 +15,38 @@ const { data: sessions, refresh: fetchSessions } = await useAsyncData(
   { default: () => [] as Session[] }
 );
 
+// ── Sélecteur de saison ───────────────────────────────────────────────────────
+function getSeasonLabel(date: Date): string | null {
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  if (month >= 11) return `${year}-${year + 1}`;
+  if (month <= 4) return `${year - 1}-${year}`;
+  return null;
+}
+
+const availableSeasons = computed(() => {
+  const labels = new Set<string>();
+  for (const s of sessions.value ?? []) {
+    const label = getSeasonLabel(new Date(s.date));
+    if (label) labels.add(label);
+  }
+  return [...labels].sort().reverse();
+});
+
+const selectedSeason = ref<string | null>(null);
+
+watch(availableSeasons, (seasons) => {
+  if (seasons.length > 0 && selectedSeason.value === null) {
+    selectedSeason.value = seasons[0] ?? null;
+  }
+}, { immediate: true });
+
+const filteredSessions = computed(() => {
+  const all = sessions.value ?? [];
+  if (!selectedSeason.value) return all;
+  return all.filter(s => getSeasonLabel(new Date(s.date)) === selectedSeason.value);
+});
+
 // ── Graphique ────────────────────────────────────────────────────────────────
 type ChartMode = 'sessions' | 'rating';
 const chartMode = ref<ChartMode>('sessions');
@@ -159,39 +191,6 @@ const loadChartJs = () => {
 
 watch([sessions, chartMode, selectedSeason], () => loadChartJs());
 onMounted(loadChartJs);
-
-// ── Sélecteur de saison ───────────────────────────────────────────────────────
-function getSeasonLabel(date: Date): string | null {
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-  if (month >= 11) return `${year}-${year + 1}`;
-  if (month <= 4) return `${year - 1}-${year}`;
-  return null; // hors saison
-}
-
-const availableSeasons = computed(() => {
-  const labels = new Set<string>();
-  for (const s of sessions.value ?? []) {
-    const label = getSeasonLabel(new Date(s.date));
-    if (label) labels.add(label);
-  }
-  return [...labels].sort().reverse();
-});
-
-const selectedSeason = ref<string | null>(null);
-
-// Initialiser sur la saison la plus récente dès que les données arrivent
-watch(availableSeasons, (seasons) => {
-  if (seasons.length > 0 && selectedSeason.value === null) {
-    selectedSeason.value = seasons[0] ?? null;
-  }
-}, { immediate: true });
-
-const filteredSessions = computed(() => {
-  const all = sessions.value ?? [];
-  if (!selectedSeason.value) return all;
-  return all.filter(s => getSeasonLabel(new Date(s.date)) === selectedSeason.value);
-});
 
 // ── Stats globales ────────────────────────────────────────────────────────────
 const globalStats = computed(() => {
